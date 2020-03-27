@@ -1,6 +1,6 @@
-﻿namespace CoronaFitnessBL.Mongo
+﻿namespace CoronaFitnessDb
 {
-    public interface IxMongoSettings
+    public interface IxMongoDataSettings
     {
         string ConnectionString { get; set; }
         string DbName { get; set; }

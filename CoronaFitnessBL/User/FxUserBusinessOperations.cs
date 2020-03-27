@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoronaFitnessBL.Mongo;
 using CoronaFitnessBL.User.Models;
+using CoronaFitnessDb;
 
 namespace CoronaFitnessBL.User
 {
     public class FxUserBusinessOperations : IxUserBusinessOperations
     {
-        private IxMongoContext DbContext { get; set; }
+        private IxMongoDataContext DbContext { get; set; }
 
-        public FxUserBusinessOperations(IxMongoContext context)
+        public FxUserBusinessOperations(IxMongoDataContext context)
         {
             this.DbContext = context;
         }

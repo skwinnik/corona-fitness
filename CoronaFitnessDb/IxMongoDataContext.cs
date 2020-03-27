@@ -1,8 +1,8 @@
 ﻿using CoronaFitnessBL.Mongo.Entities;
 
-namespace CoronaFitnessBL.Mongo
+namespace CoronaFitnessDb
 {
-    public interface IxMongoContext
+    public interface IxMongoDataContext
     {
         FxMongoDbSet<FxUser> Users { get; }
     }

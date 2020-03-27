@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoronaFitnessBL.Mongo;
+using AspNetCore.Identity.Mongo;
 using CoronaFitnessBL.User;
+using CoronaFitnessDb;
+using CoronaFitnessDb.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace CoronaFitnessApi
@@ -25,20 +20,40 @@ namespace CoronaFitnessApi
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        private void ConfigureMongoData(IServiceCollection services)
         {
-            services.AddControllers();
-
-            //#region configure Mongo Settings
-            services.Configure<FxMongoSettings>(
+            services.Configure<FxMongoDataSettings>(
                 Configuration.GetSection("MongoSettings"));
 
-            services.AddSingleton<IxMongoSettings>(sp =>
-                sp.GetRequiredService<IOptions<FxMongoSettings>>().Value);
-            //#endregion
+            services.AddSingleton<IxMongoDataSettings>(sp =>
+                sp.GetRequiredService<IOptions<FxMongoDataSettings>>().Value);
 
-            services.AddSingleton<IxMongoContext, FxMongoContext>();
-            
+            services.AddSingleton<IxMongoDataContext, FxMongoDataContext>();
+        }
+
+        private void ConfigureMongoIdentity(IServiceCollection services)
+        {
+            var config = Configuration
+                .GetSection("MongoIdentitySettings")
+                .GetSection("FullConnectionString").Value;
+
+            services.AddIdentityMongoDbProvider<FxIdentityUser, FxIdentityRole>(identityOptions =>
+                {
+                    identityOptions.Password.RequiredLength = 6;
+                    identityOptions.Password.RequireLowercase = false;
+                    identityOptions.Password.RequireUppercase = false;
+                    identityOptions.Password.RequireNonAlphanumeric = false;
+                    identityOptions.Password.RequireDigit = false;
+                },
+                mongoIdentityOptions => { mongoIdentityOptions.ConnectionString = config; });
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            this.ConfigureMongoData(services);
+            this.ConfigureMongoIdentity(services);
+
+            services.AddControllers();
             services.AddSingleton<IxUserBusinessOperations, FxUserBusinessOperations>();
         }
 

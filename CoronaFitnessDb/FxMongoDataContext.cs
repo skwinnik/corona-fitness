@@ -1,18 +1,18 @@
-﻿using CoronaFitnessBL.Mongo.Entities;
-using MongoDB.Bson.Serialization;
+﻿using CoronaFitnessBL.Mongo;
+using CoronaFitnessBL.Mongo.Entities;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
-namespace CoronaFitnessBL.Mongo
+namespace CoronaFitnessDb
 {
-    public class FxMongoContext : IxMongoContext
+    public class FxMongoDataContext : IxMongoDataContext
     {
         private string ConnectionString { get; set; }
         private string DbName { get; set; }
         
         public FxMongoDbSet<FxUser> Users { get; }
 
-        public FxMongoContext(IxMongoSettings settings)
+        public FxMongoDataContext(IxMongoDataSettings settings)
         {
             this.ConnectionString = settings.ConnectionString;
             this.DbName = settings.DbName;

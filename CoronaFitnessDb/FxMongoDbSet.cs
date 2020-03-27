@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace CoronaFitnessBL.Mongo
+namespace CoronaFitnessDb
 {
     public class FxMongoDbSet<T> : IQueryable<T> where T : class
     {
-        private readonly IMongoQueryable<T> _queryable;
+        private readonly IMongoQueryable<T> queryable;
 
         public FxMongoDbSet(IMongoCollection<T> collection)
         {
             this.Collection = collection;
-            this._queryable = collection.AsQueryable();
+            this.queryable = collection.AsQueryable();
         }
 
         private IMongoCollection<T> Collection { get; }
@@ -44,7 +44,7 @@ namespace CoronaFitnessBL.Mongo
 
         public IEnumerator<T> GetEnumerator()
         {
-            return this._queryable.GetEnumerator();
+            return this.queryable.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -52,10 +52,10 @@ namespace CoronaFitnessBL.Mongo
             return this.GetEnumerator();
         }
 
-        public Expression Expression => this._queryable.Expression;
+        public Expression Expression => this.queryable.Expression;
 
-        public Type ElementType => this._queryable.ElementType;
+        public Type ElementType => this.queryable.ElementType;
 
-        public IQueryProvider Provider => this._queryable.Provider;
+        public IQueryProvider Provider => this.queryable.Provider;
     }
 }
