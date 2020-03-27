@@ -1,0 +1,10 @@
+bin/
+obj/
+/packages/
+
+Mongo/node_modules/
+
+*/bin/
+*/obj/
+
+.idea/
