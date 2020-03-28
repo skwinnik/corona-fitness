@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo;
+using CoronaFitnessBL.Account;
 using CoronaFitnessBL.User;
 using CoronaFitnessDb;
 using CoronaFitnessDb.Identity;
@@ -71,7 +72,9 @@ namespace CoronaFitnessApi
             this.ConfigureMongoIdentity(services);
 
             services.AddControllers();
-            services.AddSingleton<IxUserBusinessOperations, FxUserBusinessOperations>();
+            
+            services.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
+            services.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
             
             services.AddCors(options =>
             {

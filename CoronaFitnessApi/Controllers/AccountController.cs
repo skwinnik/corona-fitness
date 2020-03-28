@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CoronaFitnessApi.Model.Account;
+using CoronaFitnessBL.Account;
 using CoronaFitnessDb.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,13 +13,10 @@ namespace CoronaFitnessApi.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<FxIdentityUser> userManager;
-        private readonly SignInManager<FxIdentityUser> signInManager;
-
-        public AccountController(UserManager<FxIdentityUser> userManager, SignInManager<FxIdentityUser> signInManager)
+        private readonly IxAccountBusinessOperations accountBop;
+        public AccountController(IxAccountBusinessOperations accountBop)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            this.accountBop = accountBop;
         }
 
         [AllowAnonymous]
@@ -27,10 +25,11 @@ namespace CoronaFitnessApi.Controllers
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
             var user = new FxIdentityUser {Email = request.Email, UserName = request.Email};
-            var result = await this.userManager.CreateAsync(user, request.Password);
-            if (!result.Succeeded) return new BadRequestObjectResult(result.Errors);
+            var result = await accountBop.SignUp(user, request.Password);
+            if (!result.Success)
+                return BadRequest(new SignUpResponse() {Success = result.Success, Errors = result.Errors});
 
-            await this.signInManager.SignInAsync(user, true);
+            await accountBop.Login(user);
             return Ok(new SignUpResponse() {Success = true});
         }
 
@@ -39,8 +38,9 @@ namespace CoronaFitnessApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, false);
-            if (!result.Succeeded) return Ok(new LoginResponse() {Success = false});
+            var result = await accountBop.Login(request.Email, request.Password);
+            if (!result.Success) return Ok(new LoginResponse() {Success = false});
+            
             return Ok(new LoginResponse() {Success = true});
         }
     }

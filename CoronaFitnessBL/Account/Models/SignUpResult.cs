@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace CoronaFitnessApi.Model.Account
+namespace CoronaFitnessBL.Account.Models
 {
-    public class SignUpResponse
+    public class SignUpResult
     {
         public bool Success { get; set; }
         public IEnumerable<IdentityError> Errors { get; set; }

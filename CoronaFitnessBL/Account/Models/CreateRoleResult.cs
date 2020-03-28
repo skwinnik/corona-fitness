@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace CoronaFitnessApi.Model.Account
+namespace CoronaFitnessBL.Account.Models
 {
-    public class SignUpResponse
+    public class CreateRoleResult
     {
         public bool Success { get; set; }
         public IEnumerable<IdentityError> Errors { get; set; }
