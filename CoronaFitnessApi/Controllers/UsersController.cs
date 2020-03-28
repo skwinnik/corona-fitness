@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoronaFitnessBL.User;
 using CoronaFitnessBL.User.Models;
+using CoronaFitnessDb.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +11,7 @@ namespace CoronaFitnessApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
         private IxUserBusinessOperations usersBop;
@@ -19,7 +22,6 @@ namespace CoronaFitnessApi.Controllers
         }
         
         [Route("get")]
-        [Authorize]
         public Task<List<FxUserModel>> Get() => this.usersBop.GetAll();
     }
 }

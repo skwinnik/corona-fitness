@@ -13,7 +13,10 @@ namespace DbGenerator.Generators
     public class UserGenerator : IxGenerator
     {
         private List<FxUserModel> users = new List<FxUserModel>()
-            {new FxUserModel() {Email = "screen0994@gmail.com", Name = "Павел Скринник"}};
+        {
+            new FxUserModel() {Email = "screen0994@gmail.com", Name = "Павел Скринник"},
+            new FxUserModel() {Email = "alyona.twix@gmail.com", Name = "Алёна Скринник"}
+        };
 
         private List<string> admins = new List<string>() {"screen0994@gmail.com"};
 

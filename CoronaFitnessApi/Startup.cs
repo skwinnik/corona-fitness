@@ -54,15 +54,21 @@ namespace CoronaFitnessApi
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = "fx_corona_auth";
-                
+
                 options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return Task.CompletedTask;
+                };
+
+                options.Events.OnRedirectToAccessDenied = context =>
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     return Task.CompletedTask;
                 };
             });
         }
-        
+
         //todo research CORS
         readonly string developmentOriginPolicy = "_developmentOriginPolicy";
 
@@ -72,10 +78,10 @@ namespace CoronaFitnessApi
             this.ConfigureMongoIdentity(services);
 
             services.AddControllers();
-            
+
             services.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
             services.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
-            
+
             services.AddCors(options =>
             {
                 options.AddPolicy(developmentOriginPolicy,
