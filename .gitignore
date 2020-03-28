@@ -2,9 +2,11 @@ bin/
 obj/
 /packages/
 
-Mongo/node_modules/
+*/node_modules/
 
 */bin/
 */obj/
 
 .idea/
+
+CoronaFitnessWeb/dist/

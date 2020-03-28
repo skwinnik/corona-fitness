@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CoronaFitnessBL.User;
 using CoronaFitnessBL.User.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaFitnessApi.Controllers
@@ -18,6 +19,7 @@ namespace CoronaFitnessApi.Controllers
         }
         
         [Route("get")]
+        [Authorize]
         public Task<List<FxUserModel>> Get() => this.usersBop.GetAll();
     }
 }

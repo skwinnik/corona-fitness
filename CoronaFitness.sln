@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoronaFitnessApi", "CoronaF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoronaFitnessDb", "CoronaFitnessDb\CoronaFitnessDb.csproj", "{7F522B09-1DD7-4A7F-B956-5F2A1076A3F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoronaFitnessWeb", "CoronaFitnessWeb\CoronaFitnessWeb.csproj", "{FA566FE1-B3D7-47C1-88C4-691D7D0D4A71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{7F522B09-1DD7-4A7F-B956-5F2A1076A3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F522B09-1DD7-4A7F-B956-5F2A1076A3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F522B09-1DD7-4A7F-B956-5F2A1076A3F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA566FE1-B3D7-47C1-88C4-691D7D0D4A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA566FE1-B3D7-47C1-88C4-691D7D0D4A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA566FE1-B3D7-47C1-88C4-691D7D0D4A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA566FE1-B3D7-47C1-88C4-691D7D0D4A71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

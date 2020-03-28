@@ -1,0 +1,19 @@
+﻿@inject CoronaFitnessWeb.Models.Options.ICoronaFitnessApiOptions ApiOptions
+@inject CoronaFitnessWeb.Models.Options.ICoronaFitnessCookieOptions CookieOptions
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Corona Fitness</title>
+  <script>
+    window.$API_URL = '@ApiOptions.Url';
+    window.$IS_LOGGED_IN = '@CookieOptions.IsAuthenticated(this.Context)';
+  </script>
+  </head>
+<body>
+@RenderBody()
+<script src="/dist/app.js"></script>
+</body>
+</html>

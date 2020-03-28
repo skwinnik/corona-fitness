@@ -31,7 +31,7 @@ namespace CoronaFitnessApi.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(result.Errors);
 
             await this.signInManager.SignInAsync(user, true);
-            return Ok();
+            return Ok(new SignUpResponse() {Success = true});
         }
 
         [AllowAnonymous]
@@ -40,8 +40,8 @@ namespace CoronaFitnessApi.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, false);
-            if (!result.Succeeded) return Unauthorized();
-            return Ok();
+            if (!result.Succeeded) return Ok(new LoginResponse() {Success = false});
+            return Ok(new LoginResponse() {Success = true});
         }
     }
 }
