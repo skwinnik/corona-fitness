@@ -1,6 +1,6 @@
 ﻿<template>
     <div class="login-container">
-        <FxLogin />
+        <FxRegister />
     </div>
 </template>
 

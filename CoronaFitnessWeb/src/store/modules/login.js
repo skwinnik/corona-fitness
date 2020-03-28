@@ -2,14 +2,15 @@
 
 export default {
     actions: {
-        async initLoginToken(ctx) {
-            
-        },
-        
         async login(ctx, user) {
             const response = await accountService.login(user);
             ctx.commit('updateLoginState', response.success);
-        }
+        },
+
+        async register(ctx, user) {
+            const response = await accountService.signUp(user);
+            ctx.commit('updateLoginState', response.success);
+        },
     },
     mutations: {
         updateLoginState(state, success) {
@@ -21,7 +22,7 @@ export default {
     },
     getters: {
         isLoggedIn(state) {
-            return state.isLoggedIn;
+            return state.isLoggedIn === true || state.isLoggedIn === 'True' || state.isLoggedIn === 'true';
         }
     }
 }
