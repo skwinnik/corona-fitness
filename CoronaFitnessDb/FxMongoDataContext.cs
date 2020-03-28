@@ -1,5 +1,5 @@
-﻿using CoronaFitnessBL.Mongo;
-using CoronaFitnessBL.Mongo.Entities;
+﻿using CoronaFitnessDb.Conventions;
+using CoronaFitnessDb.Entities;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
@@ -24,9 +24,14 @@ namespace CoronaFitnessDb
             var database = client.GetDatabase(this.DbName);
             
             ConventionRegistry.Register(
-                "FxCamelCaseConvention",
+                "CamelCaseConvention",
                 new ConventionPack { new CamelCaseElementNameConvention() }, 
-                type => type.Namespace == "CoronaFitnessBL.Mongo.Entities");
+                type => type.Namespace == "CoronaFitnessDb.Entities");
+            
+            ConventionRegistry.Register(
+                "GenerateId",
+                new ConventionPack { new ObjectIdGeneratorConvention() }, 
+                type => type.Namespace == "CoronaFitnessDb.Entities");
             
             this.Users = new FxMongoDbSet<FxUser>(database.GetCollection<FxUser>("Users"));
         }

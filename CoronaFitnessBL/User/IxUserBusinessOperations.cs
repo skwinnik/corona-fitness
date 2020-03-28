@@ -7,5 +7,6 @@ namespace CoronaFitnessBL.User
     public interface IxUserBusinessOperations
     {
         Task<List<FxUserModel>> GetAll();
+        Task Create(FxUserModel user);
     }
 }

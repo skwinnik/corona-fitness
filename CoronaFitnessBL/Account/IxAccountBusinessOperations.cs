@@ -6,7 +6,7 @@ namespace CoronaFitnessBL.Account
 {
     public interface IxAccountBusinessOperations
     {
-        Task<SignUpResult> SignUp(FxIdentityUser user, string password);
+        Task<SignUpResult> SignUp(string email, string password, string name, IdentityRole role = IdentityRole.User);
         Task<LoginResult> Login(string email, string password);
         Task<LoginResult> Login(FxIdentityUser user);
         Task<CreateRoleResult> CreateRole(FxIdentityRole role);

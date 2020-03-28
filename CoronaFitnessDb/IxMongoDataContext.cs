@@ -1,4 +1,4 @@
-﻿using CoronaFitnessBL.Mongo.Entities;
+﻿using CoronaFitnessDb.Entities;
 
 namespace CoronaFitnessDb
 {

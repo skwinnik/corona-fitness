@@ -4,22 +4,25 @@ module.exports = {
             await db.createCollection('Meetings');
 
             await db.createCollection('Users', {
-              validator: {
-                $jsonSchema: {
-                  bsonType: "object",
-                  required: ["name", "email"],
-                  properties: {
-                    name: {
-                      bsonType: "string"
-                    },
-                    email: {
-                      bsonType: "string"
+                validator: {
+                    $jsonSchema: {
+                        bsonType: "object",
+                        required: ["name", "email", "identityId"],
+                        properties: {
+                            name: {
+                                bsonType: "string"
+                            },
+                            email: {
+                                bsonType: "string"
+                            },
+                            identityId: {
+                                bsonType: "string"
+                            }
+                        }
                     }
-                  }
                 }
-              }
             });
-            
+
         } catch (e) {
             throw e;
         }

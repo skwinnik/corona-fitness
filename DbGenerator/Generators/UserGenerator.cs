@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoronaFitnessBL.Account;
+using CoronaFitnessBL.User.Models;
 using CoronaFitnessDb.Identity;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
@@ -11,9 +12,13 @@ namespace DbGenerator.Generators
 {
     public class UserGenerator : IxGenerator
     {
-        private List<string> userNames = new List<string>(){ "screen0994@gmail.com" };
+        private List<FxUserModel> users = new List<FxUserModel>()
+            {new FxUserModel() {Email = "screen0994@gmail.com", Name = "Павел Скринник"}};
+
+        private List<string> admins = new List<string>() {"screen0994@gmail.com"};
+
         private string testPassword = "qwerty123";
-        
+
         private readonly IxAccountBusinessOperations accountBop;
         private readonly ILogger<UserGenerator> logger;
 
@@ -27,13 +32,14 @@ namespace DbGenerator.Generators
         {
             var roles = Enum.GetNames(typeof(IdentityRole))
                 .Select(x => new FxIdentityRole() {Name = x});
-            
+
             foreach (var role in roles)
                 await this.accountBop.CreateRole(role);
 
-            foreach (var userName in userNames)
-                await this.accountBop.SignUp(new FxIdentityUser() {Email = userName, UserName = userName}, testPassword);
-            
+            foreach (var user in users)
+                await this.accountBop.SignUp(user.Email,
+                    testPassword, user.Name, admins.Contains(user.Email) ? IdentityRole.Admin : IdentityRole.User);
+
             this.logger.Log(LogLevel.Information, "Users and Roles are created");
         }
     }

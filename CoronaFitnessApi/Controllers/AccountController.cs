@@ -24,12 +24,11 @@ namespace CoronaFitnessApi.Controllers
         [Route("signup")]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
-            var user = new FxIdentityUser {Email = request.Email, UserName = request.Email};
-            var result = await accountBop.SignUp(user, request.Password);
+            var result = await accountBop.SignUp(request.Email, request.Password, request.Name);
             if (!result.Success)
                 return BadRequest(new SignUpResponse() {Success = result.Success, Errors = result.Errors});
 
-            await accountBop.Login(user);
+            await accountBop.Login(request.Email, request.Password);
             return Ok(new SignUpResponse() {Success = true});
         }
 

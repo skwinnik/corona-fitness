@@ -5,7 +5,9 @@ namespace CoronaFitnessApi.Model.Account
 {
     public class SignUpRequest
     {
-        [Required] [PasswordPropertyText] public string Password { get; set; }
         [Required] [EmailAddress] public string Email { get; set; }
+        [Required] [PasswordPropertyText] public string Password { get; set; }
+
+        [Required] public string Name { get; set; }
     }
 }
