@@ -23,7 +23,8 @@ namespace CoronaFitnessBL.User
             {
                 Id = x.Id,
                 Name = x.Name,
-                Email = x.Email
+                Email = x.Email,
+                IdentityId = x.IdentityId
             }).ToList();
         }
 
