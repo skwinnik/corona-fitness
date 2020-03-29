@@ -6,4 +6,8 @@ export default {
     getMeetings() {
         return http.get(serviceUrl + 'getMeetings');
     },
+    
+    saveMeeting(meeting) {
+        return http.post(serviceUrl + 'saveMeeting', meeting);
+    }
 }

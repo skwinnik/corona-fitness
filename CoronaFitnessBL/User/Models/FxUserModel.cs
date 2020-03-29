@@ -8,6 +8,7 @@ namespace CoronaFitnessBL.User.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string IdentityId { get; set; }
+        public bool CanCreateMeetings { get; set; }
 
         public FxUserModel()
         {
@@ -19,6 +20,7 @@ namespace CoronaFitnessBL.User.Models
             this.Name = dbUser.Name;
             this.Email = dbUser.Email;
             this.IdentityId = dbUser.IdentityId;
+            this.CanCreateMeetings = dbUser.CanCreateMeetings;
         }
     }
 }

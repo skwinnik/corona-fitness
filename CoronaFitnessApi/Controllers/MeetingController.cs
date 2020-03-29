@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoronaFitnessApi.Model.Meeting;
 using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.Meeting.Models;
 using CoronaFitnessBL.User.UserContext;
@@ -32,6 +34,31 @@ namespace CoronaFitnessApi.Controllers
         {
             var currentUser = await userContext.GetCurrentUser();
             return Ok(await meetingBop.GetMeetings(currentUser));
+        }
+
+        /// <summary>
+        /// If ID is null, creates a new meeting; otherwise updates an existing one
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("saveMeeting")]
+        public async Task<IActionResult> SaveMeeting(SaveMeetingRequest request)
+        {
+            if (!string.IsNullOrEmpty(request.Id))
+                throw new NotImplementedException("Editing is not yet implemented");
+
+            var currentUser = await userContext.GetCurrentUser();
+            await this.meetingBop.CreateMeeting(new FxMeetingModel()
+            {
+                Id = "",
+                Title = request.Title,
+                Description = request.Description,
+                Attendees = new string[0],
+                OwnerId = currentUser.Id
+            });
+            
+            return Ok(true);
         }
     }
 }

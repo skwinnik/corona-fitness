@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using CoronaFitnessBL.User;
 using CoronaFitnessBL.User.Models;
+using CoronaFitnessBL.User.UserContext;
 using CoronaFitnessDb.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +13,23 @@ namespace CoronaFitnessApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
-        private IxUserBusinessOperations usersBop;
+        private readonly IxUserBusinessOperations usersBop;
+        private readonly IxUserContext userContext;
         
-        public UsersController(IxUserBusinessOperations usersBop)
+        public UsersController(IxUserBusinessOperations usersBop, IxUserContext userContext)
         {
             this.usersBop = usersBop;
+            this.userContext = userContext;
         }
-        
-        [Route("get")]
-        public Task<List<FxUserModel>> Get() => this.usersBop.GetAll();
+
+        [HttpGet]
+        [Route("getCurrentUser")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            return Ok(await userContext.GetCurrentUser());
+        }
     }
 }

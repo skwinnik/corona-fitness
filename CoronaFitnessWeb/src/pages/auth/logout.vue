@@ -18,7 +18,7 @@
         watch: {
             isLoggedIn: function (val) {
                 if (!val)
-                    this.$router.push('/');
+                    this.$router.push('/auth');
             }
         },
     }

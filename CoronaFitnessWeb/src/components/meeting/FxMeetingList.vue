@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="meeting-list">
         <FxMeetingListItem class="meeting-list__item" 
-                           v-for="meeting in getMeetings" :key="meeting.id"
+                           v-for="meeting in meetings" :key="meeting.id"
                            v-bind:meeting="meeting"/>
     </div>
 </template>
@@ -15,7 +15,7 @@
             FxMeetingListItem
         },
 
-        computed: mapGetters(['getMeetings']),
+        computed: mapGetters(['meetings']),
         methods: mapActions(['loadMeetings']),
 
         mounted() {
@@ -28,6 +28,7 @@
     .meeting-list {
         &__item {
             width: 100%;
+            margin-bottom: 15px;
         }
     }
 </style>

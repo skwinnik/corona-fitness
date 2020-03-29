@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CoronaFitnessBL.User.Models;
 using CoronaFitnessDb;
 using CoronaFitnessDb.Entities;
+using MongoDB.Driver;
 
 namespace CoronaFitnessBL.User
 {
@@ -31,7 +32,18 @@ namespace CoronaFitnessBL.User
         public async Task Create(FxUserModel user)
         {
             await DbContext.Users.AddAsync(new FxUser()
-                {Id = "", Email = user.Email, Name = user.Name, IdentityId = user.IdentityId});
+            {
+                Id = "", Email = user.Email, Name = user.Name, IdentityId = user.IdentityId,
+                CanCreateMeetings = user.CanCreateMeetings
+            });
+        }
+
+        public async Task SetCanCreateMeetings(string id, bool canCreate)
+        {
+            await DbContext.Users.UpdateAsync(x => x.Id == id,
+                new UpdateDefinitionBuilder<FxUser>()
+                    .Set(x => x.CanCreateMeetings, canCreate)
+            );
         }
 
         public Task<FxUserModel> GetByIdentityId(string identityId)
@@ -40,7 +52,7 @@ namespace CoronaFitnessBL.User
                 .GetSingleAsync(x => x.IdentityId == identityId)
                 .ContinueWith(x => new FxUserModel(x.Result));
         }
-        
+
         public Task<FxUserModel> GetByEmail(string email)
         {
             return DbContext.Users

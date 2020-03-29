@@ -48,7 +48,8 @@ namespace CoronaFitnessBL.Account
             result = await this.userManager.AddToRoleAsync(user, role.ToString());
 
             user = await this.userManager.FindByEmailAsync(user.Email);
-            await this.userBop.Create(new FxUserModel() {Name = name, Email = user.Email, IdentityId = user.Id});
+            await this.userBop.Create(new FxUserModel()
+                {Name = name, Email = user.Email, IdentityId = user.Id, CanCreateMeetings = false});
 
             return new SignUpResult(result);
         }

@@ -2,22 +2,21 @@
 
 export default {
     actions: {
-        async get(ctx) {
-            const response = await userService.get();
-            ctx.commit('updateUsers', response);
+        async loadCurrentUser(ctx) {
+            ctx.commit('updateCurrentUser', await userService.getCurrentUser());
         }
     },
     mutations: {
-        updateUsers(state, users) {
-            state.users = users;
+        updateCurrentUser(state, currentUser) {
+            state.currentUser = currentUser;
         }
     },
     state: {
-        users: []
+        currentUser: null
     },
     getters: {
-        getUsers(state) {
-            return state.users;
+        currentUser(state) {
+            return state.currentUser;
         }
     }
 }

@@ -10,7 +10,9 @@ import register from '../pages/auth/register.vue'
 
 import app from '../layout/app.vue'
 
+import meetingBase from '../pages/meeting/meetingBase.vue'
 import meetingList from '../pages/meeting/meetingList.vue'
+import meetingCreate from '../pages/meeting/meetingCreate.vue'
 
 Vue.use(VueRouter);
 
@@ -18,7 +20,17 @@ const routes = [
     {
         path: '/', component: app, redirect: '/meetings',
         children: [
-            { path: 'meetings', component: meetingList }
+            {
+                path: 'meetings/', component: meetingBase,
+                children: [
+                    {
+                        path: '', component: meetingList
+                    },
+                    {
+                        path: 'create', component: meetingCreate
+                    }
+                ]
+            },
         ]
     },
     {

@@ -3,46 +3,60 @@
         <section id="header">
             <div class="container">
                 <div class="header__title">
-                    Corona Fitness                    
+                    Corona Fitness
                 </div>
                 <div class="header__logout">
-                    <FxLogoutButton />
+                    <FxLogoutButton/>
                 </div>
             </div>
         </section>
         <section id="body">
             <div class="container">
-                <router-view/>
+                <span v-if="isLoading">LOADING</span>
+                <router-view v-if="!isLoading" />
             </div>
         </section>
         <section id="footer">
-            
+
         </section>
     </div>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
 
     export default {
-        computed: mapGetters(['isLoggedIn']),
+        computed: mapGetters(['isLoggedIn', 'currentUser']),
+        methods: mapActions(['loadCurrentUser']),
+        data: function () {
+            return {
+                isLoading: true
+            }
+        },
+
+        async created() {
+            await this.loadCurrentUser();
+            this.isLoading = false;
+        },
+
         mounted() {
-            if (!this.isLoggedIn)
+            if (!this.isLoggedIn) {
                 this.$router.push('/auth');
+            }
         }
     }
 </script>
 
 <style lang="scss">
     @import '../styles/design.scss';
-    
+
     #header {
         height: 50px;
         background: $color-gray-light;
         margin-bottom: 20px;
-        
+
         .container {
-            height: 100%;    
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;

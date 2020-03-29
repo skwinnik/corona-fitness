@@ -6,6 +6,11 @@ export default {
             const response = await meetingService.getMeetings();
             ctx.commit('updateMeetingsList', response);
         },
+        
+        async saveMeeting(ctx, meeting) {
+            await meetingService.saveMeeting(meeting);
+            await ctx.dispatch('loadMeetings');
+        }
     },
     mutations: {
         updateMeetingsList(state, data) {
@@ -16,7 +21,7 @@ export default {
         meetings: []
     },
     getters: {
-        getMeetings(state) {
+        meetings(state) {
             return state.meetings;
         }
     }

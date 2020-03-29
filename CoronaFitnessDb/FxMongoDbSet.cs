@@ -43,6 +43,11 @@ namespace CoronaFitnessDb
             return this.Collection.InsertManyAsync(entities);
         }
 
+        public async Task UpdateAsync(Expression<Func<T, bool>> expression, UpdateDefinition<T> updateDefinition)
+        {
+            await this.Collection.UpdateOneAsync(expression, updateDefinition);
+        }
+
         public Task<DeleteResult> RemoveAsync(Expression<Func<T, bool>> expression)
         {
             return this.Collection.DeleteOneAsync(expression);
