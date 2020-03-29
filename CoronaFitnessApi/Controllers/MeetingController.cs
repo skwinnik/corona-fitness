@@ -49,6 +49,8 @@ namespace CoronaFitnessApi.Controllers
                 throw new NotImplementedException("Editing is not yet implemented");
 
             var currentUser = await userContext.GetCurrentUser();
+            if (!currentUser.CanCreateMeetings) return NotFound();
+            
             await this.meetingBop.CreateMeeting(new FxMeetingModel()
             {
                 Id = "",
