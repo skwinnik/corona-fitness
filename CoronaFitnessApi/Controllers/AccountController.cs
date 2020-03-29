@@ -14,6 +14,7 @@ namespace CoronaFitnessApi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IxAccountBusinessOperations accountBop;
+
         public AccountController(IxAccountBusinessOperations accountBop)
         {
             this.accountBop = accountBop;
@@ -39,8 +40,16 @@ namespace CoronaFitnessApi.Controllers
         {
             var result = await accountBop.Login(request.Email, request.Password);
             if (!result.Success) return Ok(new LoginResponse() {Success = false});
-            
+
             return Ok(new LoginResponse() {Success = true});
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await accountBop.Logout();
+            return Ok(new LogoutResponse() {Success = result.Success});
         }
     }
 }

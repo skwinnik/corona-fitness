@@ -46,7 +46,6 @@
         methods: {
             onRegister: function ($event) {
                 $event.preventDefault();
-                debugger;
                 this.$store.dispatch('register', {email: this.email, password: this.confirmPassword, name: this.name});
             },
 

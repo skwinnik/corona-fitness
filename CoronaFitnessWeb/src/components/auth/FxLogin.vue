@@ -12,7 +12,7 @@
 
         <button type="submit" class="btn btn-primary">Login</button>
         &nbsp;
-        <router-link to="auth/register" class="btn btn-link">Register</router-link>
+        <router-link to="/auth/register" class="btn btn-link">Register</router-link>
     </form>
 </template>
 

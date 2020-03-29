@@ -26,7 +26,10 @@
 
     export default {
         computed: mapGetters(['isLoggedIn']),
-
+        mounted() {
+            if (!this.isLoggedIn)
+                this.$router.push('/auth');
+        }
     }
 </script>
 

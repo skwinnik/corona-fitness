@@ -71,6 +71,12 @@ namespace CoronaFitnessBL.Account
             };
         }
 
+        public async Task<LogoutResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return new LogoutResult {Success = true};
+        }
+
         public async Task<CreateRoleResult> CreateRole(FxIdentityRole role)
         {
             var roleExists = await this.roleManager.FindByNameAsync(role.Name);
