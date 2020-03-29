@@ -15,10 +15,16 @@ Vue.use(IconsPlugin);
 import Root from './root.vue'
 Vue.component('Root', Root);
 
-import Login from './components/login/FxLogin.vue'
+import Login from './components/auth/FxLogin.vue'
 Vue.component('FxLogin', Login);
 
-import Register from './components/login/FxRegister.vue'
+import Logout from './components/auth/FxLogout.vue'
+Vue.component('FxLogout', Logout);
+
+import LogoutButton from './components/auth/FxLogoutButton.vue'
+Vue.component('FxLogoutButton', LogoutButton);
+
+import Register from './components/auth/FxRegister.vue'
 Vue.component('FxRegister', Register);
 
 import Users from './components/users/users.vue'

@@ -6,7 +6,7 @@
             credentials: 'include'
         });
         if (!response.ok && response.status === 401) {
-            window.location.href = '#/login';
+            window.location.href = '#/not-allowed';
             return;
         }
         
@@ -24,7 +24,7 @@
         });
 
         if (!response.ok && response.status === 401) {
-            window.location.href = '#/login';
+            window.location.href = '#/not-allowed';
             return;
         }
 

@@ -7,6 +7,11 @@ export default {
             ctx.commit('updateLoginState', response.success);
         },
 
+        async logout(ctx) {
+            const response = await accountService.logout();
+            ctx.commit('updateLoginState', !response.success);
+        },
+
         async register(ctx, user) {
             const response = await accountService.signUp(user);
             ctx.commit('updateLoginState', response.success);

@@ -1,7 +1,7 @@
 ﻿<template>
     <form @submit="onRegister($event)">
         <div class="form-group">
-            <label for="email">Name</label>
+            <label for="name">Name</label>
             <input class="form-control" id="name" name="name" v-model="name" type="text" maxlength="100" required/>
         </div>
 
@@ -23,15 +23,12 @@
 
         <button type="submit" class="btn btn-primary">Register</button>
         &nbsp;
-        <router-link to="/login" class="btn btn-link">Login</router-link>
+        <router-link to="/auth/login" class="btn btn-link">Login</router-link>
     </form>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
-
     export default {
-        computed: mapGetters(['isLoggedIn']),
         data: function () {
             return {
                 email: '',
@@ -44,11 +41,6 @@
         watch: {
             password: 'checkPasswordsEquality',
             confirmPassword: 'checkPasswordsEquality'
-        },
-
-        mounted() {
-            // if (this.isLoggedIn)
-            //     this.$router.push('/');
         },
 
         methods: {
@@ -74,7 +66,3 @@
 
     }
 </script>
-
-<style lang="scss">
-    @import 'login-form.scss';
-</style>

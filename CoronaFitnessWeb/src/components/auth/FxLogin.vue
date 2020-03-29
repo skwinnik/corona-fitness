@@ -12,25 +12,17 @@
 
         <button type="submit" class="btn btn-primary">Login</button>
         &nbsp;
-        <router-link to="/register" class="btn btn-link">Register</router-link>
+        <router-link to="auth/register" class="btn btn-link">Register</router-link>
     </form>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
-
     export default {
-        computed: mapGetters(['isLoggedIn']),
         data: function () {
             return {
                 email: '',
                 password: ''
             };
-        },
-        
-        mounted() {
-            // if (this.isLoggedIn)
-            //     this.$router.push('/');
         },
 
         methods: {
@@ -42,7 +34,3 @@
 
     }
 </script>
-
-<style lang="scss">
-    @import 'login-form.scss';
-</style>
