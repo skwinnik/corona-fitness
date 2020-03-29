@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -19,17 +20,20 @@ namespace DbGenerator
             var platform = Environment.OSVersion.Platform.ToString();
             var runtimeAssemblyNames = DependencyContext.Default.GetRuntimeAssemblyNames(platform);
 
-            var generators = runtimeAssemblyNames
+            var generatorClasses = runtimeAssemblyNames
                 .Select(Assembly.Load)
                 .SelectMany(a => a.ExportedTypes)
                 .Where(t => typeof(IxGenerator).IsAssignableFrom(t))
                 .Where(t => t.IsClass);
 
-            foreach (var generatorType in generators)
-            {
-                var generator = (IxGenerator) ActivatorUtilities.CreateInstance(provider, generatorType);
+            List<IxGenerator> generators = new List<IxGenerator>();
+            foreach (var generatorClass in generatorClasses)
+                generators.Add((IxGenerator)ActivatorUtilities.CreateInstance(provider, generatorClass));
+
+            generators = generators.OrderBy(x => x.Priority).ToList();
+
+            foreach (var generator in generators)
                 await generator.Generate();
-            }
         }
     }
 }

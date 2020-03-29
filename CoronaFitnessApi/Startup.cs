@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo;
 using CoronaFitnessBL.Account;
+using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.User;
+using CoronaFitnessBL.User.UserContext;
 using CoronaFitnessDb;
 using CoronaFitnessDb.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -81,6 +83,11 @@ namespace CoronaFitnessApi
 
             services.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
             services.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
+            services.AddScoped<IxMeetingBusinessOperations, FxMeetingBusinessOperations>();
+
+            services.AddScoped<IxUserContext, FxUserContext>();
+            
+            services.AddHttpContextAccessor();
 
             services.AddCors(options =>
             {

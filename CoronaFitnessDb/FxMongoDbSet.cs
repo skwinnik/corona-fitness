@@ -21,10 +21,16 @@ namespace CoronaFitnessDb
 
         private IMongoCollection<T> Collection { get; }
 
-        public async Task<List<T>> Get(Expression<Func<T, bool>> expression)
+        public async Task<List<T>> GetAsync(Expression<Func<T, bool>> expression)
         {
             var cursor = await this.Collection.FindAsync(expression);
             return cursor.ToList();
+        }
+
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression)
+        {
+            var users = await this.GetAsync(expression);
+            return users.SingleOrDefault();
         }
 
         public Task AddAsync(T entity)

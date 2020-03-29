@@ -1,7 +1,28 @@
 module.exports = {
     async up(db, client) {
         try {
-            await db.createCollection('Meetings');
+            await db.createCollection('Meetings', {
+                validator: {
+                    $jsonSchema: {
+                        bsonType: "object",
+                        required: ["title", "description", "ownerId", "attendees"],
+                        properties: {
+                            title: {
+                                bsonType: "string"
+                            },
+                            description: {
+                                bsonType: "string"
+                            },
+                            ownerId: {
+                                bsonType: "objectId"
+                            },
+                            attendees: {
+                                bsonType: "array"
+                            }
+                        }
+                    }
+                }
+            });
 
             await db.createCollection('Users', {
                 validator: {

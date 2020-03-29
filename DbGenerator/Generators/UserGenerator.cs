@@ -12,6 +12,10 @@ namespace DbGenerator.Generators
 {
     public class UserGenerator : IxGenerator
     {
+        public int Priority => 0;
+
+        public Type After => null;
+        
         private List<FxUserModel> users = new List<FxUserModel>()
         {
             new FxUserModel() {Email = "screen0994@gmail.com", Name = "Павел Скринник"},

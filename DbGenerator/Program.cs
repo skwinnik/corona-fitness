@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo;
 using CoronaFitnessBL.Account;
+using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.User;
 using CoronaFitnessDb;
 using CoronaFitnessDb.Identity;
@@ -55,6 +56,7 @@ namespace DbGenerator
             serviceCollection.AddTransient<Application>();
             serviceCollection.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
             serviceCollection.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
+            serviceCollection.AddScoped<IxMeetingBusinessOperations, FxMeetingBusinessOperations>();
             
             serviceCollection.AddSingleton(LoggerFactory.Create(builder =>
             {

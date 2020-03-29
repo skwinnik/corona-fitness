@@ -8,5 +8,7 @@ namespace CoronaFitnessBL.User
     {
         Task<List<FxUserModel>> GetAll();
         Task Create(FxUserModel user);
+        Task<FxUserModel> GetByIdentityId(string identityId);
+        Task<FxUserModel> GetByEmail(string email);
     }
 }
