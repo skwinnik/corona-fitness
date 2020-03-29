@@ -10,12 +10,16 @@ import register from '../pages/auth/register.vue'
 
 import app from '../layout/app.vue'
 
+import meetingList from '../pages/meeting/meetingList.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
     {
-        path: '/', component: app,
-        children: []
+        path: '/', component: app, redirect: '/meetings',
+        children: [
+            { path: 'meetings', component: meetingList }
+        ]
     },
     {
         path: '/auth/', component: authLayout, redirect: '/auth/login',

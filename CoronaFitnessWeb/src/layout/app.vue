@@ -38,7 +38,8 @@
     
     #header {
         height: 50px;
-        background: $color-light-gray;
+        background: $color-gray-light;
+        margin-bottom: 20px;
         
         .container {
             height: 100%;    

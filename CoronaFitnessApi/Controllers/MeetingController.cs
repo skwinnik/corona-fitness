@@ -27,6 +27,7 @@ namespace CoronaFitnessApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("getMeetings")]
         public async Task<IActionResult> GetMeetings()
         {
             var currentUser = await userContext.GetCurrentUser();
