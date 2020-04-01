@@ -1,7 +1,9 @@
-﻿using CoronaFitnessDb.Conventions;
+﻿using System;
+using CoronaFitnessDb.Conventions;
 using CoronaFitnessDb.Entities;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
@@ -35,7 +37,8 @@ namespace CoronaFitnessDb
             ConventionRegistry.Register(
                 "GenerateId",
                 new ConventionPack {new ObjectIdGeneratorConvention()},
-                type => type.Namespace == "CoronaFitnessDb.Entities");
+                type => type.Namespace == "CoronaFitnessDb.Entities" 
+                        && Attribute.GetCustomAttribute(type, typeof(BsonNoIdAttribute)) == null);
             
             this.Users = new FxMongoDbSet<FxUser>(database.GetCollection<FxUser>("Users"));
             this.Meetings = new FxMongoDbSet<FxMeeting>(database.GetCollection<FxMeeting>("Meetings"));

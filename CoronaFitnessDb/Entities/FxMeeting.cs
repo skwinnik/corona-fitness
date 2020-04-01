@@ -16,6 +16,34 @@ namespace CoronaFitnessDb.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string OwnerId { get; set; }
 
-        public string[] Attendees { get; set; }
+        public string SessionId { get; set; }
+
+        public List<FxMeetingAttendee> Attendees { get; set; }
+
+        public FxMeeting()
+        {
+            this.Id = string.Empty;
+            this.Title = string.Empty;
+            this.Description = string.Empty;
+            this.OwnerId = string.Empty;
+            this.SessionId = string.Empty;
+            this.Attendees = new List<FxMeetingAttendee>();
+        }
+    }
+
+    [BsonNoId]
+    public class FxMeetingAttendee
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; }
+
+        public string Token { get; set; }
+
+        public FxMeetingAttendee()
+        {
+            this.UserId = string.Empty;
+            this.Token = string.Empty;
+        }
     }
 }

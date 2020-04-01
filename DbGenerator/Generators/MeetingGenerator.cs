@@ -37,7 +37,6 @@ namespace DbGenerator.Generators
                 Id = "",
                 Title = "Test Meeting",
                 Description = "This meeting was created in DBGenerator",
-                Attendees = new string[0],
                 OwnerId = user.Id
             };
 

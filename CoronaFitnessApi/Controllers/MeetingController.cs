@@ -56,7 +56,6 @@ namespace CoronaFitnessApi.Controllers
                 Id = "",
                 Title = request.Title,
                 Description = request.Description,
-                Attendees = new string[0],
                 OwnerId = currentUser.Id
             });
             

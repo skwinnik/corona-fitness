@@ -1,5 +1,8 @@
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo;
+using CoronaFitness.Integration.OpenVidu;
+using CoronaFitness.Integration.OpenVidu.Rest;
+using CoronaFitness.Integration.OpenVidu.Settings;
 using CoronaFitnessBL.Account;
 using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.User;
@@ -86,6 +89,16 @@ namespace CoronaFitnessApi
             services.AddScoped<IxMeetingBusinessOperations, FxMeetingBusinessOperations>();
 
             services.AddScoped<IxUserContext, FxUserContext>();
+            
+            services.Configure<FxOpenViduSettings>(
+                Configuration.GetSection("OpenViduSettings"));
+
+            services.AddSingleton<IxOpenViduSettings>(sp =>
+                sp.GetRequiredService<IOptions<FxOpenViduSettings>>().Value);
+
+            services.AddScoped<IxOpenViduGateway, FxOpenViduGateway>();
+
+            services.AddSingleton<OpenViduRestClientBuilder, OpenViduRestClientBuilder>();
             
             services.AddHttpContextAccessor();
 

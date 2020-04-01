@@ -14,5 +14,6 @@ namespace CoronaFitnessBL.Meeting
         Task<List<FxMeetingModel>> GetMeetings(FxUserModel user);
 
         Task CreateMeeting(FxMeetingModel meeting);
+        Task<string> GetToken(string meetingId, string userId);
     }
 }

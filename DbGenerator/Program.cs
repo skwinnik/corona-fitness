@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo;
+using CoronaFitness.Integration.OpenVidu;
 using CoronaFitnessBL.Account;
 using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.User;
@@ -57,6 +58,7 @@ namespace DbGenerator
             serviceCollection.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
             serviceCollection.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
             serviceCollection.AddScoped<IxMeetingBusinessOperations, FxMeetingBusinessOperations>();
+            serviceCollection.AddScoped<IxOpenViduGateway, FxFakeOpenViduGateway>();
             
             serviceCollection.AddSingleton(LoggerFactory.Create(builder =>
             {

@@ -13,5 +13,13 @@ namespace CoronaFitnessDb.Entities
         public string Email { get; set; }
         public string IdentityId { get; set; }
         public bool CanCreateMeetings { get; set; }
+
+        public FxUser()
+        {
+            this.Id = string.Empty;
+            this.Name = string.Empty;
+            this.Email = string.Empty;
+            this.IdentityId = string.Empty;
+        }
     }
 }

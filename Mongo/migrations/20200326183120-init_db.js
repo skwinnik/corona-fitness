@@ -16,8 +16,24 @@ module.exports = {
                             ownerId: {
                                 bsonType: "objectId"
                             },
+                            sessionId: {
+                                bsonType: "string"
+                            },
                             attendees: {
-                                bsonType: "array"
+                                bsonType: ["array"],
+                                description: 'list of meeting attendees',
+                                items: {
+                                    bsonType: 'object',
+                                    required: ['userId'],
+                                    properties: {
+                                        userId: {
+                                            bsonType: 'objectId'
+                                        },
+                                        token: {
+                                            bsonType: 'string'
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
