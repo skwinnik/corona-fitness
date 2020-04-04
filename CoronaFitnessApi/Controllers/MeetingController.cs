@@ -61,5 +61,13 @@ namespace CoronaFitnessApi.Controllers
             
             return Ok(true);
         }
+
+        [HttpGet]
+        [Route("getToken")]
+        public async Task<IActionResult> GetToken(string meetingId)
+        {
+            var currentUser = await this.userContext.GetCurrentUser();
+            return Ok(this.meetingBop.GetToken(meetingId, currentUser.Id));
+        }
     }
 }

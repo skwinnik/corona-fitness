@@ -2,6 +2,6 @@
 {
     public class CreateSessionRequest
     {
-        
+        public static CreateSessionRequest Empty => new CreateSessionRequest();
     }
 }

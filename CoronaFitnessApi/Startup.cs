@@ -96,7 +96,9 @@ namespace CoronaFitnessApi
             services.AddSingleton<IxOpenViduSettings>(sp =>
                 sp.GetRequiredService<IOptions<FxOpenViduSettings>>().Value);
 
-            services.AddScoped<IxOpenViduGateway, FxOpenViduGateway>();
+            
+            //todo fake to real
+            services.AddScoped<IxOpenViduGateway, FxFakeOpenViduGateway>();
 
             services.AddSingleton<OpenViduRestClientBuilder, OpenViduRestClientBuilder>();
             

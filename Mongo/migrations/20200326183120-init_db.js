@@ -24,10 +24,13 @@ module.exports = {
                                 description: 'list of meeting attendees',
                                 items: {
                                     bsonType: 'object',
-                                    required: ['userId'],
+                                    required: ['userId', 'role'],
                                     properties: {
                                         userId: {
                                             bsonType: 'objectId'
+                                        },
+                                        role: {
+                                            bsonType: 'string'
                                         },
                                         token: {
                                             bsonType: 'string'
