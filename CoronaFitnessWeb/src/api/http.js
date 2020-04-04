@@ -11,7 +11,7 @@
         if (!response.ok && response.status === 401) {
             return;
         }
-
+        
         return response.json();
     },
 

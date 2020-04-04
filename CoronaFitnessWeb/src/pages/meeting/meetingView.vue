@@ -1,5 +1,8 @@
 ﻿<template>
-    <FxMeetingView :meeting-id="meetingId" />
+    <div>
+        <button class="btn btn-primary" @click="loadToken(meetingId)">Подключиться</button>
+        <FxMeetingView :meeting-id="meetingId" />
+    </div>
 </template>
 
 <script>
@@ -9,7 +12,7 @@
     
     export default {
         components: {FxMeetingView},
-        methods: mapActions(['clearCurrentMeeting']),
+        methods: mapActions(['clearCurrentMeeting', 'loadToken']),
         data: function () {
             return {
                 meetingId: this.$route.params.id

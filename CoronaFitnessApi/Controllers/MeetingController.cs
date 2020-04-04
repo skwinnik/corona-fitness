@@ -80,7 +80,10 @@ namespace CoronaFitnessApi.Controllers
         public async Task<IActionResult> GetToken(string meetingId)
         {
             var currentUser = await this.userContext.GetCurrentUser();
-            return Ok(this.meetingBop.GetToken(meetingId, currentUser.Id));
+            return Ok(new GetTokenResponse()
+            {
+                Token = await this.meetingBop.GetToken(meetingId, currentUser.Id)
+            });
         }
     }
 }

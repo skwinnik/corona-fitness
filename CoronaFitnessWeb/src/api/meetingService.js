@@ -16,6 +16,6 @@ export default {
     },
     
     getToken(meetingId) {
-        return http.get(serviceUrl + 'getToken', meetingId);
+        return http.get(serviceUrl + 'getToken', {meetingId});
     }
 }
