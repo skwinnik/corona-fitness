@@ -68,6 +68,7 @@ namespace CoronaFitnessBL.Meeting
             attendee.Token = token;
             await this.dbContext.Meetings.UpdateAsync(x => x.Id == meeting.Id,
                 new UpdateDefinitionBuilder<FxMeeting>()
+                    .Set(x => x.SessionId, meeting.SessionId)
                     .Set(x => x.Attendees, meeting.Attendees));
 
             return token;

@@ -12,7 +12,6 @@ namespace CoronaFitnessBL.Meeting.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string OwnerId { get; set; }
-        public string SessionId { get; set; }
         public List<FxMeetingAttendeeModel> Attendees { get; set; }
 
         public FxMeetingModel()
@@ -38,7 +37,7 @@ namespace CoronaFitnessBL.Meeting.Models
                 OwnerId = this.OwnerId,
                 Title = this.Title,
                 Description = this.Description,
-                SessionId = this.SessionId ?? string.Empty,
+                SessionId = string.Empty,
                 Attendees = this.Attendees.Select(x => x.ToDbModel()).ToList()
             };
         }
@@ -48,8 +47,6 @@ namespace CoronaFitnessBL.Meeting.Models
     {
         public string UserId { get; set; }
         public EnOvSessionRole Role { get; set; }
-        public string Token { get; set; }
-
         public FxMeetingAttendeeModel()
         {
         }
@@ -57,7 +54,6 @@ namespace CoronaFitnessBL.Meeting.Models
         public FxMeetingAttendeeModel(FxMeetingAttendee dbMeetingAttendee)
         {
             this.UserId = dbMeetingAttendee.UserId;
-            this.Token = dbMeetingAttendee.Token;
             this.Role = Enum.Parse<EnOvSessionRole>(dbMeetingAttendee.Role);
         }
 
@@ -66,7 +62,7 @@ namespace CoronaFitnessBL.Meeting.Models
             return new FxMeetingAttendee()
             {
                 UserId = this.UserId,
-                Token = this.Token ?? string.Empty,
+                Token = string.Empty,
                 Role = this.Role.ToString()
             };
         }
