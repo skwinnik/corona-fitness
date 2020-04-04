@@ -35,6 +35,19 @@ namespace CoronaFitnessApi.Controllers
             var currentUser = await userContext.GetCurrentUser();
             return Ok(await meetingBop.GetMeetings(currentUser));
         }
+        
+        /// <summary>
+        /// Returns meeting by id
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("getMeetingById")]
+        public async Task<IActionResult> GetMeetingById(string id)
+        {
+            var currentUser = await userContext.GetCurrentUser();
+            var meeting = await meetingBop.GetMeeting(id, currentUser.Id);
+            return Ok(meeting);
+        }
 
         /// <summary>
         /// If ID is null, creates a new meeting; otherwise updates an existing one

@@ -33,6 +33,17 @@ namespace CoronaFitnessBL.Meeting
                     new FxMeetingModel(dbMeeting)).ToList());
         }
 
+        public async Task<FxMeetingModel> GetMeeting(string id, string userId)
+        {
+            var meeting = await dbContext.Meetings
+                .GetSingleAsync(m => m.Id == id);
+
+            if (!IsAllowedToSeeMeeting(meeting, userId))
+                return null;
+            
+            return new FxMeetingModel(meeting);
+        }
+
         public Task CreateMeeting(FxMeetingModel meeting)
         {
             if (meeting.Attendees.All(x => x.UserId != meeting.OwnerId))
@@ -88,6 +99,11 @@ namespace CoronaFitnessBL.Meeting
                 Data = userName,
                 Role = role
             })).Token;
+        }
+
+        private bool IsAllowedToSeeMeeting(FxMeeting meeting, string userId)
+        {
+            return meeting.OwnerId == userId || meeting.Attendees.Any(a => a.UserId == userId);
         }
     }
 }

@@ -8,7 +8,9 @@
 
 <script>
     import FxMeetingListItem from './FxMeetingListItem.vue';
-    import {mapActions, mapGetters} from 'vuex';
+    
+    import { createNamespacedHelpers } from 'vuex';
+    const { mapGetters, mapActions } = createNamespacedHelpers('meetings/list');
 
     export default {
         components: {

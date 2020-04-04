@@ -6,6 +6,8 @@
         <div class="meeting-list-item__description">
             {{meeting.description}}
         </div>
+        
+        <router-link :to="{ path: '/meetings/view/' + meeting.id }" class="btn btn-outline-primary">Перейти</router-link>
     </div>
 </template>
 

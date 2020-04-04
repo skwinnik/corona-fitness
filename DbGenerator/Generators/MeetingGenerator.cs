@@ -42,6 +42,16 @@ namespace DbGenerator.Generators
 
             await meetingBop.CreateMeeting(meeting);
             
+            meeting = new FxMeetingModel()
+            {
+                Id = "",
+                Title = "Test Meeting 2",
+                Description = "This meeting 2 was created in DBGenerator",
+                OwnerId = user.Id
+            };
+
+            await meetingBop.CreateMeeting(meeting);
+            
             this.logger.Log(LogLevel.Information, "Meetings are created");
 
         }
