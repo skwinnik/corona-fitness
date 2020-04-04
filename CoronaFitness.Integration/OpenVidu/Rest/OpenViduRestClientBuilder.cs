@@ -17,7 +17,8 @@ namespace CoronaFitness.Integration.OpenVidu.Rest
         {
             return new RestClient(this.settings.Url)
             {
-                Authenticator = new HttpBasicAuthenticator(this.settings.Login, this.settings.Password)
+                Authenticator = new HttpBasicAuthenticator(this.settings.Login, this.settings.Password),
+                ThrowOnAnyError = true
             };
         }
     }

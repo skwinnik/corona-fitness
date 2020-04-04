@@ -28,7 +28,8 @@ namespace CoronaFitnessBL.Meeting
         public Task<List<FxMeetingModel>> GetMeetings(FxUserModel user)
         {
             return dbContext.Meetings
-                .GetAsync(meeting => meeting.OwnerId == user.Id)
+                .GetAsync(meeting => meeting.OwnerId == user.Id
+                                     || meeting.Attendees.Any(a => a.UserId == user.Id))
                 .ContinueWith(x => x.Result.Select(dbMeeting =>
                     new FxMeetingModel(dbMeeting)).ToList());
         }
@@ -40,7 +41,7 @@ namespace CoronaFitnessBL.Meeting
 
             if (!IsAllowedToSeeMeeting(meeting, userId))
                 return null;
-            
+
             return new FxMeetingModel(meeting);
         }
 
@@ -48,7 +49,7 @@ namespace CoronaFitnessBL.Meeting
         {
             if (meeting.Attendees.All(x => x.UserId != meeting.OwnerId))
                 meeting.Attendees.Add(new FxMeetingAttendeeModel()
-                    {UserId = meeting.OwnerId, Role = EnOvSessionRole.Publisher});
+                    {UserId = meeting.OwnerId, Role = EnOvSessionRole.MODERATOR});
 
             return dbContext.Meetings.AddAsync(meeting.ToDbModel());
         }
@@ -63,9 +64,6 @@ namespace CoronaFitnessBL.Meeting
 
             var user = await this.dbContext.Users.GetSingleAsync(x => x.Id == userId);
             var attendee = meeting.Attendees.Single(x => x.UserId == userId);
-            //if already has a token, return it
-            if (!string.IsNullOrEmpty(attendee.Token))
-                return attendee.Token;
 
             //if no session, then create it
             if (string.IsNullOrEmpty(meeting.SessionId))
@@ -74,31 +72,31 @@ namespace CoronaFitnessBL.Meeting
             //and generate a new token
             var token = await this.CreateToken(meeting.SessionId, user.Name,
                 Enum.Parse<EnOvSessionRole>(attendee.Role, true));
-            
-            //update meeting attendee token
-            attendee.Token = token;
+
             await this.dbContext.Meetings.UpdateAsync(x => x.Id == meeting.Id,
                 new UpdateDefinitionBuilder<FxMeeting>()
-                    .Set(x => x.SessionId, meeting.SessionId)
-                    .Set(x => x.Attendees, meeting.Attendees));
+                    .Set(x => x.SessionId, meeting.SessionId));
 
             return token;
         }
 
         private async Task<string> CreateSession()
         {
-            return (await this.ovGateway.CreateSession(CreateSessionRequest.Empty)).Id;
+            var result = await this.ovGateway.CreateSession(CreateSessionRequest.Empty);
+            return result.Id;
         }
 
         private async Task<string> CreateToken(string sessionId, string userName,
-            EnOvSessionRole role = EnOvSessionRole.Subscriber)
+            EnOvSessionRole role = EnOvSessionRole.PUBLISHER)
         {
-            return (await this.ovGateway.CreateToken(new CreateTokenRequest()
+            var result = await this.ovGateway.CreateToken(new CreateTokenRequest()
             {
                 Session = sessionId,
                 Data = userName,
                 Role = role
-            })).Token;
+            });
+
+            return result.Token;
         }
 
         private bool IsAllowedToSeeMeeting(FxMeeting meeting, string userId)

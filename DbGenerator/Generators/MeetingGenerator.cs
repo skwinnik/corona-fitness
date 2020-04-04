@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoronaFitness.Integration.OpenVidu.Models;
 using CoronaFitnessBL.Account;
 using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.Meeting.Models;
@@ -15,7 +16,8 @@ namespace DbGenerator.Generators
         public int Priority => 1;
 
         private string forUser = "screen0994@gmail.com";
-
+        private string forAttendee = "simon.skrinnik@home.com";
+        
         private readonly IxUserBusinessOperations userBop;
         private readonly IxMeetingBusinessOperations meetingBop;
         private readonly ILogger<MeetingGenerator> logger;
@@ -31,23 +33,22 @@ namespace DbGenerator.Generators
         public async Task Generate()
         {
             var user = await userBop.GetByEmail(forUser);
+            var attendee = await userBop.GetByEmail(forAttendee);
             
             var meeting = new FxMeetingModel()
             {
                 Id = "",
                 Title = "Test Meeting",
                 Description = "This meeting was created in DBGenerator",
-                OwnerId = user.Id
-            };
-
-            await meetingBop.CreateMeeting(meeting);
-            
-            meeting = new FxMeetingModel()
-            {
-                Id = "",
-                Title = "Test Meeting 2",
-                Description = "This meeting 2 was created in DBGenerator",
-                OwnerId = user.Id
+                OwnerId = user.Id,
+                Attendees = new List<FxMeetingAttendeeModel>()
+                {
+                    new FxMeetingAttendeeModel()
+                    {
+                        UserId = attendee.Id,
+                        Role = EnOvSessionRole.PUBLISHER
+                    }
+                }
             };
 
             await meetingBop.CreateMeeting(meeting);

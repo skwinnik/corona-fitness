@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo;
 using CoronaFitness.Integration.OpenVidu;
@@ -83,7 +84,7 @@ namespace CoronaFitnessApi
             this.ConfigureMongoIdentity(services);
 
             services.AddControllers();
-
+            
             services.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
             services.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
             services.AddScoped<IxMeetingBusinessOperations, FxMeetingBusinessOperations>();
@@ -98,7 +99,7 @@ namespace CoronaFitnessApi
 
             
             //todo fake to real
-            services.AddScoped<IxOpenViduGateway, FxFakeOpenViduGateway>();
+            services.AddScoped<IxOpenViduGateway, FxOpenViduGateway>();
 
             services.AddSingleton<OpenViduRestClientBuilder, OpenViduRestClientBuilder>();
             

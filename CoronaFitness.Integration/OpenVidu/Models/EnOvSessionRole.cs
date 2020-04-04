@@ -1,9 +1,13 @@
-﻿namespace CoronaFitness.Integration.OpenVidu.Models
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+
+namespace CoronaFitness.Integration.OpenVidu.Models
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum EnOvSessionRole
     {
-        Subscriber,
-        Publisher,
-        Moderator
+        SUBSCRIBER,
+        PUBLISHER,
+        MODERATOR
     }
 }

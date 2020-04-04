@@ -21,7 +21,7 @@ namespace DbGenerator.Generators
         {
             new FxUserModel() {Email = "screen0994@gmail.com", Name = "Павел Скринник"},
             new FxUserModel() {Email = "alyona.twix@gmail.com", Name = "Алёна Скринник"},
-            new FxUserModel() {Email = "simon.skrinnik@home.com", Name = "Пёс"},
+            new FxUserModel() {Email = "simon.skrinnik@home.com", Name = "Пес"},
         };
 
         private List<string> admins = new List<string>() {"screen0994@gmail.com"};

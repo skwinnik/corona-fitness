@@ -2,6 +2,7 @@
 using CoronaFitness.Integration.OpenVidu.Models;
 using CoronaFitness.Integration.OpenVidu.Rest;
 using RestSharp;
+using RestSharp.Serialization.Json;
 
 namespace CoronaFitness.Integration.OpenVidu
 {
@@ -24,11 +25,10 @@ namespace CoronaFitness.Integration.OpenVidu
         public Task<CreateTokenResponse> CreateToken(CreateTokenRequest request)
         {
             var client = restClientBuilder.Build();
-            var restRequest = new RestRequest("/api/tokens", DataFormat.Json)
-                .AddParameter("session", request.Session)
-                .AddParameter("data", request.Data)
-                .AddParameter("role", request.Role.ToString());
-            
+            var restRequest = new RestRequest("/api/tokens");
+            restRequest.AddParameter("application/json", System.Text.Json.JsonSerializer.Serialize(request),
+                ParameterType.RequestBody);
+
             return client.PostAsync<CreateTokenResponse>(restRequest);
         }
     }
