@@ -1,26 +1,16 @@
 ﻿<template>
     <div v-if="currentMeeting">
-        <div class="form-group">
-            <label>Заголовок</label>
-            <div class="form-text">
-                {{currentMeeting.title}}
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Описание</label>
-            <div class="form-text">
-                {{currentMeeting.description}}
-            </div>
-        </div>
+        <FxMeetingListItem :meeting="currentMeeting" />
     </div>
 </template>
 
 <script>
     import {createNamespacedHelpers} from 'vuex';
+    import FxMeetingListItem from "./FxMeetingListItem.vue";
     const {mapGetters, mapActions} = createNamespacedHelpers('meetings/view');
 
     export default {
+        components: {FxMeetingListItem},
         props: {
             meetingId: String
         },

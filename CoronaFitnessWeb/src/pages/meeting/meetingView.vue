@@ -1,6 +1,5 @@
 ﻿<template>
     <div>
-        <router-link class="btn btn-primary" :to="{ path: '/meetings/conference/' + this.meetingId}">Подключиться</router-link>
         <FxMeetingView :meeting-id="meetingId" />
     </div>
 </template>

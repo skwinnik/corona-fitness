@@ -1,9 +1,9 @@
 ﻿<template>
     <div>
-        <section id="header">
+        <section id="header" class="header">
             <div class="container">
                 <div class="header__title">
-                    Corona Fitness
+                    <router-link to="/" tag="span">Corona Fitness</router-link>
                 </div>
                 <div class="header__logout">
                     <FxLogoutButton/>
@@ -13,7 +13,7 @@
         <section id="body">
             <div class="container">
                 <span v-if="isLoading">LOADING</span>
-                <router-view v-if="!isLoading" />
+                <router-view v-if="!isLoading"/>
             </div>
         </section>
         <section id="footer">
@@ -50,10 +50,14 @@
 <style lang="scss">
     @import '../styles/design.scss';
 
-    #header {
+    .header {
         height: 50px;
         background: $color-gray-light;
         margin-bottom: 20px;
+        
+        &__title {
+            cursor: pointer;
+        }
 
         .container {
             height: 100%;
@@ -61,13 +65,5 @@
             align-items: center;
             justify-content: space-between;
         }
-    }
-
-    #body {
-
-    }
-
-    #footer {
-
     }
 </style>
