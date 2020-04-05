@@ -12,6 +12,15 @@ Vue.use(IconsPlugin);
 
 //#endregion bootstrap
 
+//#region moment
+
+import moment from 'moment';
+import VueMoment from 'vue-moment'
+moment.locale('ru');
+Vue.use(VueMoment, { moment });
+
+//#endregion
+
 import Root from './root.vue'
 Vue.component('Root', Root);
 
