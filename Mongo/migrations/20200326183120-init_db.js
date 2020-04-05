@@ -5,7 +5,7 @@ module.exports = {
                 validator: {
                     $jsonSchema: {
                         bsonType: "object",
-                        required: ["title", "description", "ownerId", "attendees"],
+                        required: ["title", "description", "ownerId", "startTime", "duration", "attendees"],
                         properties: {
                             title: {
                                 bsonType: "string"
@@ -15,6 +15,15 @@ module.exports = {
                             },
                             ownerId: {
                                 bsonType: "objectId"
+                            },
+                            startTime: {
+                                bsonType: "date"  
+                            },
+                            duration: {
+                                bsonType: "int"
+                            },
+                            isPublic: {
+                                bsonType: 'bool'  
                             },
                             sessionId: {
                                 bsonType: "string"

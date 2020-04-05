@@ -99,9 +99,11 @@ namespace CoronaFitnessBL.Meeting
             return result.Token;
         }
 
-        private bool IsAllowedToSeeMeeting(FxMeeting meeting, string userId)
+        private static bool IsAllowedToSeeMeeting(FxMeeting meeting, string userId)
         {
-            return meeting.OwnerId == userId || meeting.Attendees.Any(a => a.UserId == userId);
+            return meeting.OwnerId == userId
+                   || meeting.Attendees.Any(a => a.UserId == userId)
+                   || meeting.IsPublic;
         }
     }
 }

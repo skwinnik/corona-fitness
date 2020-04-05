@@ -12,6 +12,9 @@ namespace CoronaFitnessBL.Meeting.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string OwnerId { get; set; }
+        public DateTime StartTime { get; set; }
+        public int Duration { get; set; }
+        public bool IsPublic { get; set; }
         public List<FxMeetingAttendeeModel> Attendees { get; set; }
 
         public FxMeetingModel()
@@ -24,7 +27,10 @@ namespace CoronaFitnessBL.Meeting.Models
             this.Id = dbMeeting.Id;
             this.Title = dbMeeting.Title;
             this.Description = dbMeeting.Description;
+            this.StartTime = dbMeeting.StartTime;
+            this.Duration = dbMeeting.Duration;
             this.OwnerId = dbMeeting.OwnerId;
+            this.IsPublic = dbMeeting.IsPublic;
             this.Attendees = dbMeeting.Attendees
                 .Select(a => new FxMeetingAttendeeModel(a)).ToList();
         }
@@ -37,7 +43,10 @@ namespace CoronaFitnessBL.Meeting.Models
                 OwnerId = this.OwnerId,
                 Title = this.Title,
                 Description = this.Description,
+                StartTime = this.StartTime,
+                Duration = this.Duration,
                 SessionId = string.Empty,
+                IsPublic = this.IsPublic,
                 Attendees = this.Attendees.Select(x => x.ToDbModel()).ToList()
             };
         }
@@ -47,6 +56,7 @@ namespace CoronaFitnessBL.Meeting.Models
     {
         public string UserId { get; set; }
         public EnOvSessionRole Role { get; set; }
+
         public FxMeetingAttendeeModel()
         {
         }

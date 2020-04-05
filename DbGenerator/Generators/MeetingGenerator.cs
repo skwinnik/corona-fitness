@@ -40,7 +40,31 @@ namespace DbGenerator.Generators
                 Id = "",
                 Title = "Test Meeting",
                 Description = "This meeting was created in DBGenerator",
+                StartTime = DateTime.UtcNow.AddHours(3),
+                Duration = 60,
                 OwnerId = user.Id,
+                IsPublic = true,
+                Attendees = new List<FxMeetingAttendeeModel>()
+                {
+                    new FxMeetingAttendeeModel()
+                    {
+                        UserId = attendee.Id,
+                        Role = EnOvSessionRole.PUBLISHER
+                    }
+                }
+            };
+
+            await meetingBop.CreateMeeting(meeting);
+            
+            meeting = new FxMeetingModel()
+            {
+                Id = "",
+                Title = "Private Test Meeting",
+                Description = "This meeting was created in DBGenerator",
+                StartTime = DateTime.UtcNow.AddHours(5),
+                Duration = 60,
+                OwnerId = user.Id,
+                IsPublic = false,
                 Attendees = new List<FxMeetingAttendeeModel>()
                 {
                     new FxMeetingAttendeeModel()

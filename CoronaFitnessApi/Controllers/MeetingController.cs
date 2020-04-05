@@ -7,6 +7,7 @@ using CoronaFitnessBL.Meeting.Models;
 using CoronaFitnessBL.User.UserContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace CoronaFitnessApi.Controllers
 {
@@ -69,7 +70,10 @@ namespace CoronaFitnessApi.Controllers
                 Id = "",
                 Title = request.Title,
                 Description = request.Description,
-                OwnerId = currentUser.Id
+                OwnerId = currentUser.Id,
+                StartTime = request.StartTime,
+                Duration = request.Duration,
+                IsPublic = request.IsPublic
             });
             
             return Ok(true);

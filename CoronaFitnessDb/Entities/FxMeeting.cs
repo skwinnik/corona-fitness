@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -16,6 +17,12 @@ namespace CoronaFitnessDb.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string OwnerId { get; set; }
 
+        public DateTime StartTime { get; set; }
+
+        public int Duration { get; set; }
+        
+        public bool IsPublic { get; set; }
+
         public string SessionId { get; set; }
 
         public List<FxMeetingAttendee> Attendees { get; set; }
@@ -27,6 +34,7 @@ namespace CoronaFitnessDb.Entities
             this.Description = string.Empty;
             this.OwnerId = string.Empty;
             this.SessionId = string.Empty;
+            this.IsPublic = false;
             this.Attendees = new List<FxMeetingAttendee>();
         }
     }
