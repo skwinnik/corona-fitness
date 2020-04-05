@@ -36,13 +36,72 @@ namespace CoronaFitnessBL.Meeting
 
         public async Task<FxMeetingModel> GetMeeting(string id, string userId)
         {
-            var meeting = await dbContext.Meetings
-                .GetSingleAsync(m => m.Id == id);
+            var meeting = await GetMeetingDb(id);
 
             if (!IsAllowedToSeeMeeting(meeting, userId))
-                return null;
+                throw new ExNotFoundException<FxMeeting>();
 
             return new FxMeetingModel(meeting);
+        }
+
+        public async Task RequestToAttend(string id, string userId)
+        {
+            var meeting = await GetMeetingDb(id);
+
+            if (!IsAllowedToSeeMeeting(meeting, userId))
+                throw new ExNotFoundException<FxMeeting>();
+
+            if (meeting.AttendeeRequests.Any(a => a.UserId == userId))
+                return;
+
+            meeting.AttendeeRequests.Add(new FxMeetingAttendeeRequest() {UserId = userId});
+
+            await dbContext.Meetings.UpdateAsync(m => m.Id == meeting.Id,
+                new UpdateDefinitionBuilder<FxMeeting>()
+                    .Set(x => x.AttendeeRequests, meeting.AttendeeRequests));
+        }
+
+        public async Task<List<FxMeetingAttendeeRequestModel>> GetRequestsToAttend(string id, string userId)
+        {
+            var meeting = await GetMeetingDb(id);
+            if (meeting.OwnerId != userId)
+                return null;
+
+            return meeting.AttendeeRequests.Select(x => new FxMeetingAttendeeRequestModel(x)).ToList();
+        }
+
+        public async Task ApproveRequestToAttend(string id, string userId, string ownerId)
+        {
+            var meeting = await GetMeetingDb(id);
+            if (meeting.OwnerId != ownerId)
+                return;
+
+            var attendeeRequst = meeting.AttendeeRequests.Single(x => x.UserId == userId);
+            meeting.AttendeeRequests.Remove(attendeeRequst);
+            meeting.Attendees.Add(new FxMeetingAttendee()
+            {
+                UserId = attendeeRequst.UserId,
+                Role = EnOvSessionRole.PUBLISHER.ToString()
+            });
+
+            await this.dbContext.Meetings.UpdateAsync(m => m.Id == id,
+                new UpdateDefinitionBuilder<FxMeeting>()
+                    .Set(x => x.Attendees, meeting.Attendees)
+                    .Set(x => x.AttendeeRequests, meeting.AttendeeRequests));
+        }
+
+        public async Task RejectRequestToAttend(string id, string userId, string ownerId)
+        {
+            var meeting = await GetMeetingDb(id);
+            if (meeting.OwnerId != ownerId)
+                return;
+
+            var attendeeRequst = meeting.AttendeeRequests.Single(x => x.UserId == userId);
+            meeting.AttendeeRequests.Remove(attendeeRequst);
+
+            await this.dbContext.Meetings.UpdateAsync(m => m.Id == id,
+                new UpdateDefinitionBuilder<FxMeeting>()
+                    .Set(x => x.AttendeeRequests, meeting.AttendeeRequests));
         }
 
         public Task CreateMeeting(FxMeetingModel meeting)
@@ -104,6 +163,11 @@ namespace CoronaFitnessBL.Meeting
             return meeting.OwnerId == userId
                    || meeting.Attendees.Any(a => a.UserId == userId)
                    || meeting.IsPublic;
+        }
+
+        private Task<FxMeeting> GetMeetingDb(string meetingId)
+        {
+            return this.dbContext.Meetings.GetSingleAsync(m => m.Id == meetingId);
         }
     }
 }

@@ -20,12 +20,13 @@ namespace CoronaFitnessDb.Entities
         public DateTime StartTime { get; set; }
 
         public int Duration { get; set; }
-        
+
         public bool IsPublic { get; set; }
 
         public string SessionId { get; set; }
 
         public List<FxMeetingAttendee> Attendees { get; set; }
+        public List<FxMeetingAttendeeRequest> AttendeeRequests { get; set; }
 
         public FxMeeting()
         {
@@ -36,6 +37,7 @@ namespace CoronaFitnessDb.Entities
             this.SessionId = string.Empty;
             this.IsPublic = false;
             this.Attendees = new List<FxMeetingAttendee>();
+            this.AttendeeRequests = new List<FxMeetingAttendeeRequest>();
         }
     }
 
@@ -55,5 +57,13 @@ namespace CoronaFitnessDb.Entities
             this.UserId = string.Empty;
             this.Token = string.Empty;
         }
+    }
+
+    [BsonNoId]
+    public class FxMeetingAttendeeRequest
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; }
     }
 }

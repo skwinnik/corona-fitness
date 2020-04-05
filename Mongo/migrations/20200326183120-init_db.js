@@ -17,16 +17,29 @@ module.exports = {
                                 bsonType: "objectId"
                             },
                             startTime: {
-                                bsonType: "date"  
+                                bsonType: "date"
                             },
                             duration: {
                                 bsonType: "int"
                             },
                             isPublic: {
-                                bsonType: 'bool'  
+                                bsonType: 'bool'
                             },
                             sessionId: {
                                 bsonType: "string"
+                            },
+                            attendeeRequests: {
+                                bsonType: ["array"],
+                                description: 'list of requests to attend',
+                                items: {
+                                    bsonType: 'object',
+                                    required: ['userId'],
+                                    properties: {
+                                        userId: {
+                                            bsonType: 'objectId'
+                                        }
+                                    }
+                                }
                             },
                             attendees: {
                                 bsonType: ["array"],
