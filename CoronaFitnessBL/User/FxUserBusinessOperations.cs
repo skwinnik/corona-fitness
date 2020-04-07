@@ -52,6 +52,14 @@ namespace CoronaFitnessBL.User
                 .GetSingleAsync(x => x.IdentityId == identityId)
                 .ContinueWith(x => new FxUserModel(x.Result));
         }
+        
+        public async Task<List<FxUserModel>> GetById(List<string> ids)
+        {
+            var users = await DbContext.Users
+                .GetAsync(x => ids.Contains(x.Id));
+
+            return users.Select(x => new FxUserModel(x)).ToList();
+        }
 
         public Task<FxUserModel> GetByEmail(string email)
         {

@@ -48,7 +48,7 @@ namespace CoronaFitnessBL.Meeting
         {
             var meeting = await GetMeetingDb(id);
 
-            if (!IsAllowedToSeeMeeting(meeting, userId))
+            if (meeting == null || !IsAllowedToSeeMeeting(meeting, userId))
                 throw new ExNotFoundException<FxMeeting>();
 
             if (meeting.AttendeeRequests.Any(a => a.UserId == userId))

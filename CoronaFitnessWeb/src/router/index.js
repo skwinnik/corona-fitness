@@ -14,6 +14,7 @@ import meetingBase from '../pages/meeting/meetingBase.vue'
 import meetingList from '../pages/meeting/meetingList.vue'
 import meetingCreate from '../pages/meeting/meetingCreate.vue'
 import meetingView from '../pages/meeting/meetingView.vue'
+import meetingManage from '../pages/meeting/meetingManage.vue'
 import meetingConference from '../pages/meeting/meetingConference.vue'
 
 Vue.use(VueRouter);
@@ -30,6 +31,9 @@ const routes = [
                     },
                     {
                         path: 'view/:id', component: meetingView
+                    },
+                    {
+                        path: 'manage/:id', component: meetingManage
                     },
                     {
                         path: 'conference/:id', component: meetingConference

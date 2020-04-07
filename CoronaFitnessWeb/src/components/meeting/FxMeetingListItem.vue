@@ -10,9 +10,17 @@
                 Управление
             </router-link>
 
-            <button v-if="isAllowedToRequestAttend && !isAttendee"
-                    class="btn btn-outline-primary">
+            <button v-if="isAllowedToRequestAttend"
+                    class="btn btn-outline-primary"
+                    @click="$emit('requestToAttend', meeting.id)"
+            >
                 Хочу посетить
+            </button>
+
+            <button v-if="isAttendedRequested && !isAttendee && isAttendedRequested"
+                    class="btn btn-outline-primary" disabled
+            >
+                Запрос отправлен
             </button>
 
             <router-link v-if="isAttendee && meeting.isStarted"
@@ -49,15 +57,19 @@
         },
         computed: {
             isAllowedToManage: function () {
-                return this.currentUser.id === this.meeting.ownerId
+                return this.meeting.isOwner;
             },
 
             isAttendee: function () {
-                return !!this.meeting.attendees.find(a => a.userId === this.currentUser.id);
+                return this.meeting.isAttendee;
             },
 
             isAllowedToRequestAttend: function () {
-                return this.meeting.isPublic;
+                return this.meeting.isPublic && !this.meeting.isAttendeeRequested && !this.meeting.isAttendee;
+            },
+
+            isAttendedRequested: function () {
+                return this.meeting.isAttendeeRequested;
             },
 
             ...mapGetters(['currentUser'])

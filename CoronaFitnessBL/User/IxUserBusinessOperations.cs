@@ -10,6 +10,7 @@ namespace CoronaFitnessBL.User
         Task Create(FxUserModel user);
         Task SetCanCreateMeetings(string id, bool canCreate);
         Task<FxUserModel> GetByIdentityId(string identityId);
+        Task<List<FxUserModel>> GetById(List<string> ids);
         Task<FxUserModel> GetByEmail(string email);
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoronaFitnessApi.Model.Meeting;
 using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.Meeting.Models;
+using CoronaFitnessBL.User;
 using CoronaFitnessBL.User.UserContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +20,15 @@ namespace CoronaFitnessApi.Controllers
     {
         private readonly IxUserContext userContext;
         private readonly IxMeetingBusinessOperations meetingBop;
+        private readonly IxUserBusinessOperations userBop;
 
-        public MeetingController(IxUserContext userContext, IxMeetingBusinessOperations meetingBop)
+        public MeetingController(IxUserContext userContext,
+            IxMeetingBusinessOperations meetingBop,
+            IxUserBusinessOperations userBop)
         {
             this.userContext = userContext;
             this.meetingBop = meetingBop;
+            this.userBop = userBop;
         }
 
         /// <summary>
@@ -34,9 +40,10 @@ namespace CoronaFitnessApi.Controllers
         public async Task<IActionResult> GetMeetings()
         {
             var currentUser = await userContext.GetCurrentUser();
-            return Ok(await meetingBop.GetMeetings(currentUser));
+            var meetings = await meetingBop.GetMeetings(currentUser);
+            return Ok(meetings.Select(x => new MeetingViewModel(x, currentUser)));
         }
-        
+
         /// <summary>
         /// Returns meeting by id
         /// </summary>
@@ -47,7 +54,7 @@ namespace CoronaFitnessApi.Controllers
         {
             var currentUser = await userContext.GetCurrentUser();
             var meeting = await meetingBop.GetMeeting(id, currentUser.Id);
-            return Ok(meeting);
+            return Ok(new MeetingViewModel(meeting, currentUser));
         }
 
         /// <summary>
@@ -64,7 +71,7 @@ namespace CoronaFitnessApi.Controllers
 
             var currentUser = await userContext.GetCurrentUser();
             if (!currentUser.CanCreateMeetings) return NotFound();
-            
+
             await this.meetingBop.CreateMeeting(new FxMeetingModel()
             {
                 Id = "",
@@ -75,7 +82,7 @@ namespace CoronaFitnessApi.Controllers
                 Duration = request.Duration,
                 IsPublic = request.IsPublic
             });
-            
+
             return Ok(true);
         }
 
@@ -88,6 +95,43 @@ namespace CoronaFitnessApi.Controllers
             {
                 Token = await this.meetingBop.GetToken(meetingId, currentUser.Id)
             });
+        }
+
+        [HttpPost]
+        [Route("requestToAttend")]
+        public async Task<IActionResult> RequestToAttend(MeetingUserIdRequest request)
+        {
+            var currentUser = await this.userContext.GetCurrentUser();
+            await this.meetingBop.RequestToAttend(request.MeetingId, currentUser.Id);
+            return Ok(true);
+        }
+
+        [HttpGet]
+        [Route("getRequestsToAttend")]
+        public async Task<IActionResult> GetRequestsToAttend([FromQuery] MeetingUserIdRequest request)
+        {
+            var currentUser = await this.userContext.GetCurrentUser();
+            var requests = await this.meetingBop.GetRequestsToAttend(request.MeetingId, currentUser.Id);
+            var users = await this.userBop.GetById(requests.Select(r => r.UserId).ToList());
+            return Ok(users.Select(x => new RequestToAttendDto() {Name = x.Name, UserId = x.Id}));
+        }
+
+        [HttpPost]
+        [Route("rejectRequestToAttend")]
+        public async Task<IActionResult> RejectRequestToAttend(MeetingUserIdRequest request)
+        {
+            var currentUser = await this.userContext.GetCurrentUser();
+            await this.meetingBop.RejectRequestToAttend(request.MeetingId, request.UserId, currentUser.Id);
+            return Ok(true);
+        }
+
+        [HttpPost]
+        [Route("approveRequestToAttend")]
+        public async Task<IActionResult> ApproveRequestToAttend(MeetingUserIdRequest request)
+        {
+            var currentUser = await this.userContext.GetCurrentUser();
+            await this.meetingBop.ApproveRequestToAttend(request.MeetingId, request.UserId, currentUser.Id);
+            return Ok(true);
         }
     }
 }

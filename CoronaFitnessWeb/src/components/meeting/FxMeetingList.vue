@@ -1,6 +1,7 @@
 ﻿<template>
     <div class="meeting-list">
-        <FxMeetingListItem class="meeting-list__item" 
+        <FxMeetingListItem class="meeting-list__item"
+                           v-on:requestToAttend="onRequestToAttend"
                            v-for="meeting in meetings" :key="meeting.id"
                            v-bind:meeting="meeting"/>
     </div>
@@ -18,7 +19,12 @@
         },
 
         computed: mapGetters(['meetings']),
-        methods: mapActions(['loadMeetings']),
+        methods: {
+            onRequestToAttend: function (meetingId) {
+                this.requestToAttend(meetingId);
+            },
+            ...mapActions(['loadMeetings', 'requestToAttend'])
+        },
 
         mounted() {
             this.loadMeetings();

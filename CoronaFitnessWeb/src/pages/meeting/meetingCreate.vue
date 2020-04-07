@@ -1,14 +1,25 @@
 ﻿<template>
-    <FxMeetingCreate />
+    <FxMeetingEditor :meeting="meeting" />
 </template>
 
 <script>
-    import FxMeetingCreate from "../../components/meeting/FxMeetingCreate.vue";
+    import FxMeetingEditor from "../../components/meeting/FxMeetingEditor.vue";
     import {mapGetters} from 'vuex';
     
     export default {
-        components: {FxMeetingCreate},
+        components: {FxMeetingEditor},
         computed: mapGetters(['currentUser']),
+        data: function(){
+            return {
+                meeting: {
+                    title: '',
+                    description: '',
+                    startTime: new Date(),
+                    duration: 60,
+                    isPublic: true,
+                }
+            };
+        },
         mounted() {
             if (!this.currentUser.canCreateMeetings) {
                 this.$router.push('/');

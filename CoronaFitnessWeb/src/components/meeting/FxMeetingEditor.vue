@@ -74,13 +74,16 @@
             BFormDatepicker
         },
         computed: mapGetters(["currentUser"]),
+        props: {
+            meeting: Object
+        },
         data: function () {
             return {
-                title: '',
-                description: '',
-                startTime: new Date(),
-                duration: 60,
-                isPublic: true,
+                title: this.meeting.title,
+                description: this.meeting.description,
+                startTime: this.meeting.startTime,
+                duration: this.meeting.duration,
+                isPublic: this.meeting.isPublic,
                 dateEditor: {
                     model: moment(new Date()).format('YYYY-MM-DD'),
                     minDate: new Date()
@@ -117,7 +120,8 @@
                     duration: this.duration,
                     isPublic: this.isPublic
                 });
-                await this.$router.push('/');
+                
+                this.$emit('meetingSaved');
             },
 
             ...mapActions(['saveMeeting'])

@@ -11,11 +11,20 @@ export default {
         async saveMeeting(ctx, meeting) {
             await meetingService.saveMeeting(meeting);
             await ctx.dispatch('loadMeetings');
+        },
+        
+        async requestToAttend(ctx, meetingId) {
+            const response = await meetingService.requestToAttend(meetingId);
+            ctx.commit('updateMeetingRequestAttendeeStatus', { meetingId, result: response });
         }
     },
     mutations: {
         updateMeetingsList(state, data) {
             state.meetings = data;
+        },
+        
+        updateMeetingRequestAttendeeStatus(state, data) {
+            state.meetings.find(m => m.id === data.meetingId).isAttendeeRequested = data.result;
         }
     },
     state: {
