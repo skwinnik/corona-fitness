@@ -23,7 +23,12 @@
                 Запрос отправлен
             </button>
 
-            <router-link v-if="isAttendee && meeting.isStarted"
+            <button v-if="isAttendee && !isAllowedToStart && !meeting.isStarted"
+                         class="btn btn-outline-primary" disabled>
+                Ждём начала
+            </button>
+
+            <router-link v-if="isAttendee && (isAllowedToStart || meeting.isStarted)"
                          :to="{ path: '/meetings/conference/' + meeting.id }"
                          class="btn btn-outline-primary">
                 Подключиться
@@ -56,6 +61,10 @@
             meeting: Object
         },
         computed: {
+            isAllowedToStart: function () {
+                return this.meeting.isOwner;    
+            },
+            
             isAllowedToManage: function () {
                 return this.meeting.isOwner;
             },

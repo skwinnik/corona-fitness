@@ -109,6 +109,10 @@ namespace CoronaFitnessApi.Controllers
         public async Task<IActionResult> GetToken(string meetingId)
         {
             var currentUser = await this.userContext.GetCurrentUser();
+            var meeting = await this.meetingBop.GetMeeting(meetingId, currentUser.Id);
+            if (string.IsNullOrEmpty(meeting.SessionId) && meeting.OwnerId != currentUser.Id)
+                return NotFound("Meeting is not started yet");
+            
             return Ok(new GetTokenResponse()
             {
                 Token = await this.meetingBop.GetToken(meetingId, currentUser.Id)

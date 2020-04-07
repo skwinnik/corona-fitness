@@ -12,6 +12,7 @@ namespace CoronaFitnessBL.Meeting.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string OwnerId { get; set; }
+        public string SessionId { get; set; }
         public DateTime StartTime { get; set; }
         public int Duration { get; set; }
         public bool IsPublic { get; set; }
@@ -32,6 +33,7 @@ namespace CoronaFitnessBL.Meeting.Models
             this.StartTime = dbMeeting.StartTime;
             this.Duration = dbMeeting.Duration;
             this.OwnerId = dbMeeting.OwnerId;
+            this.SessionId = dbMeeting.SessionId;
             this.IsPublic = dbMeeting.IsPublic;
             this.Attendees = dbMeeting.Attendees
                 .Select(a => new FxMeetingAttendeeModel(a)).ToList();

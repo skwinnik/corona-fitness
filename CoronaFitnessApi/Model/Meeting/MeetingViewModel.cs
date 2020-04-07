@@ -18,6 +18,8 @@ namespace CoronaFitnessApi.Model.Meeting
         public bool IsOwner { get; set; }
         public bool IsAttendee { get; set; }
         public bool IsAttendeeRequested { get; set; }
+        
+        public bool IsStarted { get; set; }
 
         public MeetingViewModel()
         {
@@ -35,6 +37,8 @@ namespace CoronaFitnessApi.Model.Meeting
             this.IsOwner = model.OwnerId == currentUser.Id;
             this.IsAttendee = model.Attendees.Any(a => a.UserId == currentUser.Id);
             this.IsAttendeeRequested = model.AttendeeRequests.Any(a => a.UserId == currentUser.Id);
+
+            this.IsStarted = !string.IsNullOrEmpty(model.SessionId);
         }
     }
 }
