@@ -56,6 +56,7 @@ namespace CoronaFitnessBL.Meeting
         Task RejectRequestToAttend(string id, string userId, string ownerId);
 
         Task CreateMeeting(FxMeetingModel meeting);
+        Task UpdateMeeting(FxMeetingModel meeting);
         Task<string> GetToken(string meetingId, string userId);
     }
 }

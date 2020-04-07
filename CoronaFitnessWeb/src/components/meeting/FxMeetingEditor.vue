@@ -79,20 +79,19 @@
         },
         data: function () {
             return {
+                id: this.meeting.id,
                 title: this.meeting.title,
                 description: this.meeting.description,
                 startTime: this.meeting.startTime,
                 duration: this.meeting.duration,
                 isPublic: this.meeting.isPublic,
                 dateEditor: {
-                    model: moment(new Date()).format('YYYY-MM-DD'),
+                    model: moment(this.meeting.startTime).format('YYYY-MM-DD'),
                     minDate: new Date()
                 },
 
                 timeEditor: {
-                    model: moment(new Date())
-                        .add({hour: 1})
-                        .set({minute: 0, second: 0}).format('HH:mm')
+                    model: moment(this.meeting.startTime).format('HH:mm')
                 }
             };
         },
@@ -114,6 +113,7 @@
                     return;
 
                 await this.saveMeeting({
+                    id: this.id,
                     title: this.title,
                     description: this.description,
                     startTime: this.startTime,

@@ -34,11 +34,11 @@ namespace CoronaFitnessBL.Meeting
                     new FxMeetingModel(dbMeeting)).ToList());
         }
 
-        public async Task<FxMeetingModel> GetMeeting(string id, string userId)
+        public async Task<FxMeetingModel> GetMeeting(string id, string userId = null)
         {
             var meeting = await GetMeetingDb(id);
 
-            if (!IsAllowedToSeeMeeting(meeting, userId))
+            if (userId != null && !IsAllowedToSeeMeeting(meeting, userId))
                 throw new ExNotFoundException<FxMeeting>();
 
             return new FxMeetingModel(meeting);
@@ -111,6 +111,17 @@ namespace CoronaFitnessBL.Meeting
                     {UserId = meeting.OwnerId, Role = EnOvSessionRole.MODERATOR});
 
             return dbContext.Meetings.AddAsync(meeting.ToDbModel());
+        }
+
+        public async Task UpdateMeeting(FxMeetingModel meeting)
+        {
+            await this.dbContext.Meetings.UpdateAsync(m => m.Id == meeting.Id,
+                new UpdateDefinitionBuilder<FxMeeting>()
+                    .Set(x => x.Title, meeting.Title)
+                    .Set(x => x.Description, meeting.Description)
+                    .Set(x => x.StartTime, meeting.StartTime)
+                    .Set(x => x.Duration, meeting.Duration)
+            );
         }
 
         public async Task<string> GetToken(string meetingId, string userId)

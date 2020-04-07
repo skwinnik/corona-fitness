@@ -66,10 +66,28 @@ namespace CoronaFitnessApi.Controllers
         [Route("saveMeeting")]
         public async Task<IActionResult> SaveMeeting(SaveMeetingRequest request)
         {
-            if (!string.IsNullOrEmpty(request.Id))
-                throw new NotImplementedException("Editing is not yet implemented");
-
             var currentUser = await userContext.GetCurrentUser();
+
+            if (!string.IsNullOrEmpty(request.Id))
+            {
+                var m = await this.meetingBop.GetMeeting(request.Id, currentUser.Id);
+                if (m.OwnerId == currentUser.Id)
+                {
+                    await this.meetingBop.UpdateMeeting(new FxMeetingModel()
+                    {
+                        Id = request.Id,
+                        Title = request.Title,
+                        Description = request.Description,
+                        StartTime = request.StartTime,
+                        Duration = request.Duration
+                    });
+
+                    return Ok();
+                }
+
+                return NotFound();
+            }
+
             if (!currentUser.CanCreateMeetings) return NotFound();
 
             await this.meetingBop.CreateMeeting(new FxMeetingModel()

@@ -1,7 +1,10 @@
 ﻿<template>
     <BTabs>
         <BTab title="Запросы">
-            <FxMeetingRequests :meeting-id="meetingId" :requests="attendeeRequests"/>
+            <FxMeetingRequests v-if="attendeeRequests && attendeeRequests.length > 0" :meeting-id="meetingId" :requests="attendeeRequests"/>
+            <div class="text-muted text-center mt-3" v-if="!attendeeRequests || attendeeRequests.length === 0">
+                Запросов нет
+            </div>
         </BTab>
 
         <BTab title="Редактировать" v-if="currentMeeting">
