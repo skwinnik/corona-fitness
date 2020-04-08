@@ -6,7 +6,7 @@
                 <input ref="copyElement" id="copy" name="copy" class="form-control" type="text" readonly v-model="viewUrl"/>
                 <div class="input-group-append">
                     <button class="btn btn-secondary" @click="copyViewUrl()">
-                        <BIconClipboard/>
+                        <BIconClipboard />
                     </button>
                 </div>
             </div>
@@ -37,12 +37,12 @@
     const {mapActions, mapGetters} = createNamespacedHelpers('meetings/manage');
 
     export default {
+        components: {FxMeetingRequests, FxMeetingEditor},
         data: function () {
             return {
                 meetingId: this.$route.params.id
             };
         },
-
         watch: {
             $route: function (from, to) {
                 this.meetingId = to.params.id;
@@ -50,8 +50,6 @@
                 this.loadMeeting(this.meetingId);
             }
         },
-
-        components: {FxMeetingRequests, FxMeetingEditor},
         computed: {
             viewUrl: function () {
                 return window.location.protocol + '//' + window.location.host + '/#/meetings/view/' + this.meetingId;
@@ -62,15 +60,14 @@
             copyViewUrl() {
                 this.$refs.copyElement.select();
                 document.execCommand('copy');
+                this.$toastr.s('Скопировано');
             },
             ...mapActions(['loadMeeting', 'loadRequests', 'clearCurrentMeeting'])
         },
-
         mounted() {
             this.loadRequests(this.$route.params.id);
             this.loadMeeting(this.$route.params.id);
         },
-
         beforeRouteLeave(to, from, next) {
             this.clearCurrentMeeting();
             next();

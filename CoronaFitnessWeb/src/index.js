@@ -21,6 +21,14 @@ Vue.use(VueMoment, { moment });
 
 //#endregion
 
+//#region
+import VueToastr from "vue-toastr";
+Vue.use(VueToastr, {
+    defaultTimeout: 1000,
+    defaultProgressBar: false
+});
+//#endregion
+
 import Root from './root.vue'
 Vue.component('Root', Root);
 
