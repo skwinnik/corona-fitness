@@ -1,16 +1,31 @@
 ﻿<template>
-    <BTabs>
-        <BTab title="Запросы">
-            <FxMeetingRequests v-if="attendeeRequests && attendeeRequests.length > 0" :meeting-id="meetingId" :requests="attendeeRequests"/>
-            <div class="text-muted text-center mt-3" v-if="!attendeeRequests || attendeeRequests.length === 0">
-                Запросов нет
+    <div>
+        <div class="form-group">
+            <label for="copy">Ссылка для вступления</label>
+            <div class="input-group">
+                <input ref="copyElement" id="copy" name="copy" class="form-control" type="text" readonly v-model="viewUrl"/>
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" @click="copyViewUrl()">
+                        <BIconClipboard/>
+                    </button>
+                </div>
             </div>
-        </BTab>
+        </div>
+        <BTabs>
+            <BTab title="Запросы">
+                <FxMeetingRequests v-if="attendeeRequests && attendeeRequests.length > 0" :meeting-id="meetingId"
+                                   :requests="attendeeRequests"/>
+                <div class="text-muted text-center mt-3" v-if="!attendeeRequests || attendeeRequests.length === 0">
+                    Запросов нет
+                </div>
+            </BTab>
 
-        <BTab title="Редактировать" v-if="currentMeeting">
-            <FxMeetingEditor :meeting="currentMeeting" />
-        </BTab>
-    </BTabs>
+            <BTab title="Редактировать" v-if="currentMeeting">
+                <FxMeetingEditor :meeting="currentMeeting"/>
+            </BTab>
+        </BTabs>
+    </div>
+
 </template>
 
 <script>
@@ -33,13 +48,23 @@
                 this.meetingId = to.params.id;
                 this.loadRequests(this.meetingId);
                 this.loadMeeting(this.meetingId);
-
             }
         },
 
         components: {FxMeetingRequests, FxMeetingEditor},
-        computed: mapGetters(['currentMeeting', 'attendeeRequests']),
-        methods: mapActions(['loadMeeting', 'loadRequests', 'clearCurrentMeeting']),
+        computed: {
+            viewUrl: function () {
+                return window.location.protocol + '//' + window.location.host + '/#/meetings/view/' + this.meetingId;
+            },
+            ...mapGetters(['currentMeeting', 'attendeeRequests'])
+        },
+        methods: {
+            copyViewUrl() {
+                this.$refs.copyElement.select();
+                document.execCommand('copy');
+            },
+            ...mapActions(['loadMeeting', 'loadRequests', 'clearCurrentMeeting'])
+        },
 
         mounted() {
             this.loadRequests(this.$route.params.id);
