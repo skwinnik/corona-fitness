@@ -11,6 +11,10 @@ export default {
         return http.get(serviceUrl + 'getMeetingById', {id});
     },
 
+    getAttendees(meetingId) {
+        return http.get(serviceUrl + 'getAttendees', {meetingId});
+    },
+
     saveMeeting(meeting) {
         return http.post(serviceUrl + 'saveMeeting', meeting);
     },
@@ -33,5 +37,9 @@ export default {
 
     approveRequestToAttend(meetingId, userId) {
         return http.post(serviceUrl + 'approveRequestToAttend', {meetingId, userId});
+    },
+    
+    removeAttendee(meetingId, userId) {
+        return http.post(serviceUrl + 'removeAttendee', {meetingId, userId})
     }
 }

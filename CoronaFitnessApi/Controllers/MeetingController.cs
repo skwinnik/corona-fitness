@@ -56,6 +56,34 @@ namespace CoronaFitnessApi.Controllers
             var meeting = await meetingBop.GetMeeting(id, currentUser.Id);
             return Ok(new MeetingViewModel(meeting, currentUser));
         }
+        
+        /// <summary>
+        /// Returns attendees from a meeting
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("getAttendees")]
+        public async Task<IActionResult> GetAttendees(string meetingId)
+        {
+            var currentUser = await userContext.GetCurrentUser();
+            var attendees = await meetingBop.GetAttendees(meetingId, currentUser.Id);
+            var users = await this.userBop.GetById(attendees.Select(r => r.UserId).ToList());
+
+            return Ok(users.Select(x => new AttendeeDto() {Name = x.Name, UserId = x.Id}));
+        }
+        
+        /// <summary>
+        /// Remove attendee from a meeting
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("removeAttendee")]
+        public async Task<IActionResult> RemoveAttendee(MeetingUserIdRequest request)
+        {
+            var currentUser = await userContext.GetCurrentUser();
+            await this.meetingBop.RemoveAttendee(request.MeetingId, request.UserId, currentUser.Id);
+            return Ok();
+        }
 
         /// <summary>
         /// If ID is null, creates a new meeting; otherwise updates an existing one

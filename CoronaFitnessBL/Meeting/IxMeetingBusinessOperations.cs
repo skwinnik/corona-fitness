@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CoronaFitnessBL.Meeting.Models;
 using CoronaFitnessBL.User.Models;
+using CoronaFitnessDb.Entities;
 
 namespace CoronaFitnessBL.Meeting
 {
@@ -20,6 +21,14 @@ namespace CoronaFitnessBL.Meeting
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<FxMeetingModel> GetMeeting(string id, string userId);
+        
+        /// <summary>
+        /// Get a meeting by id for specified user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<FxMeetingAttendeeModel>> GetAttendees(string id, string userId);
 
         /// <summary>
         /// Add user to meeting as AttendeeRequest
@@ -54,6 +63,8 @@ namespace CoronaFitnessBL.Meeting
         /// <param name="ownerId"></param>
         /// <returns></returns>
         Task RejectRequestToAttend(string id, string userId, string ownerId);
+
+        Task RemoveAttendee(string id, string attendeeId, string ownerId);
 
         Task CreateMeeting(FxMeetingModel meeting);
         Task UpdateMeeting(FxMeetingModel meeting);

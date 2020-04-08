@@ -10,6 +10,11 @@ export default {
         async clearCurrentMeeting(ctx) {
             ctx.commit('updateCurrentMeeting', null);
         },
+
+        async loadAttendees(ctx, meetingId) {
+            const response = await meetingService.getAttendees(meetingId);
+            ctx.commit('updateAttendees', response);
+        },
         
         async loadRequests(ctx, meetingId) {
             const response = await meetingService.getRequestsToAttend(meetingId);
@@ -24,9 +29,18 @@ export default {
         async reject(ctx, data) {
             const response = await meetingService.rejectRequestToAttend(data.meetingId, data.userId);
             ctx.commit('requestRejected', {userId: data.userId, result: response === true});
+        },
+        
+        async removeAttendee(ctx, data) {
+            await meetingService.removeAttendee(data.meetingId, data.userId);
+            ctx.commit('attendeeRemoved', data.userId);
         }
     },
     mutations: {
+        updateAttendees(state, data) {
+            state.attendees = data;
+        },
+        
         updateAttendeeRequests(state, data) {
             state.attendeeRequests = data;
         },
@@ -49,6 +63,14 @@ export default {
             let inx = state.attendeeRequests.findIndex(x => x.userId === data.userId);
             if (inx > -1)
                 state.attendeeRequests.splice(inx, 1);
+        },
+        
+        attendeeRemoved(state, userId) {
+            if (!state.attendees || !state.attendees.length) return;
+            
+            let inx = state.attendees.findIndex(x => x.userId === userId);
+            if (inx > -1)
+                state.attendees.splice(inx, 1);
         }
     },
     state: {
@@ -60,9 +82,13 @@ export default {
         currentMeeting(state) {
             return state.currentMeeting;
         },
-        
+
         attendeeRequests(state) {
             return state.attendeeRequests;
+        },
+
+        attendees(state) {
+            return state.attendees;
         }
     }
 }

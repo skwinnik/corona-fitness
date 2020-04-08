@@ -44,6 +44,12 @@ namespace CoronaFitnessBL.Meeting
             return new FxMeetingModel(meeting);
         }
 
+        public async Task<List<FxMeetingAttendeeModel>> GetAttendees(string id, string userId)
+        {
+            var meeting = await this.GetMeeting(id, userId);
+            return meeting.Attendees.Select(x => new FxMeetingAttendeeModel() {UserId = x.UserId}).ToList();
+        }
+
         public async Task RequestToAttend(string id, string userId)
         {
             var meeting = await GetMeetingDb(id);
@@ -102,6 +108,20 @@ namespace CoronaFitnessBL.Meeting
             await this.dbContext.Meetings.UpdateAsync(m => m.Id == id,
                 new UpdateDefinitionBuilder<FxMeeting>()
                     .Set(x => x.AttendeeRequests, meeting.AttendeeRequests));
+        }
+
+        public async Task RemoveAttendee(string id, string attendeeId, string ownerId)
+        {
+            var meeting = await GetMeetingDb(id);
+            if (meeting.OwnerId != ownerId || attendeeId == ownerId)
+                return;
+
+            var attendee = meeting.Attendees.Find(x => x.UserId == attendeeId);
+            meeting.Attendees.Remove(attendee);
+
+            await this.dbContext.Meetings.UpdateAsync(m => m.Id == id,
+                new UpdateDefinitionBuilder<FxMeeting>()
+                    .Set(x => x.Attendees, meeting.Attendees));
         }
 
         public Task CreateMeeting(FxMeetingModel meeting)
