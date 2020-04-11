@@ -3,10 +3,11 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
     entry: {
+        polyfill: ['@babel/polyfill', 'whatwg-fetch'],
         app: './src'
     },
     output: {
-        filename: 'app.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
     module: {
@@ -16,7 +17,8 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loader: {
-                        scss: 'vue-style-loader!css-loader!sass-loader'
+                        scss: 'vue-style-loader!css-loader!sass-loader',
+                        
                     }
                 }
             },
@@ -34,6 +36,10 @@ module.exports = {
                     'css-loader',
                     'sass-loader'
                 ]
+            },
+            {
+                test: /\.js$/,
+                use: 'babel-loader'
             }
         ]
     },
@@ -41,6 +47,7 @@ module.exports = {
         new VueLoaderPlugin()
     ],
     resolve: {
+        extensions: [ '.js', '.vue' ],
         alias: {
             'vue$': 'vue/dist/vue.js'
         }
