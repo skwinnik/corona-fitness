@@ -1,59 +1,60 @@
 ﻿<template>
-    <div class="fx-conference row">
-        <FxVideo v-if="publisher && publisher.stream" :stream-manager="publisher" :class="gridClass"/>
+    <div class="fx-conference"
+         :class="{'fx-conference_personal-view': focusedConnectionId !== null, 'fx-conference_grid-view': focusedConnectionId === null}">
+        <FxMeetingConferenceLayoutControls class="fx-conference__controls"/>
+        <FxVideo v-if="publisher && publisher.stream"
+                 :stream-manager="publisher"
+                 class="fx-conference__item"
+                 :class="{'fx-conference__item_selected' : focusedConnectionId === publisher.stream.connection.connectionId }"/>
 
         <FxVideo v-for="subscriber in subscribers"
                  :key="subscriber.stream.connection.connectionId"
                  :stream-manager="subscriber"
-                 :class="gridClass"
-        />
+                 class="fx-conference__item"
+                 :class="{'fx-conference__item_selected' : focusedConnectionId === subscriber.stream.connection.connectionId }"/>
     </div>
 </template>
 
 <script>
     import {OpenVidu} from 'openvidu-browser';
     import FxVideo from "./FxVideo.vue";
+    import {createNamespacedHelpers} from 'vuex';
+    import FxMeetingConferenceLayoutControls from "./FxMeetingConferenceLayoutControls.vue";
+
+    const {mapGetters, mapActions} = createNamespacedHelpers('meetings/conferenceUi');
 
     export default {
-        components: {FxVideo},
+        components: {FxMeetingConferenceLayoutControls, FxVideo},
         props: {
             token: String
         },
-        data: function () {
-            return {
-                session: null,
-                publisher: null,
-                subscribers: null,
 
-                gridClass: 'col-12'
-            };
+        computed: {
+            ...mapGetters(['session', 'publisher', 'subscribers', 'focusedConnectionId', 'videosCount'])
+        },
+
+        methods: {
+            ...mapActions(['setSession', 'setPublisher', 'addSubscriber', 'removeSubscriber'])
         },
 
         mounted() {
             let ov = new OpenVidu();
-            this.session = ov.initSession();
-            this.subscribers = [];
 
+            this.setSession(ov.initSession());
             this.session.connect(this.token).then(() => {
-                this.publisher = ov.initPublisher();
-                this.session.publish(this.publisher);
+                const publisher = ov.initPublisher();
+                this.session.publish(publisher);
+                this.setPublisher(publisher);
             });
 
             this.session.on('streamCreated', event => {
-                this.subscribers.push(this.session.subscribe(event.stream));
+                const subscriber = this.session.subscribe(event.stream);
+                this.addSubscriber(subscriber);
             });
 
             this.session.on('streamDestroyed', event => {
-                let inx = this.subscribers.findIndex(x => x.stream.connection.connectionId === event.stream.connection.connectionId);
-                if (inx > -1)
-                    this.subscribers.splice(inx, 1);
+                this.removeSubscriber(event.stream.connection.connectionId);
             });
-        },
-
-        watch: {
-            subscribers: function () {
-                this.gridClass = 'col-' + (12 / (this.subscribers.length + 1));
-            }
         },
 
         beforeDestroy() {
@@ -63,8 +64,37 @@
 </script>
 
 <style lang="scss">
+    $grid-el-min-width: 200px;
+    $personal-el-min-width: 100px;
+
     .fx-conference {
+        $self: &;
         display: flex;
         align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        &__controls {
+            flex: 0 0 100%;
+        }
+
+        &__item {
+            flex: 1 0 $grid-el-min-width;
+        }
+
+        &.fx-conference_personal-view {
+            #{$self}__item {
+                order: 2;
+                max-height: 80vh;
+                width: $personal-el-min-width;
+                flex: 0 0 $personal-el-min-width;
+                
+                &_selected {
+                    display: flex;
+                    flex: 1 1 100%;
+                    order: 1;
+                }
+            }
+        }
     }
 </style>
