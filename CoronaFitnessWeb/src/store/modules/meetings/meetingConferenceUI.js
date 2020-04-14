@@ -1,8 +1,24 @@
 ﻿import meetingService from "../../../api/meetingService.js";
+import {OpenVidu} from 'openvidu-browser';
 
 export default {
     namespaced: true,
     actions: {
+        initOv(ctx) {
+            ctx.commit('setOv', new OpenVidu());
+        },
+
+        initSession(ctx, ov) {
+            ctx.commit('setSession', ov.initSession());
+        },
+
+        initPublisher(ctx, ov) {
+            ctx.commit('setPublisher', ov.initPublisher(undefined, {
+                publishAudio: false,
+                publishVideo: false
+            }));
+        },
+        
         setSession(ctx, session) {
             ctx.commit('setSession', session);
         },
@@ -21,9 +37,25 @@ export default {
         
         setFocusedConnectionId(ctx, id) {
             ctx.commit('setFocusedConnectionId', id)
+        },
+        
+        toggleMic(ctx, enable) {
+            ctx.commit('toggleMic', enable);
+        },
+        
+        toggleVideo(ctx, enable) {
+            ctx.commit('toggleVideo', enable);     
+        },
+        
+        toggleFullscreen(ctx, enable) {
+            ctx.commit('toggleFullscreen', enable);
         }
     },
     mutations: {
+        setOv(state, ov) {
+            state.ov = ov;    
+        },
+        
         setSession(state, session) {
             state.session = session;
         },
@@ -44,15 +76,35 @@ export default {
         
         setFocusedConnectionId(state, id) {
             state.focusedConnectionId = id;
+        },
+
+        toggleMic(state, enable) {
+            state.publisher.publishAudio(enable);
+        },
+
+        toggleVideo(state, enable) {
+            state.publisher.publishVideo(enable);
+        },
+        
+        toggleFullscreen(state, enable) {
+            state.isFullscreen = enable;
         }
     },
     state: {
+        ov: null,
+        session: null,
         publisher: null,
         subscribers: [],
         focusedConnectionId: null,
-        session: null
+        isFullscreen: false
     },
     getters: {
+        ov(state) {
+            return state.ov;
+        },
+        session(state) {
+            return state.session;
+        },
         publisher(state) {
             return state.publisher;
         },
@@ -60,17 +112,16 @@ export default {
         subscribers(state) {
             return state.subscribers;
         },
-
-        session(state) {
-            return state.session;
-        },
-
         videosCount(state) {
             return state.subscribers.length + 1; //(publisher)
         },
 
         focusedConnectionId(state) {
             return state.focusedConnectionId;
+        },
+        
+        isFullscreen(state) {
+            return state.isFullscreen;
         }
     }
 }

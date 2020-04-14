@@ -1,34 +1,41 @@
 ﻿<template>
-    <div class="text-right">
+    <div>
+        <button class="btn btn-secondary" @click="onFullscreenClick()">
+            <BIconFullscreen/>
+        </button>
         <button class="btn btn-secondary" @click="onGridLayoutClick()">
-            <BIconGrid3x2Gap />
+            <BIconGrid3x2Gap/>
         </button>
         <button class="btn btn-secondary" @click="onPersonLayoutClick()">
-            <BIconPersonFill />
+            <BIconPersonFill/>
         </button>
     </div>
 </template>
 
 <script>
     import {createNamespacedHelpers} from 'vuex';
+
     const {mapGetters, mapActions} = createNamespacedHelpers('meetings/conferenceUi');
-    
+
     export default {
         computed: {
-            ...mapGetters(['publisher'])
+            ...mapGetters(['publisher', 'isFullscreen'])
         },
         methods: {
-            onPersonLayoutClick(){
+            onPersonLayoutClick() {
                 this.setFocusedConnectionId(this.publisher.stream.connection.connectionId);
             },
-            onGridLayoutClick(){
+            onGridLayoutClick() {
                 this.setFocusedConnectionId(null);
             },
-            ...mapActions(['setFocusedConnectionId'])
+            onFullscreenClick() {
+                this.toggleFullscreen(!this.isFullscreen);
+            },
+            ...mapActions(['setFocusedConnectionId', 'toggleFullscreen'])
         }
     }
 </script>
 
 <style>
-    
+
 </style>
