@@ -132,6 +132,7 @@
         
         &__swipe-container {
             display: flex;
+            overflow-x: auto;
         }
 
         &__item {
