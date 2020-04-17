@@ -18,16 +18,21 @@
             streamManager: Object,
             connectionId: String
         },
-        
+
         computed: {
-          userName() {
-              return this.streamManager.stream.connection.data;
-          }
+            userName() {
+                return this.streamManager.stream.connection.data;
+            },
+            ...mapGetters(['focusedConnectionId'])
         },
 
         methods: {
             onVideoClick() {
-                this.setFocusedConnectionId(this.connectionId);
+                if (this.focusedConnectionId === this.connectionId) {
+                    this.setFocusedConnectionId(null)
+                } else {
+                    this.setFocusedConnectionId(this.connectionId);
+                }
             },
             ...mapActions(['setFocusedConnectionId'])
         },
@@ -47,18 +52,13 @@
 <style lang="scss" scoped>
     .fx-video {
         position: relative;
-        border: 5px solid transparent;
-        border-radius: 2px;
-        transition: border-color 0.2s;
-        
+
         &:hover {
-            border-color: lightgreen;
-            
             .fx-video__name {
                 opacity: 1;
             }
         }
-        
+
         &__video {
             height: 100%;
             width: 100%;
@@ -72,20 +72,20 @@
             font-size: 100px;
             background-color: #f2f2f2;
         }
-        
+
         &__name {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            
+
             background: rgba(0, 0, 0, 0.5);
             color: white;
-            
+
             text-align: center;
             height: 2em;
             line-height: 2;
-            
+
             opacity: 0;
             transition: opacity .2s;
         }

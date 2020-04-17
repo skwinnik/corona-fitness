@@ -84,32 +84,60 @@
     $speaker-view-swipe-container-height: 120px;
     $controls-height: 50px;
     $controls-margin: 30px;
+    $header-height: 70px;
     
     .fx-conference {
         overflow: hidden;
         width: 100%;
-        height: 800px;
+        height: calc(100vh - #{$header-height});
         
+        &.fx-conference_speaker-view {
+            position: relative;
+            height: auto;
+            
+            .fx-conference__speaker-container {
+                display: flex;
+                height: 100%;
+                
+                .fx-conference__item {
+                    border-color: transparent;
+                }
+            }
+            
+            .fx-conference__swipe-container {
+                display: none;
+                height: $speaker-view-swipe-container-height;
+            }
+            
+            .fx-conference__controls {
+                position: absolute;
+                width: 100%;
+                z-index: 2;
+                
+                &_top {
+                    top: 0;
+                }
+                
+                &_bottom {
+                    bottom: 0;
+                }
+            }
+        }
+
         &.fx-conference_fullscreen {
             position: absolute;
             left: 0;
             top: 0;
             height: 100vh;
-            padding: 20px 0;
-            background: #f2f2f2;
-        }
-        
-        &.fx-conference_speaker-view {
-            .fx-conference__speaker-container {
-                display: flex;
-                height: calc(100%
-                - #{$speaker-view-swipe-container-height} 
-                - #{2 * $controls-height} 
-                - #{2 * $controls-margin});    
-            }
+            background: black;
             
-            .fx-conference__swipe-container {
-                height: $speaker-view-swipe-container-height;
+            .fx-conference__controls {
+                opacity: 0.3;
+                transition: opacity 0.2s;
+
+                &:hover, &:focus, &:active {
+                    opacity: 1;
+                }
             }
         }
         
@@ -133,10 +161,21 @@
         &__swipe-container {
             display: flex;
             overflow-x: auto;
+
+            height: calc(100%
+            - #{2 * $controls-height}
+            - #{2 * $controls-margin});
         }
 
         &__item {
             flex: 1 0 200px;
+            border: 5px solid transparent;
+            border-radius: 2px;
+            transition: border-color 0.2s;
+            
+            &:hover {
+                border-color: lightgreen;
+            }
         }
     }
 </style>
