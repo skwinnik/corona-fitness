@@ -44,6 +44,10 @@
         watch: {
             connectionId() {
                 this.streamManager.addVideoElement(this.$refs.videoElement);
+            },
+            
+            streamManager() {
+                this.streamManager.addVideoElement(this.$refs.videoElement);
             }
         }
     }
@@ -75,7 +79,7 @@
 
         &__name {
             position: absolute;
-            bottom: 0;
+            bottom: 50px;
             left: 0;
             width: 100%;
 

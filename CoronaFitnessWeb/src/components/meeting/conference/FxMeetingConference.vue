@@ -43,16 +43,23 @@
         computed: {
             streamManagers() {
                 const streamManagers = [this.publisher, ...this.subscribers];
-                return streamManagers.filter(sm => sm.stream.connection.connectionId !== this.focusedConnectionId);
+                return streamManagers.filter(sm => sm
+                    && sm.stream
+                    && sm.stream.connection
+                    && sm.stream.connection.connectionId !== this.focusedConnectionId);
             },
             speakerStreamManager() {
-                return [this.publisher, ...this.subscribers].find(sm => sm.stream.connection.connectionId === this.focusedConnectionId);  
+                return [this.publisher, ...this.subscribers]
+                    .find(sm => sm 
+                        && sm.stream 
+                        && sm.stream.connection 
+                        && sm.stream.connection.connectionId === this.focusedConnectionId);  
             },
             ...mapGetters(['ov', 'session', 'publisher', 'subscribers', 'focusedConnectionId', 'videosCount', 'isFullscreen'])
         },
 
         methods: {
-            ...mapActions(['initOv', 'initSession', 'initPublisher', 'addSubscriber', 'removeSubscriber'])
+            ...mapActions(['initOv', 'initSession', 'initPublisherNoVideo', 'addSubscriber', 'removeSubscriber'])
         },
 
         mounted() {
@@ -60,8 +67,7 @@
             this.initSession(this.ov);
 
             this.session.connect(this.token).then(() => {
-                this.initPublisher(this.ov);
-                this.session.publish(this.publisher);
+                this.initPublisherNoVideo(this.ov);
             });
 
             this.session.on('streamCreated', event => {
@@ -93,7 +99,6 @@
         
         &.fx-conference_speaker-view {
             position: relative;
-            height: auto;
             
             .fx-conference__speaker-container {
                 display: flex;
@@ -160,8 +165,9 @@
         
         &__swipe-container {
             display: flex;
-            overflow-x: auto;
-
+            flex-wrap: wrap;
+            align-items: flex-start;
+            
             height: calc(100%
             - #{2 * $controls-height}
             - #{2 * $controls-margin});
@@ -172,9 +178,14 @@
             border: 5px solid transparent;
             border-radius: 2px;
             transition: border-color 0.2s;
+            cursor: pointer;
             
             &:hover {
                 border-color: lightgreen;
+            }
+            
+            @media (max-width: 767px) {
+                flex-basis: 100px;
             }
         }
     }

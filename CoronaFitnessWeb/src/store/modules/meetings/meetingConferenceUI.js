@@ -12,11 +12,23 @@ export default {
             ctx.commit('setSession', ov.initSession());
         },
 
-        initPublisher(ctx, ov) {
-            ctx.commit('setPublisher', ov.initPublisher(undefined, {
+        initPublisherNoVideo(ctx, ov) {
+            const publisher = ov.initPublisher(undefined, {
                 publishAudio: false,
-                publishVideo: false
-            }));
+                publishVideo: false,
+                videoSource: null
+            });
+            ctx.getters.session.publish(publisher)
+            ctx.commit('setPublisher', publisher);
+        },
+
+        initPublisherVideo(ctx, ov) {
+            const publisher = ov.initPublisher(undefined, {
+                publishAudio: false,
+                publishVideo: true
+            });
+            ctx.getters.session.publish(publisher)
+            ctx.commit('setPublisher', publisher);
         },
         
         setSession(ctx, session) {
@@ -44,7 +56,9 @@ export default {
         },
         
         toggleVideo(ctx, enable) {
-            ctx.commit('toggleVideo', enable);     
+            ctx.getters.session.unpublish(ctx.getters.publisher);
+            let action = enable ? 'initPublisherVideo' : 'initPublisherNoVideo';
+            ctx.dispatch(action, ctx.getters.ov);
         },
         
         toggleFullscreen(ctx, enable) {
