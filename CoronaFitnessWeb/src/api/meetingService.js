@@ -41,5 +41,10 @@ export default {
     
     removeAttendee(meetingId, userId) {
         return http.post(serviceUrl + 'removeAttendee', {meetingId, userId})
+    },
+    
+    //new api
+    archive(meetingId) {
+        return http.post2(serviceUrl + `${meetingId}/archive`);
     }
 }

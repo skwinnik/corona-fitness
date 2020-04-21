@@ -25,6 +25,9 @@ module.exports = {
                             isPublic: {
                                 bsonType: 'bool'
                             },
+                            isArchived: {
+                                bsonType: 'bool'
+                            },
                             sessionId: {
                                 bsonType: "string"
                             },

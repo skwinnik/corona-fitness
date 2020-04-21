@@ -22,6 +22,8 @@ namespace CoronaFitnessDb.Entities
         public int Duration { get; set; }
 
         public bool IsPublic { get; set; }
+        
+        public bool IsArchived { get; set; }
 
         public string SessionId { get; set; }
 
@@ -36,6 +38,7 @@ namespace CoronaFitnessDb.Entities
             this.OwnerId = string.Empty;
             this.SessionId = string.Empty;
             this.IsPublic = false;
+            this.IsArchived = false;
             this.Attendees = new List<FxMeetingAttendee>();
             this.AttendeeRequests = new List<FxMeetingAttendeeRequest>();
         }

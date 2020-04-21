@@ -16,6 +16,7 @@ namespace CoronaFitnessBL.Meeting.Models
         public DateTime StartTime { get; set; }
         public int Duration { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsArchived { get; set; }
         public List<FxMeetingAttendeeModel> Attendees { get; set; }
         public List<FxMeetingAttendeeRequestModel> AttendeeRequests { get; set; }
 
@@ -35,6 +36,7 @@ namespace CoronaFitnessBL.Meeting.Models
             this.OwnerId = dbMeeting.OwnerId;
             this.SessionId = dbMeeting.SessionId;
             this.IsPublic = dbMeeting.IsPublic;
+            this.IsArchived = dbMeeting.IsArchived;
             this.Attendees = dbMeeting.Attendees
                 .Select(a => new FxMeetingAttendeeModel(a)).ToList();
             this.AttendeeRequests =
@@ -53,6 +55,7 @@ namespace CoronaFitnessBL.Meeting.Models
                 Duration = this.Duration,
                 SessionId = string.Empty,
                 IsPublic = this.IsPublic,
+                IsArchived = this.IsArchived,
                 Attendees = this.Attendees.Select(x => x.ToDbModel()).ToList(),
                 AttendeeRequests = this.AttendeeRequests.Select(x => x.ToDbModel()).ToList()
             };

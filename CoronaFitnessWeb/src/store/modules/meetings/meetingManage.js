@@ -34,6 +34,12 @@ export default {
         async removeAttendee(ctx, data) {
             await meetingService.removeAttendee(data.meetingId, data.userId);
             ctx.commit('attendeeRemoved', data.userId);
+        },
+        
+        async archive(ctx, meetingId) {
+            let response = await meetingService.archive(meetingId);
+            debugger;
+            ctx.commit('archive');
         }
     },
     mutations: {
@@ -71,6 +77,10 @@ export default {
             let inx = state.attendees.findIndex(x => x.userId === userId);
             if (inx > -1)
                 state.attendees.splice(inx, 1);
+        },
+        
+        archive(state) {
+            state.currentMeeting.isArchived = true;
         }
     },
     state: {

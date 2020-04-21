@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoronaFitnessApi.Filters;
 using CoronaFitnessApi.Model.Meeting;
 using CoronaFitnessBL.Meeting;
 using CoronaFitnessBL.Meeting.Models;
@@ -182,6 +183,16 @@ namespace CoronaFitnessApi.Controllers
             var currentUser = await this.userContext.GetCurrentUser();
             await this.meetingBop.ApproveRequestToAttend(request.MeetingId, request.UserId, currentUser.Id);
             return Ok(true);
+        }
+        
+        //new api
+        [HttpPost]
+        [Route("{meetingId}/archive")]
+        [MeetingPermission(EnMeetingAccessLevel.Manage)]
+        public async Task<IActionResult> Archive([FromRoute] string meetingId)
+        {
+            await this.meetingBop.Archive(meetingId);
+            return Ok();
         }
     }
 }

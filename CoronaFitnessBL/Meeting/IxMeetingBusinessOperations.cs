@@ -20,7 +20,7 @@ namespace CoronaFitnessBL.Meeting
         /// <param name="id"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<FxMeetingModel> GetMeeting(string id, string userId);
+        Task<FxMeetingModel> GetMeeting(string id, string userId = null);
         
         /// <summary>
         /// Get a meeting by id for specified user
@@ -64,10 +64,18 @@ namespace CoronaFitnessBL.Meeting
         /// <returns></returns>
         Task RejectRequestToAttend(string id, string userId, string ownerId);
 
+        /// <summary>
+        /// Set IsArchived to true
+        /// </summary>
+        /// <param name="meetingId"></param>
+        /// <returns></returns>
+        Task Archive(string meetingId);
+
         Task RemoveAttendee(string id, string attendeeId, string ownerId);
 
         Task CreateMeeting(FxMeetingModel meeting);
         Task UpdateMeeting(FxMeetingModel meeting);
         Task<string> GetToken(string meetingId, string userId);
+        Task<bool> CheckMeetingAccessLevel(string userId, string meetingId, EnMeetingAccessLevel level);
     }
 }

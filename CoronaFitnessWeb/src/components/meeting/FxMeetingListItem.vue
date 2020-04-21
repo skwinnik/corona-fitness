@@ -9,7 +9,7 @@
                          class="btn btn-outline-primary">
                 Управление
             </router-link>
-
+            
             <button v-if="isAllowedToRequestAttend"
                     class="btn btn-outline-primary"
                     @click="$emit('requestToAttend', meeting.id)"
@@ -68,7 +68,7 @@
             isAllowedToManage: function () {
                 return this.meeting.isOwner;
             },
-
+            
             isAttendee: function () {
                 return this.meeting.isAttendee;
             },

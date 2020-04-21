@@ -170,6 +170,24 @@ namespace CoronaFitnessBL.Meeting
             return token;
         }
 
+        public async Task<bool> CheckMeetingAccessLevel(string userId, string meetingId, EnMeetingAccessLevel level)
+        {
+            var meeting = await this.GetMeetingDb(meetingId);
+            if (level == EnMeetingAccessLevel.View)
+                return IsAllowedToSeeMeeting(meeting, userId);
+            
+            if (level == EnMeetingAccessLevel.Manage || level == EnMeetingAccessLevel.Manage)
+                return meeting.OwnerId == userId;
+
+            return false;
+        }
+
+        public async Task Archive(string meetingId)
+        {
+            await this.dbContext.Meetings.UpdateAsync(m => m.Id == meetingId, new UpdateDefinitionBuilder<FxMeeting>()
+                .Set(m => m.IsArchived, true));
+        }
+
         private async Task<string> CreateSession()
         {
             var result = await this.ovGateway.CreateSession(CreateSessionRequest.Empty);

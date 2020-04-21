@@ -12,6 +12,9 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <button class="btn btn-secondary" @click="archive(meetingId)">В Архив</button>
+        </div>
         <BTabs>
             <BTab title="Участники">
                 <FxMeetingAttendees v-if="attendees && attendees.length > 0" :meeting-id="meetingId"
@@ -72,7 +75,7 @@
                 document.execCommand('copy');
                 this.$toastr.s('Скопировано');
             },
-            ...mapActions(['loadMeeting', 'loadRequests', 'loadAttendees', 'clearCurrentMeeting'])
+            ...mapActions(['loadMeeting', 'loadRequests', 'loadAttendees', 'clearCurrentMeeting', 'archive'])
         },
         mounted() {
             this.loadRequests(this.meetingId);
