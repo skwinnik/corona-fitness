@@ -13,7 +13,7 @@ namespace CoronaFitnessBL.Meeting
         /// Get all meetings for specified user
         /// </summary>
         /// <returns></returns>
-        Task<List<FxMeetingModel>> GetMeetings(FxUserModel user);
+        Task<List<CxMeetingModel>> GetMeetings(CxUserModel user);
 
         /// <summary>
         /// Get a meeting by id
@@ -21,7 +21,7 @@ namespace CoronaFitnessBL.Meeting
         /// <param name="id"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<FxMeetingModel> GetMeeting(string id);
+        Task<CxMeetingModel> GetMeeting(string id);
         
         /// <summary>
         /// Get a meeting attendees
@@ -29,7 +29,7 @@ namespace CoronaFitnessBL.Meeting
         /// <param name="id"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<List<FxMeetingAttendeeModel>> GetAttendees(string id);
+        Task<List<CxMeetingAttendeeModel>> GetAttendees(string id);
 
         /// <summary>
         /// Add user to meeting as AttendeeRequest
@@ -45,7 +45,7 @@ namespace CoronaFitnessBL.Meeting
         /// <param name="id"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<List<FxMeetingAttendeeRequestModel>> GetAttendeeRequests(string id);
+        Task<List<CxMeetingAttendeeRequestModel>> GetAttendeeRequests(string id);
 
         /// <summary>
         /// Approve a request to attend a specific meeting
@@ -86,13 +86,13 @@ namespace CoronaFitnessBL.Meeting
         /// </summary>
         /// <param name="meeting"></param>
         /// <returns></returns>
-        Task CreateMeeting(FxMeetingModel meeting);
+        Task CreateMeeting(CxMeetingModel meeting);
         /// <summary>
         /// Updates an existing meeting
         /// </summary>
         /// <param name="meeting"></param>
         /// <returns></returns>
-        Task UpdateMeeting(FxMeetingModel meeting);
+        Task UpdateMeeting(CxMeetingModel meeting);
         /// <summary>
         /// Gets OpenVidu Token for a specified user
         /// </summary>

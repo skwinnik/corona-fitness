@@ -1,6 +1,6 @@
 ﻿namespace CoronaFitnessDb
 {
-    public class FxMongoDataSettings : IxMongoDataSettings
+    public class CxMongoDataSettings : IxMongoDataSettings
     {
         public string ConnectionString { get; set; }
         public string DbName { get; set; }

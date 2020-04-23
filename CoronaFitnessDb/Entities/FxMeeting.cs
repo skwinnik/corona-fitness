@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace CoronaFitnessDb.Entities
 {
-    public class FxMeeting
+    public class CxMeeting
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -27,10 +27,10 @@ namespace CoronaFitnessDb.Entities
 
         public string SessionId { get; set; }
 
-        public List<FxMeetingAttendee> Attendees { get; set; }
-        public List<FxMeetingAttendeeRequest> AttendeeRequests { get; set; }
+        public List<CxMeetingAttendee> Attendees { get; set; }
+        public List<CxMeetingAttendeeRequest> AttendeeRequests { get; set; }
 
-        public FxMeeting()
+        public CxMeeting()
         {
             this.Id = string.Empty;
             this.Title = string.Empty;
@@ -39,13 +39,13 @@ namespace CoronaFitnessDb.Entities
             this.SessionId = string.Empty;
             this.IsPublic = false;
             this.IsArchived = false;
-            this.Attendees = new List<FxMeetingAttendee>();
-            this.AttendeeRequests = new List<FxMeetingAttendeeRequest>();
+            this.Attendees = new List<CxMeetingAttendee>();
+            this.AttendeeRequests = new List<CxMeetingAttendeeRequest>();
         }
     }
 
     [BsonNoId]
-    public class FxMeetingAttendee
+    public class CxMeetingAttendee
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -55,7 +55,7 @@ namespace CoronaFitnessDb.Entities
 
         public string Token { get; set; }
 
-        public FxMeetingAttendee()
+        public CxMeetingAttendee()
         {
             this.UserId = string.Empty;
             this.Token = string.Empty;
@@ -63,7 +63,7 @@ namespace CoronaFitnessDb.Entities
     }
 
     [BsonNoId]
-    public class FxMeetingAttendeeRequest
+    public class CxMeetingAttendeeRequest
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

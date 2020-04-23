@@ -1,6 +1,6 @@
 ﻿namespace CoronaFitness.Integration.OpenVidu.Settings
 {
-    public class FxOpenViduSettings : IxOpenViduSettings
+    public class CxOpenViduSettings : IxOpenViduSettings
     {
         public string Url { get; set; }
         public string Login { get; set; }

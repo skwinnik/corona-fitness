@@ -6,7 +6,7 @@ using CoronaFitnessDb.Entities;
 
 namespace CoronaFitnessBL.Meeting.Models
 {
-    public class FxMeetingModel
+    public class CxMeetingModel
     {
         public string Id { get; set; }
         public string Title { get; set; }
@@ -17,16 +17,16 @@ namespace CoronaFitnessBL.Meeting.Models
         public int Duration { get; set; }
         public bool IsPublic { get; set; }
         public bool IsArchived { get; set; }
-        public List<FxMeetingAttendeeModel> Attendees { get; set; }
-        public List<FxMeetingAttendeeRequestModel> AttendeeRequests { get; set; }
+        public List<CxMeetingAttendeeModel> Attendees { get; set; }
+        public List<CxMeetingAttendeeRequestModel> AttendeeRequests { get; set; }
 
-        public FxMeetingModel()
+        public CxMeetingModel()
         {
-            this.Attendees = new List<FxMeetingAttendeeModel>();
-            this.AttendeeRequests = new List<FxMeetingAttendeeRequestModel>();
+            this.Attendees = new List<CxMeetingAttendeeModel>();
+            this.AttendeeRequests = new List<CxMeetingAttendeeRequestModel>();
         }
 
-        public FxMeetingModel(FxMeeting dbMeeting)
+        public CxMeetingModel(CxMeeting dbMeeting)
         {
             this.Id = dbMeeting.Id;
             this.Title = dbMeeting.Title;
@@ -38,14 +38,14 @@ namespace CoronaFitnessBL.Meeting.Models
             this.IsPublic = dbMeeting.IsPublic;
             this.IsArchived = dbMeeting.IsArchived;
             this.Attendees = dbMeeting.Attendees
-                .Select(a => new FxMeetingAttendeeModel(a)).ToList();
+                .Select(a => new CxMeetingAttendeeModel(a)).ToList();
             this.AttendeeRequests =
-                dbMeeting.AttendeeRequests.Select(a => new FxMeetingAttendeeRequestModel(a)).ToList();
+                dbMeeting.AttendeeRequests.Select(a => new CxMeetingAttendeeRequestModel(a)).ToList();
         }
 
-        public FxMeeting ToDbModel()
+        public CxMeeting ToDbModel()
         {
-            return new FxMeeting()
+            return new CxMeeting()
             {
                 Id = this.Id,
                 OwnerId = this.OwnerId,
@@ -62,24 +62,24 @@ namespace CoronaFitnessBL.Meeting.Models
         }
     }
 
-    public class FxMeetingAttendeeModel
+    public class CxMeetingAttendeeModel
     {
         public string UserId { get; set; }
         public EnOvSessionRole Role { get; set; }
 
-        public FxMeetingAttendeeModel()
+        public CxMeetingAttendeeModel()
         {
         }
 
-        public FxMeetingAttendeeModel(FxMeetingAttendee dbMeetingAttendee)
+        public CxMeetingAttendeeModel(CxMeetingAttendee dbMeetingAttendee)
         {
             this.UserId = dbMeetingAttendee.UserId;
             this.Role = Enum.Parse<EnOvSessionRole>(dbMeetingAttendee.Role);
         }
 
-        public FxMeetingAttendee ToDbModel()
+        public CxMeetingAttendee ToDbModel()
         {
-            return new FxMeetingAttendee()
+            return new CxMeetingAttendee()
             {
                 UserId = this.UserId,
                 Token = string.Empty,
@@ -88,22 +88,22 @@ namespace CoronaFitnessBL.Meeting.Models
         }
     }
 
-    public class FxMeetingAttendeeRequestModel
+    public class CxMeetingAttendeeRequestModel
     {
         public string UserId { get; set; }
 
-        public FxMeetingAttendeeRequestModel()
+        public CxMeetingAttendeeRequestModel()
         {
         }
 
-        public FxMeetingAttendeeRequestModel(FxMeetingAttendeeRequest dbAttendeeRequest)
+        public CxMeetingAttendeeRequestModel(CxMeetingAttendeeRequest dbAttendeeRequest)
         {
             this.UserId = dbAttendeeRequest.UserId;
         }
 
-        public FxMeetingAttendeeRequest ToDbModel()
+        public CxMeetingAttendeeRequest ToDbModel()
         {
-            return new FxMeetingAttendeeRequest()
+            return new CxMeetingAttendeeRequest()
             {
                 UserId = this.UserId
             };

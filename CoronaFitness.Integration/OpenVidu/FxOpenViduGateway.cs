@@ -6,11 +6,11 @@ using RestSharp.Serialization.Json;
 
 namespace CoronaFitness.Integration.OpenVidu
 {
-    public class FxOpenViduGateway : IxOpenViduGateway
+    public class CxOpenViduGateway : IxOpenViduGateway
     {
         private readonly OpenViduRestClientBuilder restClientBuilder;
 
-        public FxOpenViduGateway(OpenViduRestClientBuilder restClientBuilder)
+        public CxOpenViduGateway(OpenViduRestClientBuilder restClientBuilder)
         {
             this.restClientBuilder = restClientBuilder;
         }

@@ -35,7 +35,7 @@ namespace DbGenerator.Generators
             var user = await userBop.GetByEmail(forUser);
             var attendee = await userBop.GetByEmail(forAttendee);
             
-            var meeting = new FxMeetingModel()
+            var meeting = new CxMeetingModel()
             {
                 Id = "",
                 Title = "Test Meeting",
@@ -44,9 +44,9 @@ namespace DbGenerator.Generators
                 Duration = 60,
                 OwnerId = user.Id,
                 IsPublic = true,
-                Attendees = new List<FxMeetingAttendeeModel>()
+                Attendees = new List<CxMeetingAttendeeModel>()
                 {
-                    new FxMeetingAttendeeModel()
+                    new CxMeetingAttendeeModel()
                     {
                         UserId = attendee.Id,
                         Role = EnOvSessionRole.PUBLISHER
@@ -56,7 +56,7 @@ namespace DbGenerator.Generators
 
             await meetingBop.CreateMeeting(meeting);
             
-            meeting = new FxMeetingModel()
+            meeting = new CxMeetingModel()
             {
                 Id = "",
                 Title = "Private Test Meeting",
@@ -65,9 +65,9 @@ namespace DbGenerator.Generators
                 Duration = 60,
                 OwnerId = user.Id,
                 IsPublic = false,
-                Attendees = new List<FxMeetingAttendeeModel>()
+                Attendees = new List<CxMeetingAttendeeModel>()
                 {
-                    new FxMeetingAttendeeModel()
+                    new CxMeetingAttendeeModel()
                     {
                         UserId = attendee.Id,
                         Role = EnOvSessionRole.PUBLISHER

@@ -1,15 +1,15 @@
 ﻿<template>
-    <FxMeetingConference v-if="currentToken" :token="currentToken"/>
+    <MeetingConference v-if="currentToken" :token="currentToken"/>
 </template>
 
 <script>
     import {createNamespacedHelpers} from 'vuex';
-    import FxMeetingConference from "../../components/meeting/conference/FxMeetingConference.vue";
+    import MeetingConference from "../../components/meeting/conference/MeetingConference.vue";
 
     const {mapActions, mapGetters} = createNamespacedHelpers('meetings/conference');
 
     export default {
-        components: {FxMeetingConference},
+        components: {MeetingConference},
         computed: mapGetters(['currentToken']),
         methods: {
             confirm() {

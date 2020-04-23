@@ -4,7 +4,7 @@ namespace CoronaFitnessDb
 {
     public interface IxMongoDataContext
     {
-        FxMongoDbSet<FxUser> Users { get; }
-        FxMongoDbSet<FxMeeting> Meetings { get; }
+        CxMongoDbSet<CxUser> Users { get; }
+        CxMongoDbSet<CxMeeting> Meetings { get; }
     }
 }

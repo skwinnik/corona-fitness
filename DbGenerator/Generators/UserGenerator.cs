@@ -17,11 +17,11 @@ namespace DbGenerator.Generators
 
         public Type After => null;
 
-        private List<FxUserModel> users = new List<FxUserModel>()
+        private List<CxUserModel> users = new List<CxUserModel>()
         {
-            new FxUserModel() {Email = "screen0994@gmail.com", Name = "Павел Скринник"},
-            new FxUserModel() {Email = "alyona.twix@gmail.com", Name = "Алёна Скринник"},
-            new FxUserModel() {Email = "simon.skrinnik@home.com", Name = "Пес"},
+            new CxUserModel() {Email = "screen0994@gmail.com", Name = "Павел Скринник"},
+            new CxUserModel() {Email = "alyona.twix@gmail.com", Name = "Алёна Скринник"},
+            new CxUserModel() {Email = "simon.skrinnik@home.com", Name = "Пес"},
         };
 
         private List<string> admins = new List<string>() {"screen0994@gmail.com"};
@@ -45,7 +45,7 @@ namespace DbGenerator.Generators
         public async Task Generate()
         {
             var roles = Enum.GetNames(typeof(IdentityRole))
-                .Select(x => new FxIdentityRole() {Name = x});
+                .Select(x => new CxIdentityRole() {Name = x});
 
             foreach (var role in roles)
                 await this.accountBop.CreateRole(role);

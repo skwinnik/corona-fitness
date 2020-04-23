@@ -55,10 +55,10 @@ namespace DbGenerator
             ConfigureMongoIdentity(serviceCollection);
 
             serviceCollection.AddTransient<Application>();
-            serviceCollection.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
-            serviceCollection.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
-            serviceCollection.AddScoped<IxMeetingBusinessOperations, FxMeetingBusinessOperations>();
-            serviceCollection.AddScoped<IxOpenViduGateway, FxFakeOpenViduGateway>();
+            serviceCollection.AddScoped<IxUserBusinessOperations, CxUserBusinessOperations>();
+            serviceCollection.AddScoped<IxAccountBusinessOperations, CxAccountBusinessOperations>();
+            serviceCollection.AddScoped<IxMeetingBusinessOperations, CxMeetingBusinessOperations>();
+            serviceCollection.AddScoped<IxOpenViduGateway, CxFakeOpenViduGateway>();
             
             serviceCollection.AddSingleton(LoggerFactory.Create(builder =>
             {
@@ -70,13 +70,13 @@ namespace DbGenerator
         
         private static void ConfigureMongoData(IServiceCollection services)
         {
-            services.Configure<FxMongoDataSettings>(
+            services.Configure<CxMongoDataSettings>(
                 Configuration.GetSection("MongoSettings"));
 
             services.AddSingleton<IxMongoDataSettings>(sp =>
-                sp.GetRequiredService<IOptions<FxMongoDataSettings>>().Value);
+                sp.GetRequiredService<IOptions<CxMongoDataSettings>>().Value);
 
-            services.AddSingleton<IxMongoDataContext, FxMongoDataContext>();
+            services.AddSingleton<IxMongoDataContext, CxMongoDataContext>();
         }
 
         private static void ConfigureMongoIdentity(IServiceCollection services)
@@ -85,7 +85,7 @@ namespace DbGenerator
                 .GetSection("MongoIdentitySettings")
                 .GetSection("FullConnectionString").Value;
 
-            services.AddIdentityMongoDbProvider<FxIdentityUser, FxIdentityRole>(identityOptions =>
+            services.AddIdentityMongoDbProvider<CxIdentityUser, CxIdentityRole>(identityOptions =>
                 {
                     identityOptions.Password.RequiredLength = 6;
                     identityOptions.Password.RequireLowercase = false;

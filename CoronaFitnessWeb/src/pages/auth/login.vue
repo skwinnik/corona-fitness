@@ -1,15 +1,15 @@
 ﻿<template>
     <div>
-        <FxLogin :invalid="invalid"/>
+        <LoginComponent :invalid="invalid"/>
     </div>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
-    import FxLogin from '../../components/auth/FxLogin.vue';
+    import LoginComponent from '../../components/auth/LoginComponent.vue';
 
     export default {
-        components: {FxLogin},
+        components: {LoginComponent},
         props: ['invalid'],
         computed: mapGetters(['isLoggedIn']),
 

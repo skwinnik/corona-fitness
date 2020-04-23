@@ -1,15 +1,15 @@
 ﻿<template>
     <div>
-        <FxLogout/>
+        <LogoutComponent/>
     </div>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
-    import FxLogout from '../../components/auth/FxLogout.vue';
+    import LogoutComponent from '../../components/auth/LogoutComponent.vue';
 
     export default {
-        components: {FxLogout},
+        components: {LogoutComponent},
         computed: mapGetters(['isLoggedIn']),
 
         mounted() {

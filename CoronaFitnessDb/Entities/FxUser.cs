@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace CoronaFitnessDb.Entities
 {
-    public class FxUser
+    public class CxUser
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -14,7 +14,7 @@ namespace CoronaFitnessDb.Entities
         public string IdentityId { get; set; }
         public bool CanCreateMeetings { get; set; }
 
-        public FxUser()
+        public CxUser()
         {
             this.Id = string.Empty;
             this.Name = string.Empty;

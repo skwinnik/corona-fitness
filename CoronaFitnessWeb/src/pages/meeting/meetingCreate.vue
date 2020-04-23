@@ -1,14 +1,14 @@
 ﻿<template>
-    <FxMeetingEditor :meeting="meeting" @saveMeeting="onSaveMeeting"/>
+    <MeetingEditor :meeting="meeting" @saveMeeting="onSaveMeeting"/>
 </template>
 
 <script>
-    import FxMeetingEditor from "../../components/meeting/FxMeetingEditor.vue";
+    import MeetingEditor from "../../components/meeting/MeetingEditor.vue";
     import {mapGetters, mapActions} from 'vuex';
     import moment from 'moment';
 
     export default {
-        components: {FxMeetingEditor},
+        components: {MeetingEditor},
         computed: mapGetters(['currentUser']),
         data: function () {
             return {

@@ -78,7 +78,7 @@ namespace CoronaFitnessApi.Controllers
 
             try
             {
-                await this.meetingBop.CreateMeeting(new FxMeetingModel()
+                await this.meetingBop.CreateMeeting(new CxMeetingModel()
                 {
                     Id = "",
                     Title = meeting.Title,
@@ -111,7 +111,7 @@ namespace CoronaFitnessApi.Controllers
         {
             try
             {
-                await this.meetingBop.UpdateMeeting(new FxMeetingModel()
+                await this.meetingBop.UpdateMeeting(new CxMeetingModel()
                 {
                     Id = this.RouteData.Values["meetingId"].ToString(),
                     Title = meeting.Title,

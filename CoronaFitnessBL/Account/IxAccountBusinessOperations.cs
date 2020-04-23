@@ -9,7 +9,7 @@ namespace CoronaFitnessBL.Account
         Task<SignUpResult> SignUp(string email, string password, string name, IdentityRole role = IdentityRole.User);
         Task<LoginResult> Login(string email, string password);
         Task<LogoutResult> Logout();
-        Task<LoginResult> Login(FxIdentityUser user);
-        Task<CreateRoleResult> CreateRole(FxIdentityRole role);
+        Task<LoginResult> Login(CxIdentityUser user);
+        Task<CreateRoleResult> CreateRole(CxIdentityRole role);
     }
 }

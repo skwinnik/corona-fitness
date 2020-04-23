@@ -1,16 +1,16 @@
 ﻿<template>
     <div v-if="currentMeeting">
-        <FxMeetingListItem :meeting="currentMeeting" v-on:requestToAttend="onRequestToAttend" />
+        <MeetingListItem :meeting="currentMeeting" v-on:requestToAttend="onRequestToAttend" />
     </div>
 </template>
 
 <script>
     import {createNamespacedHelpers} from 'vuex';
-    import FxMeetingListItem from "./FxMeetingListItem.vue";
+    import MeetingListItem from "./MeetingListItem.vue";
     const {mapGetters, mapActions} = createNamespacedHelpers('meetings/view');
 
     export default {
-        components: {FxMeetingListItem},
+        components: {MeetingListItem},
         props: {
             meetingId: String
         },

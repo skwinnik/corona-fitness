@@ -6,11 +6,11 @@ namespace CoronaFitnessBL.User
 {
     public interface IxUserBusinessOperations
     {
-        Task<List<FxUserModel>> GetAll();
-        Task Create(FxUserModel user);
+        Task<List<CxUserModel>> GetAll();
+        Task Create(CxUserModel user);
         Task SetCanCreateMeetings(string id, bool canCreate);
-        Task<FxUserModel> GetByIdentityId(string identityId);
-        Task<List<FxUserModel>> GetById(List<string> ids);
-        Task<FxUserModel> GetByEmail(string email);
+        Task<CxUserModel> GetByIdentityId(string identityId);
+        Task<List<CxUserModel>> GetById(List<string> ids);
+        Task<CxUserModel> GetByEmail(string email);
     }
 }

@@ -1,15 +1,15 @@
 ﻿<template>
     <div>
-        <FxRegister/>
+        <RegisterComponent/>
     </div>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
-    import FxRegister from '../../components/auth/FxRegister.vue';
+    import RegisterComponent from '../../components/auth/RegisterComponent.vue';
 
     export default {
-        components: {FxRegister},
+        components: {RegisterComponent},
         computed: mapGetters(['isLoggedIn']),
 
         mounted() {

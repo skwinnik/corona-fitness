@@ -10,15 +10,15 @@ using MongoDB.Driver;
 
 namespace CoronaFitnessDb
 {
-    public class FxMongoDataContext : IxMongoDataContext
+    public class CxMongoDataContext : IxMongoDataContext
     {
         private string ConnectionString { get; set; }
         private string DbName { get; set; }
 
-        public FxMongoDbSet<FxUser> Users { get; }
-        public FxMongoDbSet<FxMeeting> Meetings { get; }
+        public CxMongoDbSet<CxUser> Users { get; }
+        public CxMongoDbSet<CxMeeting> Meetings { get; }
 
-        public FxMongoDataContext(IxMongoDataSettings settings)
+        public CxMongoDataContext(IxMongoDataSettings settings)
         {
             this.ConnectionString = settings.ConnectionString;
             this.DbName = settings.DbName;
@@ -40,8 +40,8 @@ namespace CoronaFitnessDb
                 type => type.Namespace == "CoronaFitnessDb.Entities" 
                         && Attribute.GetCustomAttribute(type, typeof(BsonNoIdAttribute)) == null);
             
-            this.Users = new FxMongoDbSet<FxUser>(database.GetCollection<FxUser>("Users"));
-            this.Meetings = new FxMongoDbSet<FxMeeting>(database.GetCollection<FxMeeting>("Meetings"));
+            this.Users = new CxMongoDbSet<CxUser>(database.GetCollection<CxUser>("Users"));
+            this.Meetings = new CxMongoDbSet<CxMeeting>(database.GetCollection<CxMeeting>("Meetings"));
         }
     }
 }

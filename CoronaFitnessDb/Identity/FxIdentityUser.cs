@@ -2,5 +2,5 @@
 
 namespace CoronaFitnessDb.Identity
 {
-    public class FxIdentityUser : MongoUser { }
+    public class CxIdentityUser : MongoUser { }
 }

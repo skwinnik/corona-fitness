@@ -6,7 +6,7 @@
                     <router-link to="/" tag="span">Corona Fitness</router-link>
                 </div>
                 <div class="header__logout">
-                    <FxLogoutButton/>
+                    <LogoutButton/>
                 </div>
             </div>
         </section>
@@ -24,10 +24,10 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-    import FxLogoutButton from '../components/auth/FxLogoutButton.vue';
+    import LogoutButton from '../components/auth/LogoutButton.vue';
 
     export default {
-        components: {FxLogoutButton},
+        components: {LogoutButton},
         computed: mapGetters(['isLoggedIn', 'currentUser']),
         methods: mapActions(['loadCurrentUser']),
         data: function () {

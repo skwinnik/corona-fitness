@@ -13,7 +13,7 @@ namespace CoronaFitnessApi.Model.Users
             
         }
 
-        public UserDto(FxUserModel model)
+        public UserDto(CxUserModel model)
         {
             this.Id = model.Id;
             this.Name = model.Name;

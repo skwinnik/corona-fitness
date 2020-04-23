@@ -2,7 +2,7 @@
 
 namespace CoronaFitnessBL.User.Models
 {
-    public class FxUserModel
+    public class CxUserModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -10,11 +10,11 @@ namespace CoronaFitnessBL.User.Models
         public string IdentityId { get; set; }
         public bool CanCreateMeetings { get; set; }
 
-        public FxUserModel()
+        public CxUserModel()
         {
         }
 
-        public FxUserModel(FxUser dbUser)
+        public CxUserModel(CxUser dbUser)
         {
             this.Id = dbUser.Id;
             this.Name = dbUser.Name;

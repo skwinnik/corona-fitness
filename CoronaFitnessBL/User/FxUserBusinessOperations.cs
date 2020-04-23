@@ -8,19 +8,19 @@ using MongoDB.Driver;
 
 namespace CoronaFitnessBL.User
 {
-    public class FxUserBusinessOperations : IxUserBusinessOperations
+    public class CxUserBusinessOperations : IxUserBusinessOperations
     {
         private IxMongoDataContext DbContext { get; set; }
 
-        public FxUserBusinessOperations(IxMongoDataContext context)
+        public CxUserBusinessOperations(IxMongoDataContext context)
         {
             this.DbContext = context;
         }
 
-        public async Task<List<FxUserModel>> GetAll()
+        public async Task<List<CxUserModel>> GetAll()
         {
             var users = await DbContext.Users.GetAsync(x => true);
-            return users.Select(x => new FxUserModel
+            return users.Select(x => new CxUserModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -29,9 +29,9 @@ namespace CoronaFitnessBL.User
             }).ToList();
         }
 
-        public async Task Create(FxUserModel user)
+        public async Task Create(CxUserModel user)
         {
-            await DbContext.Users.AddAsync(new FxUser()
+            await DbContext.Users.AddAsync(new CxUser()
             {
                 Id = "", Email = user.Email, Name = user.Name, IdentityId = user.IdentityId,
                 CanCreateMeetings = user.CanCreateMeetings
@@ -41,31 +41,31 @@ namespace CoronaFitnessBL.User
         public async Task SetCanCreateMeetings(string id, bool canCreate)
         {
             await DbContext.Users.UpdateAsync(x => x.Id == id,
-                new UpdateDefinitionBuilder<FxUser>()
+                new UpdateDefinitionBuilder<CxUser>()
                     .Set(x => x.CanCreateMeetings, canCreate)
             );
         }
 
-        public Task<FxUserModel> GetByIdentityId(string identityId)
+        public Task<CxUserModel> GetByIdentityId(string identityId)
         {
             return DbContext.Users
                 .GetSingleAsync(x => x.IdentityId == identityId)
-                .ContinueWith(x => new FxUserModel(x.Result));
+                .ContinueWith(x => new CxUserModel(x.Result));
         }
         
-        public async Task<List<FxUserModel>> GetById(List<string> ids)
+        public async Task<List<CxUserModel>> GetById(List<string> ids)
         {
             var users = await DbContext.Users
                 .GetAsync(x => ids.Contains(x.Id));
 
-            return users.Select(x => new FxUserModel(x)).ToList();
+            return users.Select(x => new CxUserModel(x)).ToList();
         }
 
-        public Task<FxUserModel> GetByEmail(string email)
+        public Task<CxUserModel> GetByEmail(string email)
         {
             return DbContext.Users
                 .GetSingleAsync(x => x.Email == email)
-                .ContinueWith(x => new FxUserModel(x.Result));
+                .ContinueWith(x => new CxUserModel(x.Result));
         }
     }
 }

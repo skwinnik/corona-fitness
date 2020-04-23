@@ -24,7 +24,7 @@ namespace CoronaFitnessApi.Model.Meeting
         {
         }
 
-        public MeetingDto(FxMeetingModel model, FxUserModel currentUser)
+        public MeetingDto(CxMeetingModel model, CxUserModel currentUser)
         {
             this.Id = model.Id;
             this.Title = model.Title;

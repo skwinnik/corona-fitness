@@ -1,8 +1,8 @@
 ﻿<template>
-    <div class="fx-video" :id="connectionId" @click="onVideoClick">
-        <BIconPersonFill class="fx-video__icon" v-show="!streamManager.stream.hasVideo"/>
-        <video ref="videoElement" class="fx-video__video" v-show="streamManager.stream.hasVideo"/>
-        <div class="fx-video__name">
+    <div class="video" :id="connectionId" @click="onVideoClick">
+        <BIconPersonFill class="video__icon" v-show="!streamManager.stream.hasVideo"/>
+        <video ref="videoElement" class="video__video" v-show="streamManager.stream.hasVideo"/>
+        <div class="video__name">
             {{userName}}
         </div>
     </div>
@@ -54,11 +54,11 @@
 </script>
 
 <style lang="scss" scoped>
-    .fx-video {
+    .video {
         position: relative;
 
         &:hover {
-            .fx-video__name {
+            .video__name {
                 opacity: 1;
             }
         }

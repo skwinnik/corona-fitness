@@ -9,16 +9,16 @@ using IdentityRole = CoronaFitnessDb.Identity.IdentityRole;
 
 namespace CoronaFitnessBL.Account
 {
-    public class FxAccountBusinessOperations : IxAccountBusinessOperations
+    public class CxAccountBusinessOperations : IxAccountBusinessOperations
     {
-        private readonly UserManager<FxIdentityUser> userManager;
-        private readonly RoleManager<FxIdentityRole> roleManager;
-        private readonly SignInManager<FxIdentityUser> signInManager;
+        private readonly UserManager<CxIdentityUser> userManager;
+        private readonly RoleManager<CxIdentityRole> roleManager;
+        private readonly SignInManager<CxIdentityUser> signInManager;
         private readonly IxUserBusinessOperations userBop;
 
-        public FxAccountBusinessOperations(UserManager<FxIdentityUser> userManager,
-            RoleManager<FxIdentityRole> roleManager,
-            SignInManager<FxIdentityUser> signInManager,
+        public CxAccountBusinessOperations(UserManager<CxIdentityUser> userManager,
+            RoleManager<CxIdentityRole> roleManager,
+            SignInManager<CxIdentityUser> signInManager,
             IxUserBusinessOperations userBop)
         {
             this.userManager = userManager;
@@ -38,7 +38,7 @@ namespace CoronaFitnessBL.Account
         public async Task<SignUpResult> SignUp(string email, string password, string name,
             IdentityRole role = IdentityRole.User)
         {
-            var user = new FxIdentityUser() {Email = email, UserName = email};
+            var user = new CxIdentityUser() {Email = email, UserName = email};
             var userExists = await this.userManager.FindByNameAsync(user.UserName);
             if (userExists != null) return new SignUpResult() {Success = true};
 
@@ -48,7 +48,7 @@ namespace CoronaFitnessBL.Account
             result = await this.userManager.AddToRoleAsync(user, role.ToString());
 
             user = await this.userManager.FindByEmailAsync(user.Email);
-            await this.userBop.Create(new FxUserModel()
+            await this.userBop.Create(new CxUserModel()
                 {Name = name, Email = user.Email, IdentityId = user.Id, CanCreateMeetings = false});
 
             return new SignUpResult(result);
@@ -63,7 +63,7 @@ namespace CoronaFitnessBL.Account
             };
         }
 
-        public async Task<LoginResult> Login(FxIdentityUser user)
+        public async Task<LoginResult> Login(CxIdentityUser user)
         {
             await signInManager.SignInAsync(user, true);
             return new LoginResult()
@@ -78,7 +78,7 @@ namespace CoronaFitnessBL.Account
             return new LogoutResult {Success = true};
         }
 
-        public async Task<CreateRoleResult> CreateRole(FxIdentityRole role)
+        public async Task<CreateRoleResult> CreateRole(CxIdentityRole role)
         {
             var roleExists = await this.roleManager.FindByNameAsync(role.Name);
             if (roleExists != null)

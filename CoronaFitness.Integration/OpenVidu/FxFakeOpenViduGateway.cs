@@ -3,7 +3,7 @@ using CoronaFitness.Integration.OpenVidu.Models;
 
 namespace CoronaFitness.Integration.OpenVidu
 {
-    public class FxFakeOpenViduGateway : IxOpenViduGateway
+    public class CxFakeOpenViduGateway : IxOpenViduGateway
     {
         public Task<CreateSessionResponse> CreateSession(CreateSessionRequest request)
         {

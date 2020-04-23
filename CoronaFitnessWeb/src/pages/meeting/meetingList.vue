@@ -11,17 +11,17 @@
             </div>
         </div>
         <br />
-        <FxMeetingList />
+        <MeetingList />
     </div>
 </template>
 
 <script>
-    import FxMeetingList from '../../components/meeting/FxMeetingList.vue'
+    import MeetingList from '../../components/meeting/MeetingList.vue'
     import {mapGetters} from 'vuex';
     
     export default {
         components: {
-            FxMeetingList
+            MeetingList
         },
         computed: mapGetters(["currentUser"])
     }

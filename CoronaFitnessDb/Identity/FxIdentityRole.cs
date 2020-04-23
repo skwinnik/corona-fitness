@@ -2,7 +2,7 @@
 
 namespace CoronaFitnessDb.Identity
 {
-    public class FxIdentityRole : MongoRole
+    public class CxIdentityRole : MongoRole
     {
     }
 }

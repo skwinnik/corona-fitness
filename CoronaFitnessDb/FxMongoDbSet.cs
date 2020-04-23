@@ -9,11 +9,11 @@ using MongoDB.Driver.Linq;
 
 namespace CoronaFitnessDb
 {
-    public class FxMongoDbSet<T> : IQueryable<T> where T : class
+    public class CxMongoDbSet<T> : IQueryable<T> where T : class
     {
         private readonly IMongoQueryable<T> queryable;
 
-        public FxMongoDbSet(IMongoCollection<T> collection)
+        public CxMongoDbSet(IMongoCollection<T> collection)
         {
             this.Collection = collection;
             this.queryable = collection.AsQueryable();

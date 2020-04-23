@@ -1,16 +1,16 @@
 ﻿<template>
     <div>
-        <FxMeetingView :meeting-id="meetingId" />
+        <MeetingView :meeting-id="meetingId" />
     </div>
 </template>
 
 <script>
-    import FxMeetingView from "../../components/meeting/FxMeetingView.vue";
+    import MeetingView from "../../components/meeting/MeetingView.vue";
     import {createNamespacedHelpers} from 'vuex';
     const {mapActions} = createNamespacedHelpers('meetings/view');
     
     export default {
-        components: {FxMeetingView},
+        components: {MeetingView},
         methods: mapActions(['clearCurrentMeeting']),
         data: function () {
             return {

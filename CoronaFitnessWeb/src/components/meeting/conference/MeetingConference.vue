@@ -1,41 +1,41 @@
 ﻿<template>
     <div v-if="publisher && publisher.stream"
-         class="fx-conference"
-         :class="{'fx-conference_speaker-view': focusedConnectionId !== null, 'fx-conference_grid-view': focusedConnectionId === null,
-         'fx-conference_fullscreen': isFullscreen}">
-        <div class="text-center fx-conference__controls fx-conference__controls_top">
-            <FxMeetingConferenceLayoutControls/>
+         class="conference"
+         :class="{'conference_speaker-view': focusedConnectionId !== null, 'conference_grid-view': focusedConnectionId === null,
+         'conference_fullscreen': isFullscreen}">
+        <div class="text-center conference__controls conference__controls_top">
+            <MeetingConferenceLayoutControls/>
         </div>
 
-        <div class="fx-conference__speaker-container" v-if="speakerStreamManager">
-            <FxVideo :stream-manager="speakerStreamManager"
+        <div class="conference__speaker-container" v-if="speakerStreamManager">
+            <MeetingVideo :stream-manager="speakerStreamManager"
                      :connection-id="speakerStreamManager.stream.connection.connectionId"
-                     class="fx-conference__item"/>
+                     class="conference__item"/>
         </div>
-        <div class="fx-conference__swipe-container">
-            <FxVideo v-for="streamManager in streamManagers"
+        <div class="conference__swipe-container">
+            <MeetingVideo v-for="streamManager in streamManagers"
                      :key="streamManager.stream.connection.connectionId"
                      :stream-manager="streamManager"
                      :connection-id="streamManager.stream.connection.connectionId"
-                     class="fx-conference__item"/>
+                     class="conference__item"/>
         </div>
 
-        <div class="text-center fx-conference__controls fx-conference__controls_bottom">
-            <FxMeetingConferencePublisherControls/>
+        <div class="text-center conference__controls conference__controls_bottom">
+            <MeetingConferencePublisherControls/>
         </div>
     </div>
 </template>
 
 <script>
-    import FxVideo from "./FxVideo.vue";
+    import MeetingVideo from "./MeetingVideo.vue";
     import {createNamespacedHelpers} from 'vuex';
-    import FxMeetingConferenceLayoutControls from "./FxMeetingConferenceLayoutControls.vue";
-    import FxMeetingConferencePublisherControls from "./FxMeetingConferencePublisherControls.vue";
+    import MeetingConferenceLayoutControls from "./MeetingConferenceLayoutControls.vue";
+    import MeetingConferencePublisherControls from "./MeetingConferencePublisherControls.vue";
 
     const {mapGetters, mapActions} = createNamespacedHelpers('meetings/conferenceUi');
 
     export default {
-        components: {FxMeetingConferencePublisherControls, FxMeetingConferenceLayoutControls, FxVideo},
+        components: {MeetingConferencePublisherControls, MeetingConferenceLayoutControls, MeetingVideo},
         props: {
             token: String
         },
@@ -92,29 +92,29 @@
     $controls-margin: 30px;
     $header-height: 70px;
     
-    .fx-conference {
+    .conference {
         overflow: hidden;
         width: 100%;
         height: calc(100vh - #{$header-height});
         
-        &.fx-conference_speaker-view {
+        &.conference_speaker-view {
             position: relative;
             
-            .fx-conference__speaker-container {
+            .conference__speaker-container {
                 display: flex;
                 height: 100%;
                 
-                .fx-conference__item {
+                .conference__item {
                     border-color: transparent;
                 }
             }
             
-            .fx-conference__swipe-container {
+            .conference__swipe-container {
                 display: none;
                 height: $speaker-view-swipe-container-height;
             }
             
-            .fx-conference__controls {
+            .conference__controls {
                 position: absolute;
                 width: 100%;
                 z-index: 2;
@@ -129,14 +129,14 @@
             }
         }
 
-        &.fx-conference_fullscreen {
+        &.conference_fullscreen {
             position: absolute;
             left: 0;
             top: 0;
             height: 100vh;
             background: black;
             
-            .fx-conference__controls {
+            .conference__controls {
                 opacity: 0.3;
                 transition: opacity 0.2s;
 

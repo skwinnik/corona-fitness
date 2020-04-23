@@ -32,13 +32,13 @@ namespace CoronaFitnessApi
 
         private void ConfigureMongoData(IServiceCollection services)
         {
-            services.Configure<FxMongoDataSettings>(
+            services.Configure<CxMongoDataSettings>(
                 Configuration.GetSection("MongoSettings"));
 
             services.AddSingleton<IxMongoDataSettings>(sp =>
-                sp.GetRequiredService<IOptions<FxMongoDataSettings>>().Value);
+                sp.GetRequiredService<IOptions<CxMongoDataSettings>>().Value);
 
-            services.AddSingleton<IxMongoDataContext, FxMongoDataContext>();
+            services.AddSingleton<IxMongoDataContext, CxMongoDataContext>();
         }
 
         private void ConfigureMongoIdentity(IServiceCollection services)
@@ -47,7 +47,7 @@ namespace CoronaFitnessApi
                 .GetSection("MongoIdentitySettings")
                 .GetSection("FullConnectionString").Value;
 
-            services.AddIdentityMongoDbProvider<FxIdentityUser, FxIdentityRole>(identityOptions =>
+            services.AddIdentityMongoDbProvider<CxIdentityUser, CxIdentityRole>(identityOptions =>
                 {
                     identityOptions.Password.RequiredLength = 6;
                     identityOptions.Password.RequireLowercase = false;
@@ -85,19 +85,19 @@ namespace CoronaFitnessApi
 
             services.AddControllers();
             
-            services.AddScoped<IxUserBusinessOperations, FxUserBusinessOperations>();
-            services.AddScoped<IxAccountBusinessOperations, FxAccountBusinessOperations>();
-            services.AddScoped<IxMeetingBusinessOperations, FxMeetingBusinessOperations>();
+            services.AddScoped<IxUserBusinessOperations, CxUserBusinessOperations>();
+            services.AddScoped<IxAccountBusinessOperations, CxAccountBusinessOperations>();
+            services.AddScoped<IxMeetingBusinessOperations, CxMeetingBusinessOperations>();
 
-            services.AddScoped<IxUserContext, FxUserContext>();
+            services.AddScoped<IxUserContext, CxUserContext>();
             
-            services.Configure<FxOpenViduSettings>(
+            services.Configure<CxOpenViduSettings>(
                 Configuration.GetSection("OpenViduSettings"));
 
             services.AddSingleton<IxOpenViduSettings>(sp =>
-                sp.GetRequiredService<IOptions<FxOpenViduSettings>>().Value);
+                sp.GetRequiredService<IOptions<CxOpenViduSettings>>().Value);
 
-            services.AddScoped<IxOpenViduGateway, FxOpenViduGateway>();
+            services.AddScoped<IxOpenViduGateway, CxOpenViduGateway>();
 
             services.AddSingleton<OpenViduRestClientBuilder, OpenViduRestClientBuilder>();
             

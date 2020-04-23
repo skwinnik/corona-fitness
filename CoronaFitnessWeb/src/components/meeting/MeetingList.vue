@@ -1,6 +1,6 @@
 ﻿<template>
     <div class="meeting-list">
-        <FxMeetingListItem class="meeting-list__item"
+        <MeetingListItem class="meeting-list__item"
                            v-on:requestToAttend="onRequestToAttend"
                            v-for="meeting in meetings" :key="meeting.id"
                            v-bind:meeting="meeting"/>
@@ -8,14 +8,14 @@
 </template>
 
 <script>
-    import FxMeetingListItem from './FxMeetingListItem.vue';
+    import MeetingListItem from './MeetingListItem.vue';
     
     import { createNamespacedHelpers } from 'vuex';
     const { mapGetters, mapActions } = createNamespacedHelpers('meetings/list');
 
     export default {
         components: {
-            FxMeetingListItem
+            MeetingListItem
         },
 
         computed: mapGetters(['meetings']),
