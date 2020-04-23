@@ -44,9 +44,18 @@
         },
 
         methods: {
-            onRegister: function ($event) {
+            async onRegister($event) {
                 $event.preventDefault();
-                this.$store.dispatch('register', {email: this.email, password: this.confirmPassword, name: this.name});
+                try {
+                    await this.$store.dispatch('register', {email: this.email, password: this.confirmPassword, name: this.name});
+                }
+                catch (e) {
+                    if (e.status === 401) {
+                        //user with the specified email already registered
+                        //but password is invalid
+                        this.$router.push({ name: 'login', params: {invalid: true} })
+                    }
+                }
             },
 
             checkPasswordsEquality() {

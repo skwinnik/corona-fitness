@@ -33,6 +33,14 @@ namespace CoronaFitnessApi.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            var currentUser = await userContext.GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                context.Result = new UnauthorizedResult();
+                return;
+            }
+            
             var meetingId = context.RouteData.Values["meetingId"].ToString();
             
             if (meetingId?.Length != 24 || meetingId.Any(c => !Uri.IsHexDigit(c)))
@@ -41,19 +49,11 @@ namespace CoronaFitnessApi.Filters
                 return;
             }
             
-            var currentUser = await userContext.GetCurrentUser();
-
-            if (currentUser == null)
-            {
-                context.Result = new BadRequestObjectResult("Not allowed");
-                return;
-            }
-            
             var result = await meetingBop.CheckMeetingAccessLevel(currentUser.Id, meetingId, this.level);
 
             if (!result)
             {
-                context.Result = new BadRequestObjectResult("Not allowed");
+                context.Result = new UnauthorizedResult();
                 return;
             }
 

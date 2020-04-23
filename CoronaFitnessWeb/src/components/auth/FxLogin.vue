@@ -9,6 +9,12 @@
             <label for="password">Password</label>
             <input class="form-control" id="password" name="password" v-model="password" type="password" required/>
         </div>
+        
+        <div class="form-group" v-if="invalidEmailOrPassword">
+            <small class="text-danger">
+                Invalid Email/Password
+            </small>
+        </div>
 
         <button type="submit" class="btn btn-primary">Login</button>
         &nbsp;
@@ -18,17 +24,26 @@
 
 <script>
     export default {
+        props: {
+            invalid: Boolean
+        },
         data: function () {
             return {
                 email: '',
-                password: ''
+                password: '',
+                invalidEmailOrPassword: !!this.invalid
             };
         },
-
+        
         methods: {
-            onLogin: function ($event) {
+            async onLogin($event) {
                 $event.preventDefault();
-                this.$store.dispatch('login', {email: this.email, password: this.password});
+                try {
+                    await this.$store.dispatch('login', {email: this.email, password: this.password});
+                }
+                catch (e) {
+                    this.invalidEmailOrPassword = true;
+                }
             }
         }
 

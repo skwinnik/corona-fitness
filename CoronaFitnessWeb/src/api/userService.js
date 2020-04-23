@@ -1,8 +1,9 @@
-﻿import http from './http_old.js'
+﻿import http from './http.js'
 const serviceUrl = window.$API_URL + 'users/';
 
 export default {
-    getCurrentUser() {
-        return http.get(serviceUrl + 'getCurrentUser');
+    async getCurrentUser() {
+        const response = await http.get(serviceUrl + 'getCurrentUser');
+        return response.json();
     }
 }

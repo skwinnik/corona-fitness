@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CoronaFitnessApi.Model.Users;
 using CoronaFitnessBL.User;
 using CoronaFitnessBL.User.Models;
 using CoronaFitnessBL.User.UserContext;
@@ -29,7 +30,7 @@ namespace CoronaFitnessApi.Controllers
         [Route("getCurrentUser")]
         public async Task<IActionResult> GetCurrentUser()
         {
-            return Ok(await userContext.GetCurrentUser());
+            return Ok(new UserDto(await userContext.GetCurrentUser()));
         }
     }
 }

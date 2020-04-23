@@ -5,26 +5,22 @@ const serviceUrl = window.$API_URL + 'meetings/';
 export default {
     async getMeetings() {
         const response = await http.get(serviceUrl);
-        if (response.ok)
-            return response.json();
+        return response.json();
     },
     
     async getMeetingById(id) {
         const response = await http.get(serviceUrl + `${id}`);
-        if (response.ok)
-            return response.json();
+        return response.json();
     },
 
     async getAttendees(meetingId) {
         const response = await http.get(serviceUrl + `${meetingId}/attendees`);
-        if (response.ok)
-            return response.json();
+        return response.json();
     },
 
     async getRequestsToAttend(meetingId) {
         const response = await http.get(serviceUrl + `${meetingId}/attendee_requests`);
-        if (response.ok)
-            return response.json();
+        return response.json();
     },
     
     async createMeeting(meeting) {
@@ -37,8 +33,7 @@ export default {
 
     async getToken(meetingId) {
         const response = await http.get(serviceUrl + `${meetingId}/token`);
-        if (response.ok)
-            return response.text();
+        return response.text();
     },
 
     async requestToAttend(meetingId) {

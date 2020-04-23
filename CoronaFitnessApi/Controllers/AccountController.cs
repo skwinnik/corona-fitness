@@ -27,10 +27,13 @@ namespace CoronaFitnessApi.Controllers
         {
             var result = await accountBop.SignUp(request.Email, request.Password, request.Name);
             if (!result.Success)
-                return BadRequest(new SignUpResponse() {Success = result.Success, Errors = result.Errors});
+                return BadRequest(result.Errors);
 
-            await accountBop.Login(request.Email, request.Password);
-            return Ok(new SignUpResponse() {Success = true});
+            var loginResult = await accountBop.Login(request.Email, request.Password);
+            if (!loginResult.Success)
+                return Unauthorized();
+            
+            return Ok();
         }
 
         [AllowAnonymous]
@@ -39,17 +42,17 @@ namespace CoronaFitnessApi.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await accountBop.Login(request.Email, request.Password);
-            if (!result.Success) return Ok(new LoginResponse() {Success = false});
+            if (!result.Success) return Unauthorized(result.Errors);
 
-            return Ok(new LoginResponse() {Success = true});
+            return Ok();
         }
 
         [HttpPost]
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            var result = await accountBop.Logout();
-            return Ok(new LogoutResponse() {Success = result.Success});
+            await accountBop.Logout();
+            return Ok();
         }
     }
 }

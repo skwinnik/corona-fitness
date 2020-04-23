@@ -1,17 +1,17 @@
-﻿import http from './http_old.js'
+﻿import http from './http.js'
 
 const serviceUrl = window.$API_URL + 'account/';
 
 export default {
-    login(user) {
+    async login(user) {
         return http.post(serviceUrl + 'login', user);
     },
 
-    signUp(user) {
+    async signUp(user) {
         return http.post(serviceUrl + 'signup', user);
     },
 
-    logout() {
+    async logout() {
         return http.post(serviceUrl + 'logout');
     }
 }

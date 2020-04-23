@@ -3,18 +3,18 @@
 export default {
     actions: {
         async login(ctx, user) {
-            const response = await accountService.login(user);
-            ctx.commit('updateLoginState', response.success);
+            await accountService.login(user);
+            ctx.commit('updateLoginState', true);
         },
 
         async logout(ctx) {
-            const response = await accountService.logout();
-            ctx.commit('updateLoginState', !response.success);
+            await accountService.logout();
+            ctx.commit('updateLoginState', false);
         },
 
         async register(ctx, user) {
-            const response = await accountService.signUp(user);
-            ctx.commit('updateLoginState', response.success);
+            await accountService.signUp(user);
+            ctx.commit('updateLoginState', true);
         },
     },
     mutations: {
@@ -23,11 +23,11 @@ export default {
         }
     },
     state: {
-        isLoggedIn: window.$IS_LOGGED_IN
+        isLoggedIn: window.$IS_LOGGED_IN === true || window.$IS_LOGGED_IN === 'True' || window.$IS_LOGGED_IN === 'true'
     },
     getters: {
         isLoggedIn(state) {
-            return state.isLoggedIn === true || state.isLoggedIn === 'True' || state.isLoggedIn === 'true';
+            return state.isLoggedIn;
         }
     }
 }

@@ -24,8 +24,10 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
+    import FxLogoutButton from '../components/auth/FxLogoutButton.vue';
 
     export default {
+        components: {FxLogoutButton},
         computed: mapGetters(['isLoggedIn', 'currentUser']),
         methods: mapActions(['loadCurrentUser']),
         data: function () {
@@ -54,7 +56,7 @@
         height: 50px;
         background: $color-gray-light;
         margin-bottom: 20px;
-        
+
         &__title {
             cursor: pointer;
         }
