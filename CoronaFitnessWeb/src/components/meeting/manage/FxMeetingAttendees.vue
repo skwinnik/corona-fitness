@@ -23,8 +23,14 @@
         },
         
         methods: {
-            onRemove: function (userId) {
-                this.removeAttendee({meetingId: this.meetingId, userId: userId});
+            async onRemove(userId) {
+                try {
+                    await this.removeAttendee({meetingId: this.meetingId, userId: userId});
+                    this.$toastr.s('Готово!');                    
+                }
+                catch (e) {
+                    this.$toastr.e('Ошибка!');
+                }
             },
             ...mapActions(['removeAttendee'])
         }

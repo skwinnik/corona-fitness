@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="form-group">
-            <button class="btn btn-secondary" @click="archive(meetingId)">В Архив</button>
+            <button class="btn btn-secondary" @click="onArchive(meetingId)">В Архив</button>
         </div>
         <BTabs>
             <BTab title="Участники">
@@ -32,7 +32,7 @@
             </BTab>
 
             <BTab title="Редактировать" v-if="currentMeeting">
-                <FxMeetingEditor :meeting="currentMeeting"/>
+                <FxMeetingEditor :meeting="currentMeeting" @saveMeeting="onSaveMeeting"/>
             </BTab>
         </BTabs>
     </div>
@@ -75,7 +75,26 @@
                 document.execCommand('copy');
                 this.$toastr.s('Скопировано');
             },
-            ...mapActions(['loadMeeting', 'loadRequests', 'loadAttendees', 'clearCurrentMeeting', 'archive'])
+
+            async onSaveMeeting(meeting) {
+                try {
+                    await this.saveMeeting(meeting);
+                    this.$toastr.s('Готово');
+                } catch (e) {
+                    this.$toastr.e('Ошибка!');
+                }
+            },
+
+            async onArchive(meetingId) {
+                try {
+                    await this.archive(meetingId);
+                    this.$toastr.s('Готово!');
+                } catch (e) {
+                    this.$toastr.e('Ошибка!');
+                }
+            },
+
+            ...mapActions(['loadMeeting', 'loadRequests', 'loadAttendees', 'clearCurrentMeeting', 'archive', 'saveMeeting'])
         },
         mounted() {
             this.loadRequests(this.meetingId);

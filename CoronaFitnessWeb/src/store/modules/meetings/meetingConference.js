@@ -4,8 +4,8 @@ export default {
     namespaced: true,
     actions: {
         async loadToken(ctx, meetingId) {
-            const data = await meetingService.getToken(meetingId);
-            ctx.commit('updateCurrentToken', data.token);
+            const token = await meetingService.getToken(meetingId);
+            ctx.commit('updateCurrentToken', token);
         },
 
         async cleanToken(ctx) {

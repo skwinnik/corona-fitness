@@ -1,18 +1,13 @@
 ﻿export default {
     async get(url, data) {
-        let queryString = '';
-        if (data)
-            queryString = '?' + Object.entries(data).map(x => x[0] + '=' + x[1]).join('&');
-        
-        const response = await fetch(url + queryString, {
+        const response = await fetch(url, {
             method: 'GET',
             credentials: 'include'
         });
-        if (!response.ok && response.status === 401) {
-            return;
-        }
-        
-        return response.json();
+        if (response.ok)
+            return response;
+
+        throw response;
     },
 
     async post(url, data) {
@@ -24,22 +19,41 @@
             },
             credentials: 'include'
         });
-
-        if (!response.ok && response.status === 401) {
-            return;
-        }
-
-        return response.json();
+        if (response.ok)
+            return response;
+        
+        throw response;
     },
-    
-    async post2(url, data) {
-        return await fetch(url, {
-            method: 'POST',
+
+    async put(url, data) {
+        const response = await fetch(url, {
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
         });
+
+        if (response.ok)
+            return response;
+
+        throw response;
+    },
+
+    async delete(url, data) {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        });
+
+        if (response.ok)
+            return response;
+
+        throw response;
     }
 }

@@ -1,10 +1,10 @@
 ﻿<template>
-    <FxMeetingEditor :meeting="meeting"/>
+    <FxMeetingEditor :meeting="meeting" @saveMeeting="onSaveMeeting"/>
 </template>
 
 <script>
     import FxMeetingEditor from "../../components/meeting/FxMeetingEditor.vue";
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
     import moment from 'moment';
 
     export default {
@@ -22,6 +22,20 @@
                 }
             };
         },
+
+        methods: {
+            async onSaveMeeting(meeting) {
+                try {
+                    await this.$store.dispatch('meetings/manage/createMeeting', meeting);
+                    this.$toastr.s('Готово!');
+                    this.$router.push('/');
+                }
+                catch (e) {
+                    this.$toastr.e('Ошибка!');
+                }
+            }
+        },
+
         mounted() {
             if (!this.currentUser.canCreateMeetings) {
                 this.$router.push('/');

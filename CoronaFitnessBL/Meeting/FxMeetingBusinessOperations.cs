@@ -34,27 +34,22 @@ namespace CoronaFitnessBL.Meeting
                     new FxMeetingModel(dbMeeting)).ToList());
         }
 
-        public async Task<FxMeetingModel> GetMeeting(string id, string userId = null)
+        public async Task<FxMeetingModel> GetMeeting(string id)
         {
-            var meeting = await GetMeetingDb(id);
-
-            if (userId != null && !IsAllowedToSeeMeeting(meeting, userId))
-                throw new ExNotFoundException<FxMeeting>();
-
-            return new FxMeetingModel(meeting);
+            return new FxMeetingModel(await GetMeetingDb(id));
         }
 
-        public async Task<List<FxMeetingAttendeeModel>> GetAttendees(string id, string userId)
+        public async Task<List<FxMeetingAttendeeModel>> GetAttendees(string id)
         {
-            var meeting = await this.GetMeeting(id, userId);
+            var meeting = await this.GetMeeting(id);
             return meeting.Attendees.Select(x => new FxMeetingAttendeeModel() {UserId = x.UserId}).ToList();
         }
 
-        public async Task RequestToAttend(string id, string userId)
+        public async Task AddAttendeeRequest(string id, string userId)
         {
             var meeting = await GetMeetingDb(id);
 
-            if (meeting == null || !IsAllowedToSeeMeeting(meeting, userId))
+            if (meeting == null)
                 throw new ExNotFoundException<FxMeeting>();
 
             if (meeting.AttendeeRequests.Any(a => a.UserId == userId))
@@ -67,20 +62,15 @@ namespace CoronaFitnessBL.Meeting
                     .Set(x => x.AttendeeRequests, meeting.AttendeeRequests));
         }
 
-        public async Task<List<FxMeetingAttendeeRequestModel>> GetRequestsToAttend(string id, string userId)
+        public async Task<List<FxMeetingAttendeeRequestModel>> GetAttendeeRequests(string id)
         {
             var meeting = await GetMeetingDb(id);
-            if (meeting.OwnerId != userId)
-                return null;
-
             return meeting.AttendeeRequests.Select(x => new FxMeetingAttendeeRequestModel(x)).ToList();
         }
 
-        public async Task ApproveRequestToAttend(string id, string userId, string ownerId)
+        public async Task ApproveAttendeeRequest(string id, string userId)
         {
             var meeting = await GetMeetingDb(id);
-            if (meeting.OwnerId != ownerId)
-                return;
 
             var attendeeRequst = meeting.AttendeeRequests.Single(x => x.UserId == userId);
             meeting.AttendeeRequests.Remove(attendeeRequst);
@@ -96,11 +86,9 @@ namespace CoronaFitnessBL.Meeting
                     .Set(x => x.AttendeeRequests, meeting.AttendeeRequests));
         }
 
-        public async Task RejectRequestToAttend(string id, string userId, string ownerId)
+        public async Task RejectAttendeeRequest(string id, string userId)
         {
             var meeting = await GetMeetingDb(id);
-            if (meeting.OwnerId != ownerId)
-                return;
 
             var attendeeRequst = meeting.AttendeeRequests.Single(x => x.UserId == userId);
             meeting.AttendeeRequests.Remove(attendeeRequst);
@@ -110,11 +98,12 @@ namespace CoronaFitnessBL.Meeting
                     .Set(x => x.AttendeeRequests, meeting.AttendeeRequests));
         }
 
-        public async Task RemoveAttendee(string id, string attendeeId, string ownerId)
+        public async Task RemoveAttendee(string id, string attendeeId)
         {
             var meeting = await GetMeetingDb(id);
-            if (meeting.OwnerId != ownerId || attendeeId == ownerId)
-                return;
+
+            if (attendeeId == meeting.OwnerId)
+                throw new ArgumentException("Can't remove owner from attendees");
 
             var attendee = meeting.Attendees.Find(x => x.UserId == attendeeId);
             meeting.Attendees.Remove(attendee);
@@ -175,14 +164,14 @@ namespace CoronaFitnessBL.Meeting
             var meeting = await this.GetMeetingDb(meetingId);
             if (level == EnMeetingAccessLevel.View)
                 return IsAllowedToSeeMeeting(meeting, userId);
-            
-            if (level == EnMeetingAccessLevel.Manage || level == EnMeetingAccessLevel.Manage)
+
+            if (level == EnMeetingAccessLevel.Manage || level == EnMeetingAccessLevel.Edit)
                 return meeting.OwnerId == userId;
 
             return false;
         }
 
-        public async Task Archive(string meetingId)
+        public async Task ArchiveMeeting(string meetingId)
         {
             await this.dbContext.Meetings.UpdateAsync(m => m.Id == meetingId, new UpdateDefinitionBuilder<FxMeeting>()
                 .Set(m => m.IsArchived, true));

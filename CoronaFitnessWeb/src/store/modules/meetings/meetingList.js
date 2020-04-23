@@ -7,11 +7,6 @@ export default {
             const response = await meetingService.getMeetings();
             ctx.commit('updateMeetingsList', response);
         },
-
-        async saveMeeting(ctx, meeting) {
-            await meetingService.saveMeeting(meeting);
-            await ctx.dispatch('loadMeetings');
-        },
         
         async requestToAttend(ctx, meetingId) {
             const response = await meetingService.requestToAttend(meetingId);

@@ -62,10 +62,6 @@
 </template>
 
 <script>
-    import {createNamespacedHelpers} from 'vuex';
-
-    const {mapGetters, mapActions} = createNamespacedHelpers('meetings/list');
-
     import moment from 'moment';
     import {BFormDatepicker} from 'bootstrap-vue'
 
@@ -73,7 +69,6 @@
         components: {
             BFormDatepicker
         },
-        computed: mapGetters(["currentUser"]),
         props: {
             meeting: Object
         },
@@ -112,7 +107,7 @@
                 if (!this.validateStartTime())
                     return;
 
-                await this.saveMeeting({
+                this.$emit('saveMeeting',{
                     id: this.id,
                     title: this.title,
                     description: this.description,
@@ -120,11 +115,7 @@
                     duration: this.duration,
                     isPublic: this.isPublic
                 });
-                
-                this.$emit('meetingSaved');
-            },
-
-            ...mapActions(['saveMeeting'])
+            }
         },
 
         mounted() {

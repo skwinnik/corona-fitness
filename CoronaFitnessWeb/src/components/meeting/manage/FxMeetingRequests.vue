@@ -26,12 +26,25 @@
         },
         
         methods: {
-            onApprove(userId) {
-                this.approve({meetingId: this.meetingId, userId});
+            async onApprove(userId) {
+                try {
+                    await this.approve({meetingId: this.meetingId, userId});
+                    this.$toastr.s('Готово');
+                }
+                catch (e) {
+                    this.$toastr.e('Ошибка!');
+                }
             },
             
-            onReject(userId) {
-                this.reject({meetingId: this.meetingId, userId});
+            async onReject(userId) {
+                try {
+                    await this.reject({meetingId: this.meetingId, userId});
+                    this.$toastr.s('Готово');
+                }
+                catch (e) {
+                    this.$toastr.e('Ошибка!');
+                }
+                
             },
             ...mapActions(['approve', 'reject'])
         }

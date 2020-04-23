@@ -1,50 +1,67 @@
 ﻿import http from './http.js'
 
-const serviceUrl = window.$API_URL + 'meeting/';
+const serviceUrl = window.$API_URL + 'meetings/';
 
 export default {
-    getMeetings() {
-        return http.get(serviceUrl + 'getMeetings');
-    },
-
-    getMeetingById(id) {
-        return http.get(serviceUrl + 'getMeetingById', {id});
-    },
-
-    getAttendees(meetingId) {
-        return http.get(serviceUrl + 'getAttendees', {meetingId});
-    },
-
-    saveMeeting(meeting) {
-        return http.post(serviceUrl + 'saveMeeting', meeting);
-    },
-
-    getToken(meetingId) {
-        return http.get(serviceUrl + 'getToken', {meetingId});
-    },
-
-    requestToAttend(meetingId) {
-        return http.post(serviceUrl + 'requestToAttend', {meetingId});
-    },
-
-    getRequestsToAttend(meetingId) {
-        return http.get(serviceUrl + 'getRequestsToAttend', {meetingId});
-    },
-
-    rejectRequestToAttend(meetingId, userId) {
-        return http.post(serviceUrl + 'rejectRequestToAttend', {meetingId, userId});
-    },
-
-    approveRequestToAttend(meetingId, userId) {
-        return http.post(serviceUrl + 'approveRequestToAttend', {meetingId, userId});
+    async getMeetings() {
+        const response = await http.get(serviceUrl);
+        if (response.ok)
+            return response.json();
     },
     
-    removeAttendee(meetingId, userId) {
-        return http.post(serviceUrl + 'removeAttendee', {meetingId, userId})
+    async getMeetingById(id) {
+        const response = await http.get(serviceUrl + `${id}`);
+        if (response.ok)
+            return response.json();
+    },
+
+    async getAttendees(meetingId) {
+        const response = await http.get(serviceUrl + `${meetingId}/attendees`);
+        if (response.ok)
+            return response.json();
+    },
+
+    async getRequestsToAttend(meetingId) {
+        const response = await http.get(serviceUrl + `${meetingId}/attendee_requests`);
+        if (response.ok)
+            return response.json();
     },
     
-    //new api
-    archive(meetingId) {
-        return http.post2(serviceUrl + `${meetingId}/archive`);
+    async createMeeting(meeting) {
+        return http.put(serviceUrl, meeting);
+    },
+    
+    async saveMeeting(meetingId, meeting) {
+        return http.post(serviceUrl + `${meetingId}`, meeting);
+    },
+
+    async getToken(meetingId) {
+        const response = await http.get(serviceUrl + `${meetingId}/token`);
+        if (response.ok)
+            return response.text();
+    },
+
+    async requestToAttend(meetingId) {
+        const response = await http.put(serviceUrl + `${meetingId}/attendee_requests`);
+        return response.ok;
+    },
+
+    async rejectRequestToAttend(meetingId, userId) {
+        const response = await http.post(serviceUrl + `${meetingId}/attendee_requests/${userId}/reject`);
+        return response.ok;
+    },
+
+    async approveRequestToAttend(meetingId, userId) {
+        const response = await http.post(serviceUrl + `${meetingId}/attendee_requests/${userId}/approve`);
+        return response.ok;
+    },
+    
+    async removeAttendee(meetingId, userId) {
+        const response = await http.delete(serviceUrl + `${meetingId}/attendees/${userId}`)
+        return response.ok;
+    },
+    
+    async archive(meetingId) {
+        return http.post(serviceUrl + `${meetingId}/archive`);
     }
 }

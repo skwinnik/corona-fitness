@@ -17,7 +17,13 @@
         computed: mapGetters(['currentMeeting']),
         methods: {
             onRequestToAttend: function (meetingId) {
-                this.requestToAttend(meetingId);
+                try {
+                    this.requestToAttend(meetingId);
+                    this.$toastr.s('Готово!');
+                }
+                catch (e) {
+                    this.$toastr.e('Ошибка!');
+                }
             },
             ...mapActions(['loadMeeting', 'requestToAttend'])},
 

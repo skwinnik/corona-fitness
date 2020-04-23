@@ -1,4 +1,6 @@
-﻿namespace CoronaFitnessApi.Model.Meeting
+﻿using CoronaFitnessBL.Meeting.Models;
+
+namespace CoronaFitnessApi.Model.Meeting
 {
     public class AttendeeDto
     {

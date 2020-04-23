@@ -22,13 +22,13 @@ export default {
         },
         
         async approve(ctx, data) {
-            const response = await meetingService.approveRequestToAttend(data.meetingId, data.userId);
-            ctx.commit('requestApproved', {userId: data.userId, result: response === true});
+            await meetingService.approveRequestToAttend(data.meetingId, data.userId);
+            ctx.commit('requestApproved', {userId: data.userId, result: true});
         },
         
         async reject(ctx, data) {
-            const response = await meetingService.rejectRequestToAttend(data.meetingId, data.userId);
-            ctx.commit('requestRejected', {userId: data.userId, result: response === true});
+            await meetingService.rejectRequestToAttend(data.meetingId, data.userId);
+            ctx.commit('requestRejected', {userId: data.userId, result: true});
         },
         
         async removeAttendee(ctx, data) {
@@ -37,9 +37,16 @@ export default {
         },
         
         async archive(ctx, meetingId) {
-            let response = await meetingService.archive(meetingId);
-            debugger;
+            await meetingService.archive(meetingId);
             ctx.commit('archive');
+        },
+
+        async saveMeeting(ctx, meeting) {
+            await meetingService.saveMeeting(meeting.id, meeting);
+        },
+        
+        async createMeeting(ctx, meeting) {
+            await meetingService.createMeeting(meeting);
         }
     },
     mutations: {
