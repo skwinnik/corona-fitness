@@ -53,7 +53,7 @@
                     if (e.status === 401) {
                         //user with the specified email already registered
                         //but password is invalid
-                        this.$router.push({ name: 'login', params: {invalid: true} })
+                        this.$router.push({ name: 'login', query: {invalid: true} })
                     }
                 }
             },

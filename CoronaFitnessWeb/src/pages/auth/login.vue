@@ -10,7 +10,7 @@
 
     export default {
         components: {LoginComponent},
-        props: ['invalid'],
+        props: ['invalid', 'redirect'],
         computed: mapGetters(['isLoggedIn']),
 
         mounted() {
@@ -21,7 +21,7 @@
         watch: {
             isLoggedIn: function (val) {
                 if (val)
-                    this.$router.push('/');
+                    this.$router.push(this.redirect || '/');
             }
         },
     }

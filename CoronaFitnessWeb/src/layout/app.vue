@@ -43,7 +43,7 @@
 
         mounted() {
             if (!this.isLoggedIn) {
-                this.$router.push('/auth');
+                this.$router.push({ name: 'login', query: { redirect: this.$router.currentRoute.fullPath } });
             }
         }
     }
