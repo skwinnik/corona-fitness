@@ -30,7 +30,7 @@ export default {
             ctx.getters.session.publish(publisher)
             ctx.commit('setPublisher', publisher);
         },
-        
+
         setSession(ctx, session) {
             ctx.commit('setSession', session);
         },
@@ -42,34 +42,34 @@ export default {
         addSubscriber(ctx, subscriber) {
             ctx.commit('addSubscriber', subscriber);
         },
-        
+
         removeSubscriber(ctx, id) {
             ctx.commit('removeSubscriber', id);
         },
-        
+
         setFocusedConnectionId(ctx, id) {
             ctx.commit('setFocusedConnectionId', id)
         },
-        
+
         toggleMic(ctx, enable) {
             ctx.commit('toggleMic', enable);
         },
-        
+
         toggleVideo(ctx, enable) {
             ctx.getters.session.unpublish(ctx.getters.publisher);
             let action = enable ? 'initPublisherVideo' : 'initPublisherNoVideo';
             ctx.dispatch(action, ctx.getters.ov);
         },
-        
+
         toggleFullscreen(ctx, enable) {
             ctx.commit('toggleFullscreen', enable);
         }
     },
     mutations: {
         setOv(state, ov) {
-            state.ov = ov;    
+            state.ov = ov;
         },
-        
+
         setSession(state, session) {
             state.session = session;
         },
@@ -87,7 +87,7 @@ export default {
             if (inx > -1)
                 state.subscribers.splice(inx, 1);
         },
-        
+
         setFocusedConnectionId(state, id) {
             state.focusedConnectionId = id;
         },
@@ -99,7 +99,7 @@ export default {
         toggleVideo(state, enable) {
             state.publisher.publishVideo(enable);
         },
-        
+
         toggleFullscreen(state, enable) {
             state.isFullscreen = enable;
         }
@@ -133,9 +133,25 @@ export default {
         focusedConnectionId(state) {
             return state.focusedConnectionId;
         },
-        
+
         isFullscreen(state) {
             return state.isFullscreen;
+        },
+
+        allStreamManagers(state) {
+            const streamManagers = [state.publisher, ...state.subscribers];
+            return streamManagers.filter(sm => sm
+                && sm.stream
+                && sm.stream.connection
+                && sm.stream.connection.connectionId !== state.focusedConnectionId);
+        },
+
+        speakerStreamManager(state) {
+            return [state.publisher, ...state.subscribers]
+                .find(sm => sm
+                    && sm.stream
+                    && sm.stream.connection
+                    && sm.stream.connection.connectionId === state.focusedConnectionId);
         }
     }
 }

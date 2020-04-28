@@ -13,7 +13,7 @@
                      class="conference__item"/>
         </div>
         <div class="conference__swipe-container">
-            <MeetingVideo v-for="streamManager in streamManagers"
+            <MeetingVideo v-for="streamManager in allStreamManagers"
                      :key="streamManager.stream.connection.connectionId"
                      :stream-manager="streamManager"
                      :connection-id="streamManager.stream.connection.connectionId"
@@ -41,21 +41,7 @@
         },
 
         computed: {
-            streamManagers() {
-                const streamManagers = [this.publisher, ...this.subscribers];
-                return streamManagers.filter(sm => sm
-                    && sm.stream
-                    && sm.stream.connection
-                    && sm.stream.connection.connectionId !== this.focusedConnectionId);
-            },
-            speakerStreamManager() {
-                return [this.publisher, ...this.subscribers]
-                    .find(sm => sm 
-                        && sm.stream 
-                        && sm.stream.connection 
-                        && sm.stream.connection.connectionId === this.focusedConnectionId);  
-            },
-            ...mapGetters(['ov', 'session', 'publisher', 'subscribers', 'focusedConnectionId', 'videosCount', 'isFullscreen'])
+            ...mapGetters(['ov', 'session', 'publisher', 'subscribers', 'focusedConnectionId', 'videosCount', 'isFullscreen', 'allStreamManagers', 'speakerStreamManager'])
         },
 
         methods: {

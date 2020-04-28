@@ -17,12 +17,15 @@ import meetingView from '../pages/meeting/meetingView.vue'
 import meetingManage from '../pages/meeting/meetingManage.vue'
 import meetingConference from '../pages/meeting/meetingConference.vue'
 
+import testPage from '../pages/testPage.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
     {
         path: '/', component: app, redirect: '/meetings',
         children: [
+            { path: 'test', component: testPage },
             {
                 path: 'meetings', component: meetingBase,
                 children: [
